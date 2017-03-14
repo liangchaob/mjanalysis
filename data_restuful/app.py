@@ -278,6 +278,49 @@ def relpaceStrToFloat(arg,total):
 
 
 
+# 使用腾讯证券查询公司现金流代码接口的 api
+class companyCodebyQQxjlbl(restful.Resource):
+    # 查询
+    def get(self, company_code):
+        # 查找公司名
+        f = open('company_code.json')
+        content = f.read()
+        company_obj = json.loads(content)
+        f.close()
+        company_name = company_obj[company_code]
+
+
+        result1 = db3['content'].find_one({'code':company_code},{"_id":0})
+
+        result2 = db4['content'].find_one({'code':company_code},{"_id":0})
+
+
+        result = {}
+
+
+        for y in xrange(0,LATEST):
+            current_year = str(YEARS - y)
+
+            # 获取几个值
+            # 经营现金流
+            jyxjl = result1['data_'+current_year]['xjllzk']['jyxjl']
+            # 流动负债
+            ldfz = result2['data_'+current_year]['bstable']['ldfz']
+            
+            xjllbl = relpaceStrToFloat(jyxjl,ldfz)
+
+            # 加入比率
+            result['data_'+current_year]={}
+            result['data_'+current_year]['xjlbl']={}
+            result['data_'+current_year]['xjlbl']['xjllbl']=xjllbl
+
+
+        # 添加公司名
+        result['name'] = company_name
+        return result,200,{'Access-Control-Allow-Origin': '*'} 
+
+
+
 
 
 api.add_resource(HelloWorld, '/')
@@ -290,6 +333,7 @@ api.add_resource(companyCode, '/companydata/<string:company_code>')
 api.add_resource(companyCodebyQQ, '/companydataqq/<string:company_code>')
 api.add_resource(companyCodebyQQcwbb, '/companydataqqcwbb/<string:company_code>')
 api.add_resource(companyCodebyQQbs, '/companydataqqbs/<string:company_code>')
+api.add_resource(companyCodebyQQxjlbl, '/companydataqqxjlbl/<string:company_code>')
 
 
 
