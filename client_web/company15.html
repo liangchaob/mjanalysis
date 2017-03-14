@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <title>查财报(测试版)</title>
+    <title>查财报(测试版α)</title>
     <link href="http://odor1hjie.bkt.clouddn.com/bootstrap.css" rel="stylesheet">
 
 
@@ -167,7 +167,7 @@
                 <thead>
                   <tr>
                     <th colspan='5'>
-                      <h4>资产负债比率</h4>
+                      <h4>资产负债比率(计算得到)</h4>
                     </th>
                   </tr>
                   <tr>
@@ -258,7 +258,7 @@
         <thead>
           <tr>
             <th colspan='5'>
-              <h4>财务比率分析(部分指标)</h4>
+              <h4>财务比率分析</h4>
             </th>
           </tr>
           <tr>
@@ -349,34 +349,34 @@
           <tr>
             <th rowspan="8">盈利能力</th>
           </tr>
-            <th>总资产利润率(%)ROA?</th>
+            <th>总资产利润率(%)ROA=总资产收益率</th>
             <td>{{ content.data_2013.ylnl.zzclrl }}</td>
             <td>{{ content.data_2013.ylnl.zzclrl }}</td>
             <td>{{ content.data_2013.ylnl.zzclrl }}</td>
           <tr>
-            <th>净资产收益率 ROE</th>
+            <th>净资产收益率(%)ROE</th>
             <td>{{ content.data_2013.ylnl.jzcsyljq }}</td>
             <td>{{ content.data_2014.ylnl.jzcsyljq }}</td>
             <td>{{ content.data_2015.ylnl.jzcsyljq }}</td>
           </tr>
           <tr class="unfinish">
-            <th>税前纯益占实收资本比率(%)税前总资产收益率?</th>
+            <th>税前纯益占实收资本比率(%)(待获取)</th>
             <td>--</td>
             <td>--</td>
             <td>--</td>
           </tr>
           <tr>
-            <th>营业毛利率(%)销售毛利率</th>
+            <th>毛利率(%)</th>
             <td>{{ content.data_2013.ylnl.xsmll }}</td>
             <td>{{ content.data_2014.ylnl.xsmll }}</td>
             <td>{{ content.data_2015.ylnl.xsmll }}</td>
           </tr>
-            <th>营业利润率(%)营业利益率?</th>
+            <th>利润率(%)</th>
             <td>{{ content.data_2013.ylnl.yylrl }}</td>
             <td>{{ content.data_2014.ylnl.yylrl }}</td>
             <td>{{ content.data_2015.ylnl.yylrl }}</td>
           <tr>
-            <th>销售净利率(%)</th>
+            <th>净利率(%)</th>
             <td>{{ content.data_2013.ylnl.xsjll }}</td>
             <td>{{ content.data_2014.ylnl.xsjll }}</td>
             <td>{{ content.data_2015.ylnl.xsjll }}</td>
@@ -391,22 +391,22 @@
 
 
           <tr>
-            <th rowspan="4">现金流量</th>
+            <th rowspan="4">现金流量<br>(计算得到)</th>
           </tr>
-          <tr class="unfinish">
+          <tr>
             <th>现金流量比率</th>
+            <td>{{ content4.data_2013.xjlbl.xjllbl }}</td>
+            <td>{{ content4.data_2014.xjlbl.xjllbl }}</td>
+            <td>{{ content4.data_2015.xjlbl.xjllbl }}</td>
+          </tr>
+          <tr class="unfinish">
+            <th>现金流量充当比率(待获取)</th>
             <td>--</td>
             <td>--</td>
             <td>--</td>
           </tr>
           <tr class="unfinish">
-            <th>现金流量充当比率</th>
-            <td>--</td>
-            <td>--</td>
-            <td>--</td>
-          </tr>
-          <tr class="unfinish">
-            <th>现金再投资比率</th>
+            <th>现金再投资比率(待获取)</th>
             <td>--</td>
             <td>--</td>
             <td>--</td>
@@ -428,7 +428,7 @@
                 <thead>
                   <tr>
                     <th colspan='5'>
-                      <h4>现金流量状况(待获取数据)</h4>
+                      <h4>现金流量状况</h4>
                     </th>
                   </tr>
                   <tr>
@@ -478,15 +478,20 @@
 // var SOURCE_URL1='http://115.28.49.33:8088/companydataqq/';
 // var SOURCE_URL2='http://115.28.49.33:8088/companydataqqcwbb/';
 // var SOURCE_URL3='http://115.28.49.33:8088/companydataqqbs/';
+// var SOURCE_URL4='http://115.28.49.33:8088/companydataqqxjlbl/';
+
 var SOURCE_URL1='http://0.0.0.0:8088/companydataqq/';
 var SOURCE_URL2='http://0.0.0.0:8088/companydataqqcwbb/';
 var SOURCE_URL3='http://0.0.0.0:8088/companydataqqbs/';
+var SOURCE_URL4='http://0.0.0.0:8088/companydataqqxjlbl/';
+
 var vm = new Vue({
   el: '#app',
   data: {
     content: '',
     content2: '',
     content3: '',
+    content4: ''
   },
   methods: {
     updateTable: function () {
@@ -559,6 +564,28 @@ var vm = new Vue({
         }
       });
 
+      // 获取流量比率
+      $.ajax({
+        url: SOURCE_URL4+company_code,
+        type:'get',
+        dataType:'json',
+        // 加入动画
+        beforeSend:function(){
+          $("#loader").remove();
+          $("#app-loading").append('<div id="loader" class="loader"><span class="loader-inner">Loading...</span></div>');
+        },
+
+        complete: function() {$("#loader").remove();},
+        //
+        success: function(data_obj) {
+          // 渲染数据
+          vm.content4 = data_obj
+        },
+        error : function() {
+          // view("异常！");
+          vm.content4 = 'failed'
+        }
+      });
 
 
     }
