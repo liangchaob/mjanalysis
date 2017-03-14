@@ -30,9 +30,9 @@ client = MongoClient(setting.env('db_host'), setting.env('db_port'))
 db = client.f_db
 db2 = client.qq_db
 db3 = client.qq_xjl_db
-
+db4 = client.qq_bs_db
 YEARS = 2015
-LATEST = 5
+LATEST = 3
 
 
 
@@ -197,6 +197,88 @@ class companyCodebyQQcwbb(restful.Resource):
 
 
 
+# 使用腾讯证券查询公司资产负债比率代码接口的 api
+class companyCodebyQQbs(restful.Resource):
+    # 查询
+    def get(self, company_code):
+        # 查找公司名
+        f = open('company_code.json')
+        content = f.read()
+        company_obj = json.loads(content)
+        f.close()
+        company_name = company_obj[company_code]
+
+
+        result = db4['content'].find_one({'code':company_code},{"_id":0})
+
+
+        rate_result = {}
+        rate_result['content'] = {}
+
+
+
+        for y in xrange(0,LATEST):
+            current_year = str(YEARS - y)
+
+            # 获取几个值
+            ch = result['data_'+current_year]['bstable']['ch']
+            cqfz = result['data_'+current_year]['bstable']['cqfz']
+            gdqy = result['data_'+current_year]['bstable']['gdqy']
+            hbxj = result['data_'+current_year]['bstable']['hbxj']
+            ldfz = result['data_'+current_year]['bstable']['ldfz']
+            ldzc = result['data_'+current_year]['bstable']['ldzc']
+            yszk = result['data_'+current_year]['bstable']['yszk']
+            zzc = result['data_'+current_year]['bstable']['zzc']
+
+            # 换成比率
+            ch_rate = relpaceStrToFloat(ch,zzc)
+            cqfz_rate = relpaceStrToFloat(cqfz,zzc)
+            gdqy_rate = relpaceStrToFloat(gdqy,zzc)
+            hbxj_rate = relpaceStrToFloat(hbxj,zzc)
+            ldfz_rate = relpaceStrToFloat(ldfz,zzc)
+            ldzc_rate = relpaceStrToFloat(ldzc,zzc)
+            yszk_rate = relpaceStrToFloat(yszk,zzc)
+            zzc_rate = relpaceStrToFloat(zzc,zzc)
+
+
+            # 填入比率
+            result['data_'+current_year]['bstable']['ch_rate']=ch_rate
+            result['data_'+current_year]['bstable']['cqfz_rate']=cqfz_rate
+            result['data_'+current_year]['bstable']['gdqy_rate']=gdqy_rate
+            result['data_'+current_year]['bstable']['hbxj_rate']=hbxj_rate
+            result['data_'+current_year]['bstable']['ldfz_rate']=ldfz_rate
+            result['data_'+current_year]['bstable']['ldzc_rate']=ldzc_rate
+            result['data_'+current_year]['bstable']['yszk_rate']=yszk_rate
+            result['data_'+current_year]['bstable']['zzc_rate']=zzc_rate
+
+
+        # print ch,cqfz ,gdqy,hbxj,ldfz,ldzc,yszk,zzc
+
+
+
+
+        # 添加公司名
+        result['name'] = company_name
+        return result,200,{'Access-Control-Allow-Origin': '*'} 
+
+
+# 更换标点
+def relpaceStrToFloat(arg,total):
+    if arg == '':
+        arg_rate = '--'
+        return str(arg_rate)
+    else:
+        arg = float(arg.replace(',',''))
+        total = float(total.replace(',',''))
+        arg_rate = arg/total*100
+        arg_rate = round(arg_rate, 2)
+        return str(arg_rate)
+
+
+
+
+
+
 
 api.add_resource(HelloWorld, '/')
 api.add_resource(allCompany, '/companycode/')
@@ -207,6 +289,9 @@ api.add_resource(companyCode, '/companydata/<string:company_code>')
 
 api.add_resource(companyCodebyQQ, '/companydataqq/<string:company_code>')
 api.add_resource(companyCodebyQQcwbb, '/companydataqqcwbb/<string:company_code>')
+api.add_resource(companyCodebyQQbs, '/companydataqqbs/<string:company_code>')
+
+
 
 if __name__ == '__main__':
     app.run(host=setting.env('web_host'),port=setting.env('web_port'),debug=setting.env('debug'))

@@ -160,13 +160,14 @@
               <h1>
                 {{ content.name }}
               </h1>
+              
             </div>
             <div class="col-md-12">
-              <table class="table table-hover table-bordered unfinish" id="assets_ratio_table">
+              <table class="table table-hover table-bordered" id="assets_ratio_table">
                 <thead>
                   <tr>
                     <th colspan='5'>
-                      <h4>资产负债比率(待获取数据)</h4>
+                      <h4>资产负债比率</h4>
                     </th>
                   </tr>
                   <tr>
@@ -179,63 +180,63 @@
                 <tbody>
                   <tr>
                     <th>现金与约当现金(占总资产%)</th>
-                    <td>{{ content.data_2013.czzb.jxbi }}</td>
-                    <td>{{ content.data_2014.czzb.jxbi }}</td>
-                    <td>{{ content.data_2015.czzb.jxbi }}</td>
+                    <td>{{ content3.data_2013.bstable.hbxj_rate }}</td>
+                    <td>{{ content3.data_2014.bstable.hbxj_rate }}</td>
+                    <td>{{ content3.data_2015.bstable.hbxj_rate }}</td>
                   </tr>
                   <tr>
                     <th>应收账款(占总资产%)</th>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
+                    <td>{{ content3.data_2013.bstable.yszk_rate }}</td>
+                    <td>{{ content3.data_2014.bstable.yszk_rate }}</td>
+                    <td>{{ content3.data_2015.bstable.yszk_rate }}</td>
                   </tr>
                   <tr>
                     <th>存货(占总资产%)</th>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
+                    <td>{{ content3.data_2013.bstable.ch_rate }}</td>
+                    <td>{{ content3.data_2014.bstable.ch_rate }}</td>
+                    <td>{{ content3.data_2015.bstable.ch_rate }}</td>
                   </tr>
                   <tr>
                     <th>流动资产(占总资产%)</th>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
+                    <td>{{ content3.data_2013.bstable.ldzc_rate }}</td>
+                    <td>{{ content3.data_2014.bstable.ldzc_rate }}</td>
+                    <td>{{ content3.data_2015.bstable.ldzc_rate }}</td>
                   </tr>
                   <tr>
                     <th>总资产(占总资产%)</th>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
+                    <td>{{ content3.data_2013.bstable.zzc_rate }}</td>
+                    <td>{{ content3.data_2014.bstable.zzc_rate }}</td>
+                    <td>{{ content3.data_2015.bstable.zzc_rate }}</td>
                   </tr>
                   <tr>
                     <th>应收账款(占总资产%)</th>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
+                    <td>{{ content3.data_2013.bstable.yszk_rate }}</td>
+                    <td>{{ content3.data_2014.bstable.yszk_rate }}</td>
+                    <td>{{ content3.data_2015.bstable.yszk_rate }}</td>
                   </tr>
                   <tr>
                     <th>流动负债(占总资产%)</th>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
+                    <td>{{ content3.data_2013.bstable.ldfz_rate }}</td>
+                    <td>{{ content3.data_2014.bstable.ldfz_rate }}</td>
+                    <td>{{ content3.data_2015.bstable.ldfz_rate }}</td>
                   </tr>
                   <tr>
                     <th>长期负债(占总资产%)</th>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
+                    <td>{{ content3.data_2013.bstable.cqfz_rate }}</td>
+                    <td>{{ content3.data_2014.bstable.cqfz_rate }}</td>
+                    <td>{{ content3.data_2015.bstable.cqfz_rate }}</td>
                   </tr>
                   <tr>
                     <th>股东权益(占总资产%)</th>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
+                    <td>{{ content3.data_2013.bstable.gdqy_rate }}</td>
+                    <td>{{ content3.data_2014.bstable.gdqy_rate }}</td>
+                    <td>{{ content3.data_2015.bstable.gdqy_rate }}</td>
                   </tr>
                   <tr>
                     <th>总负债+股东权益(占总资产%)</th>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
+                    <td>{{ content3.data_2013.bstable.zzc_rate }}</td>
+                    <td>{{ content3.data_2014.bstable.zzc_rate }}</td>
+                    <td>{{ content3.data_2015.bstable.zzc_rate }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -456,12 +457,6 @@
                     <td>{{ content2.data_2014.xjllzk.czxjl }}</td>
                     <td>{{ content2.data_2015.xjllzk.czxjl }}</td>
                   </tr>
-                  <tr class="unfinish">
-                    <th>自由现金流量</th>
-                    <td>--</td>
-                    <td>--</td>
-                    <td>--</td>
-                  </tr>
                 </tbody>
               </table>
             </div>
@@ -478,17 +473,20 @@
 <script>
 
 // 设置信息源 url
-//var SOURCE_URL2='http://115.28.49.33:8088/companydata/';
-var SOURCE_URL1='http://115.28.49.33:8088/companydataqq/';
-var SOURCE_URL2='http://115.28.49.33:8088/companydataqqcwbb/';
-// var SOURCE_URL1='http://0.0.0.0:8088/companydataqq/';
-// var SOURCE_URL2='http://0.0.0.0:8088/companydataqqcwbb/';
+//var SOURCE_URL='http://115.28.49.33:8088/companydata/';
 
+// var SOURCE_URL1='http://115.28.49.33:8088/companydataqq/';
+// var SOURCE_URL2='http://115.28.49.33:8088/companydataqqcwbb/';
+// var SOURCE_URL3='http://115.28.49.33:8088/companydataqqbs/';
+var SOURCE_URL1='http://0.0.0.0:8088/companydataqq/';
+var SOURCE_URL2='http://0.0.0.0:8088/companydataqqcwbb/';
+var SOURCE_URL3='http://0.0.0.0:8088/companydataqqbs/';
 var vm = new Vue({
   el: '#app',
   data: {
     content: '',
-    content2: ''
+    content2: '',
+    content3: '',
   },
   methods: {
     updateTable: function () {
@@ -538,6 +536,30 @@ var vm = new Vue({
         }
       });
       // 
+      // 获取资产负债比率
+      $.ajax({
+        url: SOURCE_URL3+company_code,
+        type:'get',
+        dataType:'json',
+        // 加入动画
+        beforeSend:function(){
+          $("#loader").remove();
+          $("#app-loading").append('<div id="loader" class="loader"><span class="loader-inner">Loading...</span></div>');
+        },
+
+        complete: function() {$("#loader").remove();},
+        //
+        success: function(data_obj) {
+          // 渲染数据
+          vm.content3 = data_obj
+        },
+        error : function() {
+          // view("异常！");
+          vm.content3 = 'failed'
+        }
+      });
+
+
 
     }
   }
