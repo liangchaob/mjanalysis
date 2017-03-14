@@ -132,7 +132,7 @@ def main():
         except Exception as e:
             err_list.append(c)
             with open('../tmp/error/bs_download_failed.json','w') as wf:
-                wf.write(str(download_finish_list))
+                wf.write(str(err_list))
 
     print err_list
 
