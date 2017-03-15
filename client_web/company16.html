@@ -22,8 +22,8 @@
 
 /*标记未拿到的数据*/
     .unfinish{
-      background-color: #f90;
-      color:#fff;
+      background-color: #f5f5f5;
+      color:#ddd;
     }
 
 
@@ -205,18 +205,19 @@
 
 
 
+
+
+
+
         <!-- 左边 -->
         <div class="col-md-6">
           <div class="row">
 
             <div class="col-md-12">
-              <table class="table table-hover table-bordered" id="assets_ratio_table">
+              <div class="panel panel-primary">
+              <div class ="panel-heading" ><h2>资产负债比率(计算得到)</h2></div>
+              <table class="table table-hover table-bordered panel-body" id="assets_ratio_table">
                 <thead>
-                  <tr>
-                    <th colspan='5'>
-                      <h4>资产负债比率(计算得到)</h4>
-                    </th>
-                  </tr>
                   <tr>
                     <th>货币现金</th>
                     <th>2013</th>
@@ -226,67 +227,68 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <th>现金与约当现金(占总资产%)</th>
+                    <td>现金与约当现金(占总资产%)</td>
                     <td>{{ content3.data_2013.bstable.hbxj_rate }}</td>
                     <td>{{ content3.data_2014.bstable.hbxj_rate }}</td>
                     <td>{{ content3.data_2015.bstable.hbxj_rate }}</td>
                   </tr>
                   <tr>
-                    <th>应收账款(占总资产%)</th>
+                    <td>应收账款(占总资产%)</td>
                     <td>{{ content3.data_2013.bstable.yszk_rate }}</td>
                     <td>{{ content3.data_2014.bstable.yszk_rate }}</td>
                     <td>{{ content3.data_2015.bstable.yszk_rate }}</td>
                   </tr>
                   <tr>
-                    <th>存货(占总资产%)</th>
+                    <td>存货(占总资产%)</td>
                     <td>{{ content3.data_2013.bstable.ch_rate }}</td>
                     <td>{{ content3.data_2014.bstable.ch_rate }}</td>
                     <td>{{ content3.data_2015.bstable.ch_rate }}</td>
                   </tr>
                   <tr>
-                    <th>流动资产(占总资产%)</th>
+                    <td>流动资产(占总资产%)</td>
                     <td>{{ content3.data_2013.bstable.ldzc_rate }}</td>
                     <td>{{ content3.data_2014.bstable.ldzc_rate }}</td>
                     <td>{{ content3.data_2015.bstable.ldzc_rate }}</td>
                   </tr>
                   <tr>
-                    <th>总资产(占总资产%)</th>
+                    <td>总资产(占总资产%)</td>
                     <td>{{ content3.data_2013.bstable.zzc_rate }}</td>
                     <td>{{ content3.data_2014.bstable.zzc_rate }}</td>
                     <td>{{ content3.data_2015.bstable.zzc_rate }}</td>
                   </tr>
                   <tr>
-                    <th>应收账款(占总资产%)</th>
+                    <td>应收账款(占总资产%)</td>
                     <td>{{ content3.data_2013.bstable.yszk_rate }}</td>
                     <td>{{ content3.data_2014.bstable.yszk_rate }}</td>
                     <td>{{ content3.data_2015.bstable.yszk_rate }}</td>
                   </tr>
                   <tr>
-                    <th>流动负债(占总资产%)</th>
+                    <td>流动负债(占总资产%)</td>
                     <td>{{ content3.data_2013.bstable.ldfz_rate }}</td>
                     <td>{{ content3.data_2014.bstable.ldfz_rate }}</td>
                     <td>{{ content3.data_2015.bstable.ldfz_rate }}</td>
                   </tr>
                   <tr>
-                    <th>长期负债(占总资产%)</th>
+                    <td>长期负债(占总资产%)</td>
                     <td>{{ content3.data_2013.bstable.cqfz_rate }}</td>
                     <td>{{ content3.data_2014.bstable.cqfz_rate }}</td>
                     <td>{{ content3.data_2015.bstable.cqfz_rate }}</td>
                   </tr>
                   <tr>
-                    <th>股东权益(占总资产%)</th>
+                    <td>股东权益(占总资产%)</td>
                     <td>{{ content3.data_2013.bstable.gdqy_rate }}</td>
                     <td>{{ content3.data_2014.bstable.gdqy_rate }}</td>
                     <td>{{ content3.data_2015.bstable.gdqy_rate }}</td>
                   </tr>
                   <tr>
-                    <th>总负债+股东权益(占总资产%)</th>
+                    <td>总负债+股东权益(占总资产%)</td>
                     <td>{{ content3.data_2013.bstable.zzc_rate }}</td>
                     <td>{{ content3.data_2014.bstable.zzc_rate }}</td>
                     <td>{{ content3.data_2015.bstable.zzc_rate }}</td>
                   </tr>
                 </tbody>
               </table>
+              </div>
             </div>
 
           </div>
@@ -295,6 +297,8 @@
         <div class="col-md-6">
           <div class="row">
             <div class="col-md-12">
+            <div class="panel panel-danger">
+              <div class ="panel-heading" ><h2>五大财务比率</h2></div>
 <!--  -->
 
 
@@ -303,11 +307,6 @@
 
 
         <thead>
-          <tr>
-            <th colspan='5'>
-              <h4>五大财务比率</h4>
-            </th>
-          </tr>
           <tr>
             <th>类别</th>
             <th>财务比率</th>
@@ -320,12 +319,15 @@
           <tr>
             <th rowspan="3">财务结构</th>
           </tr>
-            <th>负债占资产比率(%) = 资产负债率</th>
-             <td>{{ content.data_2013.czzb.zcfzl }}</td>
-             <td>{{ content.data_2014.czzb.zcfzl }}</td>
-             <td>{{ content.data_2015.czzb.zcfzl }}</td>
+          <tr>
+            <td>负债占资产比率(%) = 资产负债率</td>
+            <td>{{ content.data_2013.czzb.zcfzl }}</td>
+            <td>{{ content.data_2014.czzb.zcfzl }}</td>
+            <td>{{ content.data_2015.czzb.zcfzl }}</td>            
+          </tr>
+
           <tr class="unfinish">
-            <th>长期资金占不动产/厂房及设备比率</th>
+            <td>长期资金占不动产/厂房及设备比率</td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
@@ -339,13 +341,13 @@
 
 
           <tr>
-            <th>流动比率</th>
+            <td>流动比率</td>
             <td>{{ content.data_2013.czzb.ldbl }}</td>
             <td>{{ content.data_2014.czzb.ldbl }}</td>
             <td>{{ content.data_2015.czzb.ldbl }}</td>
           </tr>
           <tr>
-            <th>速动比率</th>
+            <td>速动比率</td>
             <td>{{ content.data_2013.czzb.sdbl }}</td>
             <td>{{ content.data_2014.czzb.sdbl }}</td>
             <td>{{ content.data_2015.czzb.sdbl }}</td>
@@ -356,35 +358,35 @@
             <th rowspan="7">营运能力</th>
           </tr>
           <tr>
-            <th>应收账款周转率(次)</th>
+            <td>应收账款周转率(次)</td>
             <td>{{ content.data_2013.yynl.yszkzzl }}</td>
             <td>{{ content.data_2014.yynl.yszkzzl }}</td>
             <td>{{ content.data_2015.yynl.yszkzzl }}</td>
           </tr>
           <tr>
-            <th>应收账款周转天数(天)</th>
+            <td>应收账款周转天数(天)</td>
             <td>{{ content.data_2013.yynl.yszkzzts }}</td>
             <td>{{ content.data_2014.yynl.yszkzzts }}</td>
             <td>{{ content.data_2015.yynl.yszkzzts }}</td>
           </tr>
           <tr>
-            <th>存货周转率(次)</th>
+            <td>存货周转率(次)</td>
             <td>{{ content.data_2013.yynl.chzzl }}</td>
             <td>{{ content.data_2014.yynl.chzzl }}</td>
             <td>{{ content.data_2015.yynl.chzzl }}</td>
           </tr>
           <tr>
-            <th>存货周转天数(天)</th>
+            <td>存货周转天数(天)</td>
             <td>{{ content.data_2013.yynl.chzzts }}</td>
             <td>{{ content.data_2014.yynl.chzzts }}</td>
             <td>{{ content.data_2015.yynl.chzzts }}</td>
           </tr>
-            <th>固定资产周转率(%)</th>
+            <td>固定资产周转率(%)</td>
             <td>{{ content.data_2013.yynl.gdzczzl }}</td>
             <td>{{ content.data_2014.yynl.gdzczzl }}</td>
             <td>{{ content.data_2015.yynl.gdzczzl }}</td>
           </tr>
-            <th>总资产周转率(%)</th>
+            <td>总资产周转率(%)</td>
             <td>{{ content.data_2013.yynl.zzczzl }}</td>
             <td>{{ content.data_2014.yynl.zzczzl }}</td>
             <td>{{ content.data_2015.yynl.zzczzl }}</td>
@@ -396,40 +398,43 @@
           <tr>
             <th rowspan="8">盈利能力</th>
           </tr>
-            <th>总资产利润率(%)ROA=总资产收益率</th>
-            <td>{{ content.data_2013.ylnl.zzclrl }}</td>
-            <td>{{ content.data_2013.ylnl.zzclrl }}</td>
-            <td>{{ content.data_2013.ylnl.zzclrl }}</td>
           <tr>
-            <th>净资产收益率(%)ROE</th>
+            <td>总资产利润率(%)ROA=总资产收益率</td>
+            <td>{{ content.data_2013.ylnl.zzclrl }}</td>
+            <td>{{ content.data_2013.ylnl.zzclrl }}</td>
+            <td>{{ content.data_2013.ylnl.zzclrl }}</td>            
+          </tr>
+
+          <tr>
+            <td>净资产收益率(%)ROE</td>
             <td>{{ content.data_2013.ylnl.jzcsyljq }}</td>
             <td>{{ content.data_2014.ylnl.jzcsyljq }}</td>
             <td>{{ content.data_2015.ylnl.jzcsyljq }}</td>
           </tr>
           <tr class="unfinish">
-            <th>税前纯益占实收资本比率(%)(待获取)</th>
+            <td>税前纯益占实收资本比率(%)(待获取)</td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
           </tr>
           <tr>
-            <th>毛利率(%)</th>
+            <td>毛利率(%)</td>
             <td>{{ content.data_2013.ylnl.xsmll }}</td>
             <td>{{ content.data_2014.ylnl.xsmll }}</td>
             <td>{{ content.data_2015.ylnl.xsmll }}</td>
           </tr>
-            <th>利润率(%)</th>
+            <td>利润率(%)</td>
             <td>{{ content.data_2013.ylnl.yylrl }}</td>
             <td>{{ content.data_2014.ylnl.yylrl }}</td>
             <td>{{ content.data_2015.ylnl.yylrl }}</td>
           <tr>
-            <th>净利率(%)</th>
+            <td>净利率(%)</td>
             <td>{{ content.data_2013.ylnl.xsjll }}</td>
             <td>{{ content.data_2014.ylnl.xsjll }}</td>
             <td>{{ content.data_2015.ylnl.xsjll }}</td>
           </tr>
           <tr>
-            <th>基本每股收益(每股盈余EPS)</th>
+            <td>基本每股收益(每股盈余EPS)</td>
             <td>{{ content.data_2013.mgzb.jbmgsy }}</td>
             <td>{{ content.data_2013.mgzb.jbmgsy }}</td>
             <td>{{ content.data_2013.mgzb.jbmgsy }}</td>
@@ -441,19 +446,19 @@
             <th rowspan="4">现金流量<br>(计算得到)</th>
           </tr>
           <tr>
-            <th>现金流量比率</th>
+            <td>现金流量比率</td>
             <td>{{ content4.data_2013.xjlbl.xjllbl }}</td>
             <td>{{ content4.data_2014.xjlbl.xjllbl }}</td>
             <td>{{ content4.data_2015.xjlbl.xjllbl }}</td>
           </tr>
           <tr class="unfinish">
-            <th>现金流量充当比率(待获取)</th>
+            <td>现金流量充当比率(待获取)</td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
           </tr>
           <tr class="unfinish">
-            <th>现金再投资比率(待获取)</th>
+            <td>现金再投资比率(待获取)</td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
@@ -464,20 +469,24 @@
 
         </tbody>
       </table>
+      </div>
     </div>
 
 <!-- 使用了腾讯财经的分析表 -->
 
 
 <!--以下是現金流量狀況表  -->
+
+
+
             <div class="col-md-12">
+
+            <div class="panel panel-warning">
+              <div class ="panel-heading" ><h2>现金流量状况</h2></div>
+
+
               <table class="table table-hover table-bordered" id="cash_flow_table">
                 <thead>
-                  <tr>
-                    <th colspan='5'>
-                      <h4>现金流量状况</h4>
-                    </th>
-                  </tr>
                   <tr>
                     <th>单位:万人民币</th>
                     <th>2013</th>
@@ -487,25 +496,26 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <th>营业活动现金流量(from 损益表)</th>
+                    <td>营业活动现金流量(from 损益表)</td>
                     <td>{{ content2.data_2013.xjllzk.jyxjl }}</td>
                     <td>{{ content2.data_2014.xjllzk.jyxjl }}</td>
                     <td>{{ content2.data_2015.xjllzk.jyxjl }}</td>
                   </tr>
                   <tr>
-                    <th>投资活动现金流量(from 资产负债表左边%)</th>
+                    <td>投资活动现金流量(from 资产负债表左边%)</td>
                     <td>{{ content2.data_2013.xjllzk.tzxjl }}</td>
                     <td>{{ content2.data_2014.xjllzk.tzxjl }}</td>
                     <td>{{ content2.data_2015.xjllzk.tzxjl }}</td>
                   </tr>
                   <tr>
-                    <th>理财活动现金流量(from 资产负债表右边)</th>
+                    <td>理财活动现金流量(from 资产负债表右边)</td>
                     <td>{{ content2.data_2013.xjllzk.czxjl }}</td>
                     <td>{{ content2.data_2014.xjllzk.czxjl }}</td>
                     <td>{{ content2.data_2015.xjllzk.czxjl }}</td>
                   </tr>
                 </tbody>
               </table>
+              </div>
             </div>
 <!--以上是現金流量狀況表  -->
           </div>
