@@ -173,6 +173,7 @@ class companyCodebyQQ(restful.Resource):
 
         # 添加公司名
         result['name'] = company_name
+        result['code'] = company_code
         return result,200,{'Access-Control-Allow-Origin': '*'} 
 
     
@@ -193,6 +194,7 @@ class companyCodebyQQcwbb(restful.Resource):
 
         # 添加公司名
         result['name'] = company_name
+        result['code'] = company_code
         return result,200,{'Access-Control-Allow-Origin': '*'} 
 
 
@@ -259,6 +261,7 @@ class companyCodebyQQbs(restful.Resource):
 
         # 添加公司名
         result['name'] = company_name
+        result['code'] = company_code
         return result,200,{'Access-Control-Allow-Origin': '*'} 
 
 
@@ -317,6 +320,7 @@ class companyCodebyQQxjlbl(restful.Resource):
 
         # 添加公司名
         result['name'] = company_name
+        result['code'] = company_code
         return result,200,{'Access-Control-Allow-Origin': '*'} 
 
 
