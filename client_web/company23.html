@@ -16,109 +16,7 @@
     <script src="http://odor1hjie.bkt.clouddn.com/bootstrap.js"></script>
     <script src="http://odor1hjie.bkt.clouddn.com/vue.js"></script>
 
-
-
-    <style>
-
-/*标记未拿到的数据*/
-    .unfinish{
-      background-color: #f5f5f5;
-      color:#ddd;
-    }
-
-
-
-
-
-/*使用加载动画样式*/
-    .loader{
-        width: 128px;
-        height: 128px;
-        line-height: 128px;
-        border-radius: 50%;
-        border-top: 5px solid #eb6c18;
-        color: #fff;
-        text-align: center;
-        position: relative;
-        margin: 30px auto;
-        -webkit-animation: 2s loading1 ease-in-out infinite;
-        animation: 2s loading1 ease-in-out infinite;
-    }
-    .loader:before,
-    .loader:after{
-        content: "";
-        display: block;
-        width: 128px;
-        height: 128px;
-        border-radius: 50%;
-        position: absolute;
-        top: -5px;
-        left: 0;
-    }
-    .loader:before{
-        border-top: 5px solid #c3c659;
-        -webkit-transform: rotate(120deg);
-        transform: rotate(120deg)
-    }
-    .loader:after{
-        border-top: 5px solid #b93be6;
-        -webkit-transform: rotate(240deg);
-        transform: rotate(240deg)
-    }
-    .loader .loader-inner{
-        color: #000;
-        display: block;
-        width: 128px;
-        height: 128px;
-        position: absolute;
-        top: -5px;
-        left: 0;
-        -webkit-animation: 2s loading2 linear infinite;
-        animation: 2s loading2 linear infinite;
-    }
-    @-webkit-keyframes loading1{
-        50% {
-            -webkit-transform: rotate(180deg)
-        }
-        100% {
-            -webkit-transform: rotate(360deg)
-        }
-    }
-    @keyframes loading1{
-        50% {
-            -webkit-transform: rotate(180deg);
-            transform: rotate(180deg)
-        }
-        100% {
-            -webkit-transform: rotate(360deg);
-            transform: rotate(360deg)
-        }
-    }
-    @-webkit-keyframes loading2{
-        50% {
-            -webkit-transform: rotate(-180deg)
-        }
-        100% {
-            -webkit-transform: rotate(-360deg)
-        }
-    }
-    @keyframes loading2{
-        50% {
-            -webkit-transform: rotate(-180deg);
-            transform: rotate(-180deg)
-        }
-        100% {
-            -webkit-transform: rotate(-360deg);
-            transform: rotate(-360deg)
-        }
-    }
-/*使用加载动画样式*/
-
-
-
-    </style>
-
-
+    <link rel="stylesheet" type="text/css" href="style.css">
 
   </head>
 
@@ -129,7 +27,7 @@
 
 <div class="row">
   <h1 class="text-center">超级数字力-学员专属福利</h1>
-  <hr> 
+  <hr>
 </div>
 
 
@@ -212,7 +110,7 @@
           {{ content.name }}
           <kbd style="font-size: 0.5em">股票代码:{{ content.code }}</kbd>
         </h1>
-        
+
       </div>
 
 
@@ -364,7 +262,7 @@
             <td>负债占资产比率(%) = 资产负债率</td>
             <td>{{ content.data_2013.czzb.zcfzl }}</td>
             <td>{{ content.data_2014.czzb.zcfzl }}</td>
-            <td>{{ content.data_2015.czzb.zcfzl }}</td>            
+            <td>{{ content.data_2015.czzb.zcfzl }}</td>
           </tr>
 
           <tr class="unfinish">
@@ -443,7 +341,7 @@
             <td>总资产利润率(%)ROA=总资产收益率</td>
             <td>{{ content.data_2013.ylnl.zzclrl }}</td>
             <td>{{ content.data_2013.ylnl.zzclrl }}</td>
-            <td>{{ content.data_2013.ylnl.zzclrl }}</td>            
+            <td>{{ content.data_2013.ylnl.zzclrl }}</td>
           </tr>
 
           <tr>
@@ -576,7 +474,7 @@
 
 
 // 开机运行
-$(function() {  
+$(function() {
     // 自动补齐方式
     $( "#tags_input" ).autocomplete({
       source: li_source,
@@ -752,7 +650,7 @@ var vm = new Vue({
         // $('#content_body').remove();
         $('#searchResult *').remove();
         searchSource();
-        vm.content =''; 
+        vm.content ='';
         // 如果截取到的结果是数字
       } else {
         $.ajax({
@@ -776,7 +674,7 @@ var vm = new Vue({
             vm.content = 'failed'
           }
         });
-        // 
+        //
         // 获取线现金流报表
         $.ajax({
           url: SOURCE_URL2+company_code,
@@ -799,7 +697,7 @@ var vm = new Vue({
             vm.content2 = 'failed'
           }
         });
-        // 
+        //
         // 获取资产负债比率
         $.ajax({
           url: SOURCE_URL3+company_code,

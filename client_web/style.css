@@ -1,0 +1,93 @@
+/*标记未拿到的数据*/
+    .unfinish{
+      background-color: #f5f5f5;
+      color:#ddd;
+    }
+
+
+
+
+
+/*使用加载动画样式*/
+    .loader{
+        width: 128px;
+        height: 128px;
+        line-height: 128px;
+        border-radius: 50%;
+        border-top: 5px solid #eb6c18;
+        color: #fff;
+        text-align: center;
+        position: relative;
+        margin: 30px auto;
+        -webkit-animation: 2s loading1 ease-in-out infinite;
+        animation: 2s loading1 ease-in-out infinite;
+    }
+    .loader:before,
+    .loader:after{
+        content: "";
+        display: block;
+        width: 128px;
+        height: 128px;
+        border-radius: 50%;
+        position: absolute;
+        top: -5px;
+        left: 0;
+    }
+    .loader:before{
+        border-top: 5px solid #c3c659;
+        -webkit-transform: rotate(120deg);
+        transform: rotate(120deg)
+    }
+    .loader:after{
+        border-top: 5px solid #b93be6;
+        -webkit-transform: rotate(240deg);
+        transform: rotate(240deg)
+    }
+    .loader .loader-inner{
+        color: #000;
+        display: block;
+        width: 128px;
+        height: 128px;
+        position: absolute;
+        top: -5px;
+        left: 0;
+        -webkit-animation: 2s loading2 linear infinite;
+        animation: 2s loading2 linear infinite;
+    }
+    @-webkit-keyframes loading1{
+        50% {
+            -webkit-transform: rotate(180deg)
+        }
+        100% {
+            -webkit-transform: rotate(360deg)
+        }
+    }
+    @keyframes loading1{
+        50% {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg)
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+            transform: rotate(360deg)
+        }
+    }
+    @-webkit-keyframes loading2{
+        50% {
+            -webkit-transform: rotate(-180deg)
+        }
+        100% {
+            -webkit-transform: rotate(-360deg)
+        }
+    }
+    @keyframes loading2{
+        50% {
+            -webkit-transform: rotate(-180deg);
+            transform: rotate(-180deg)
+        }
+        100% {
+            -webkit-transform: rotate(-360deg);
+            transform: rotate(-360deg)
+        }
+    }
+/*使用加载动画样式*/
