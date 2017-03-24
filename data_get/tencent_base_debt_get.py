@@ -23,86 +23,43 @@ headers = {
     }
 
 
-# 起始年
-start_year = 2015
-# 前进 n 年
-latest = 5
-
-# 获得公司信息
-def getCompanyData(code):
-
-    data_obj = {}
-
-    for year in xrange(0,latest):
-        # 指定获取的年
-        current_year = start_year-year
-
-        # 获得年表模板
-        url_template = "http://stock.finance.qq.com/corp1/{table_name}.php?zqdm={code}&type={current_year}"
-
-        # 结果
-        current_url = url_template.format(table_name='cbsheet',code=code ,current_year=str(current_year))
-
-        # 爬取结果
-        response = requests.request("GET", current_url, headers=headers)
-
-        # 获得字符串
-        html = response.content  
-
-        selector = etree.HTML(html) 
 
 
-        # 获取货币资金
-        hbxj = selector.xpath('//table[3]/tr[3]/td')
+# 判断股票最后更新日期
+def getLastYear(code):
+    current_url = "http://stock.finance.qq.com/corp1/cbsheet.php?zqdm="+code
+    # 爬取结果
+    response = requests.request("GET", current_url, headers=headers)
+    # 获得字符串
+    html = response.content  
+    # 分析 dom 的 xpath 结构
+    selector = etree.HTML(html) 
+    # 锁定指定的表
+    data_table = selector.xpath('//table[3]')
+    last_data = data_table[0].xpath('tr[1]/td[1]')
+    # 获得年份title
+    year_title = last_data[0].text
+    year_title.strip()
 
-        # 获取应收账款
-        yszk = selector.xpath('//table[3]/tr[5]/td')
-
-        # 获取存货
-        ch = selector.xpath('//table[3]/tr[11]/td')
-
-        # 获取流动资产
-        ldzc = selector.xpath('//table[3]/tr[14]/td')
-
-        # 获取总资产
-        zzc = selector.xpath('//table[3]/tr[34]/td')
-
-
-        # 获取应付账款
-        yfzk = selector.xpath('//table[3]/tr[39]/td')
-
-        # 获取流动负债
-        ldfz = selector.xpath('//table[3]/tr[48]/td')
-
-
-        # 获取长期负债
-        cqfz = selector.xpath('//table[3]/tr[56]/td')
-
-        # 获取股东权益
-        gdqy = selector.xpath('//table[3]/tr[66]/td')
-
-        data_obj['data_'+str(current_year)]={}
-        data_obj['data_'+str(current_year)]['bstable']={}
-        data_obj['data_'+str(current_year)]['bstable']['hbxj']=(hbxj[0].text)[0:-2]
-        data_obj['data_'+str(current_year)]['bstable']['yszk']=(yszk[0].text)[0:-2]
-        data_obj['data_'+str(current_year)]['bstable']['ch']=(ch[0].text)[0:-2]
-        data_obj['data_'+str(current_year)]['bstable']['ldzc']=(ldzc[0].text)[0:-2]
-        data_obj['data_'+str(current_year)]['bstable']['zzc']=(zzc[0].text)[0:-2]
-        data_obj['data_'+str(current_year)]['bstable']['yfzk']=(yfzk[0].text)[0:-2]
-        data_obj['data_'+str(current_year)]['bstable']['ldfz']=(ldfz[0].text)[0:-2]
-        data_obj['data_'+str(current_year)]['bstable']['cqfz']=(cqfz[0].text)[0:-2]
-        data_obj['data_'+str(current_year)]['bstable']['gdqy']=(gdqy[0].text)[0:-2]
-
-    print '- '+code +' data download complete!!'
-    return data_obj
+    # 如果结尾是 q4
+    if year_title[5:]=="12-31":
+        # 就截取当年作为最后一年
+        return year_title[:4]
+    else:
+        # 如果不是就提前一年
+        current_year =  year_title[:4]
+        last_year = str(int(current_year)-1)
+        return last_year
 
 
 
-def openList():
-    f = open('company_code.json')
-    data_obj = list(eval(f.read()))
-    f.close()
-    return data_obj
+
+# # 获取股票列表
+# def openList():
+#     f = open('company_code.json')
+#     data_obj = list(eval(f.read()))
+#     f.close()
+#     return data_obj
 
 
 
@@ -112,31 +69,355 @@ def openList():
 
 
 
-def main():
-    # 建立文件
-    code_list = openList()
-    err_list =[]
-    # 循环公司列表
-    for c in code_list:
-        try:
-            # 下载该公司指定数据
-            content_data = getCompanyData(c)
-            # print content_data
-            # 转回字符串
-            content_data = json.dumps(content_data)
-            # 写入文件
-            with open('../tmp/qqdatabs/data_'+c+'.json','w') as wf:
-                wf.write(content_data)
 
-            # 写入错误文件
-        except Exception as e:
-            err_list.append(c)
-            with open('../tmp/error/bs_download_failed.json','w') as wf:
-                wf.write(str(err_list))
+# 获取对应的表
+def getSheet(table_name,code,current_year):
+    # 获得年表模板
+    url_template = "http://stock.finance.qq.com/corp1/{table_name}.php?zqdm={code}&type={current_year}"
+    # 结果
+    current_url = url_template.format(table_name=table_name,code=code ,current_year=str(current_year))
+    # 爬取结果
+    response = requests.request("GET", current_url, headers=headers)
+    # 获得字符串
+    html = response.content
+    # 分析 dom 的 xpath 结构
+    selector = etree.HTML(html)
+    # 锁定指定的表
+    data_table = selector.xpath('//table[3]')
+    return data_table
 
-    print err_list
 
-# 有问题的数据
 
-if __name__ == '__main__':
-    main()
+
+
+# 把数据抽出来
+def fetchPureData(xpath_url,data_table):
+    # 从表中匹配出对象
+    obj = data_table[0].xpath(xpath_url)
+    # 如果是--为空
+    if obj[0].text=='--':
+        return None
+    else:
+        if (obj[0].text)[-2:]=="万元":
+            # 把这个对象的数据去掉中文尾巴
+            obj_string = (obj[0].text)[0:-2]
+        else:
+            # 把这个对象的数据去掉中文尾巴
+            obj_string = (obj[0].text)[0:-1]
+        # 把这个数据去掉,
+        obj_string = obj_string.replace(',','')
+
+        # 把这个 数据从 string 变成 float
+        obj_float = float(obj_string)
+        return obj_float
+
+
+
+
+# 建立一组数据对象
+def createDataObj(main_type,name,xpath_url,data_table):
+    data_obj['data_'+str(current_year)][main_type][name]=fetchPureData(xpath_url,data_table)
+
+
+
+
+
+
+
+# 先判断该股票最后一年的年报日期
+last_year = int(getLastYear('600298'))
+latest =5
+
+code = '600298'
+
+# 建立初始化的数组对象
+data_obj = {}
+
+
+# 循环近几年
+for x in xrange(0,2):
+    # 提取当年年份
+    current_year = last_year - x
+    data_obj['data_'+ str(current_year)]={'basic_debt':{},'basic_cash':{},'basic_benefit':{}}
+
+
+    # 获得该负债表
+    debt_table = getSheet('cbsheet','600298',current_year)
+
+    # 填充负债表
+    # 货币资金
+    createDataObj('basic_debt','hbzj','tr[3]/td[1]',debt_table)
+
+    # 交易性金融资产
+    createDataObj('basic_debt','jyxjrzc','tr[4]/td[1]',debt_table)
+    # 应收票据
+    createDataObj('basic_debt','yspj','tr[5]/td[1]',debt_table)
+
+    # 应收账款
+    createDataObj('basic_debt','yszk','tr[6]/td[1]',debt_table)
+    # 预付款项
+    createDataObj('basic_debt','yfkx','tr[7]/td[1]',debt_table)
+    # 应收利息
+    createDataObj('basic_debt','yslx','tr[8]/td[1]',debt_table)
+    # 应收股利
+    createDataObj('basic_debt','ysgl','tr[9]/td[1]',debt_table)
+    # 其他应收款
+    createDataObj('basic_debt','qtysk','tr[10]/td[1]',debt_table)
+    # 存货
+    createDataObj('basic_debt','ch','tr[11]/td[1]',debt_table)
+    # 一年到期的非流动性资产
+    createDataObj('basic_debt','yndqdfldxzc','tr[12]/td[1]',debt_table)
+    # 其他流动资产
+    createDataObj('basic_debt','qtldzc','tr[13]/td[1]',debt_table)
+    # 流动资产合计
+    createDataObj('basic_debt','ldzchj','tr[14]/td[1]',debt_table)
+
+    # 可供出售的金融资产
+    createDataObj('basic_debt','kgcsdjrzc','tr[16]/td[1]',debt_table)
+    # 持有至到期投资
+    createDataObj('basic_debt','cyzdqtz','tr[17]/td[1]',debt_table)
+    # 长期应收款
+    createDataObj('basic_debt','cqysk','tr[18]/td[1]',debt_table)
+    # 长期期权投资
+    createDataObj('basic_debt','cqqqtz','tr[19]/td[1]',debt_table)
+
+    # 投资性房地产
+    createDataObj('basic_debt','tzxfdc','tr[20]/td[1]',debt_table)
+    # 固定资产
+
+    createDataObj('basic_debt','gdzc','tr[21]/td[1]',debt_table)
+    # 在建工程
+    createDataObj('basic_debt','zjgc','tr[22]/td[1]',debt_table)
+    # 工程物资
+    createDataObj('basic_debt','gcwz','tr[23]/td[1]',debt_table)
+    # 固定资产清理
+    createDataObj('basic_debt','gdzcql','tr[24]/td[1]',debt_table)
+    # 生产性生物资产
+    createDataObj('basic_debt','scxswzc','tr[25]/td[1]',debt_table)
+    # 油气资产
+    createDataObj('basic_debt','yqzc','tr[26]/td[1]',debt_table)
+    # 无形资产
+    createDataObj('basic_debt','wxzc','tr[27]/td[1]',debt_table)
+
+    # 开发支出
+    createDataObj('basic_debt','kfzc','tr[28]/td[1]',debt_table)
+    # 商誉
+    createDataObj('basic_debt','sy','tr[29]/td[1]',debt_table)
+    # 长期待摊费用
+    createDataObj('basic_debt','cqdtfy','tr[30]/td[1]',debt_table)
+    # 递延所得税资产
+    createDataObj('basic_debt','dysdszc','tr[31]/td[1]',debt_table)
+    # 其他非流动性资产
+    createDataObj('basic_debt','qtfldzc','tr[32]/td[1]',debt_table)
+    # 非流动性资产合计
+    createDataObj('basic_debt',' fldxzchj','tr[33]/td[1]',debt_table)
+    # 资产总计
+    createDataObj('basic_debt','zczj','tr[34]/td[1]',debt_table)
+
+    # 流动负债
+    # 短期借款
+    createDataObj('basic_debt','dqjk','tr[36]/td[1]',debt_table)
+    # 交易性金融负债
+    createDataObj('basic_debt','jyxjrfz','tr[37]/td[1]',debt_table)
+    # 应付票据
+    createDataObj('basic_debt','yfpj','tr[38]/td[1]',debt_table)
+    # 应付账款
+    createDataObj('basic_debt','yfzk','tr[39]/td[1]',debt_table)
+    # 预收款项
+    createDataObj('basic_debt','yskx','tr[40]/td[1]',debt_table)
+    # 应付职工薪酬
+    createDataObj('basic_debt','yfzgxc','tr[41]/td[1]',debt_table)
+    # 应交税费
+    createDataObj('basic_debt','yjsf','tr[42]/td[1]',debt_table)
+    # 应付利息
+    createDataObj('basic_debt','yflk','tr[43]/td[1]',debt_table)
+    # 应付股利
+    createDataObj('basic_debt','ysgl','tr[44]/td[1]',debt_table)
+    # 其他应付款
+    createDataObj('basic_debt','qtyfk','tr[45]/td[1]',debt_table)
+    # 一年到期的非流动性负债
+    createDataObj('basic_debt','yndqdfldxfz','tr[46]/td[1]',debt_table)
+    # 其他流动负债
+    createDataObj('basic_debt','qtldfz','tr[47]/td[1]',debt_table)
+    # 流动负债合计
+    createDataObj('basic_debt','ldfzhj','tr[48]/td[1]',debt_table)
+
+    # 非流动性负债
+    # 长期借款
+    createDataObj('basic_debt','cqjk','tr[50]/td[1]',debt_table)
+    # 应付债券
+    createDataObj('basic_debt','yfzq','tr[51]/td[1]',debt_table)
+    # 长期应付款
+    createDataObj('basic_debt','cqyfk','tr[52]/td[1]',debt_table)
+    # 专项应付款
+    createDataObj('basic_debt','zxyfk','tr[53]/td[1]',debt_table)
+    # 递延所得税负债
+    createDataObj('basic_debt','dysdsfz','tr[54]/td[1]',debt_table)
+    # 其他非流动性负债
+    createDataObj('basic_debt','qtfldxfz','tr[55]/td[1]',debt_table)
+    # 非流动负债合计
+    createDataObj('basic_debt','fldfzhj','tr[56]/td[1]',debt_table)
+    # 负债合计
+    createDataObj('basic_debt','fzhj','tr[57]/td[1]',debt_table)
+
+    # 所有者权益
+    # 实收资本
+    createDataObj('basic_debt','sszb','tr[59]/td[1]',debt_table)
+    # 资本公积
+    createDataObj('basic_debt','zbgj','tr[60]/td[1]',debt_table)
+    # 库存股
+    createDataObj('basic_debt','kcg','tr[61]/td[1]',debt_table)
+    # 盈余公积
+    createDataObj('basic_debt','yugj','tr[62]/td[1]',debt_table)
+    # 未分配利润
+    createDataObj('basic_debt','wfplr','tr[63]/td[1]',debt_table)
+    # 归属于母公司股东权益合计
+    createDataObj('basic_debt','gsymgsgdqyhj','tr[64]/td[1]',debt_table)
+    # 少数股东权益
+    createDataObj('basic_debt','ssgdqy','tr[65]/td[1]',debt_table)
+    # 所有者权益合计
+    createDataObj('basic_debt','syzqyhj','tr[66]/td[1]',debt_table)
+    # 负债和所有者权益合计
+    createDataObj('basic_debt','fzhsyzqyhj','tr[67]/td[1]',debt_table)
+
+    # 获得流量表
+    cash_table = getSheet('cfst','000034',current_year)
+
+
+    # 销售商品、提供劳务收到的现金    
+    createDataObj('basic_cash','xssptglwsddxj','tr[3]/td[1]',cash_table)
+    # 收到的税费返还
+    createDataObj('basic_cash','sddsffh','tr[4]/td[1]',cash_table)
+    # 收到的其他与经营活动有关的现金
+    createDataObj('basic_cash','sddqtyjyhdygdxj','tr[5]/td[1]',cash_table)
+    # 经营活动现金流入小计
+    createDataObj('basic_cash','jyhdxjlrxj','tr[6]/td[1]',cash_table)
+    # 购买商品、接受劳务支付的现金  
+    createDataObj('basic_cash','gmspjslwzfdxj','tr[7]/td[1]',cash_table)
+    # 支付给职工以及为职工支付的现金
+    createDataObj('basic_cash','zfgzgyjwzgzfdxj','tr[8]/td[1]',cash_table)
+    # 支付的各项税费
+    createDataObj('basic_cash','zfdgxsf','tr[9]/td[1]',cash_table)
+    # 支付的其他与经营活动有关的现金
+    createDataObj('basic_cash','zfdqtyjyhdygdxj','tr[10]/td[1]',cash_table)
+    # 经营活动现金流出小计 
+    createDataObj('basic_cash','jyhdxjcxj','tr[11]/td[1]',cash_table)
+    # 经营活动产生的现金流量净额
+    createDataObj('basic_cash','jyhdcsdxjllje','tr[12]/td[1]',cash_table)
+
+
+    # 二:投资活动产生的现金流量
+    # 收回投资所收到的现金
+    createDataObj('basic_cash','shtzssddxj','tr[14]/td[1]',cash_table)
+    # 取得投资收益所收到的现金
+    createDataObj('basic_cash','qdtzsyssddxj','tr[15]/td[1]',cash_table)
+    # 处置固定资产、无形资产和其他长期资产所收回的现金净额
+    createDataObj('basic_cash','czgdzcwxzchqtcqzcsshdxjje','tr[16]/td[1]',cash_table)
+    # 处置子公司及其他营业单位收到的现金净额
+    createDataObj('basic_cash','czzgsjqtyydwsddxjje','tr[17]/td[1]',cash_table)
+    # 收到的其他与投资活动有关的现金
+    createDataObj('basic_cash','sddqtytzhdygdxj','tr[18]/td[1]',cash_table)
+    # 投资活动现金流入小计
+    createDataObj('basic_cash','tzhdxjlrxj','tr[19]/td[1]',cash_table)
+    # 购建固定资产、无形资产和其他长期资产所支付的现金
+    createDataObj('basic_cash','gjgdzcwxzchqtcqzcszfdxj','tr[20]/td[1]',cash_table)
+    # 投资所支付的现金
+    createDataObj('basic_cash','tzszfdxj','tr[21]/td[1]',cash_table)
+    # 取得子公司及其他营业单位支付的现金净额
+    createDataObj('basic_cash','qdzgsjqtyydwzfdxjje','tr[22]/td[1]',cash_table)
+    # 支付的其他与投资活动有关的现金
+    createDataObj('basic_cash','zfdqtytzhdygdxj','tr[23]/td[1]',cash_table)
+    # 投资活动现金流出小计
+    createDataObj('basic_cash','tzhdxjlxj','tr[24]/td[1]',cash_table)
+    # 投资活动产生的现金流量净额
+    createDataObj('basic_cash','tzhdcsdxjllje','tr[25]/td[1]',cash_table)
+
+    # 三:筹资活动产生的现金流量
+    # 吸收投资收到的现金
+    createDataObj('basic_cash','xstzsddxj','tr[27]/td[1]',cash_table)
+    # 取得借款收到的现金
+    createDataObj('basic_cash','qdjksddxj','tr[28]/td[1]',cash_table)
+    # 收到其他与筹资活动有关的现金
+    createDataObj('basic_cash','sdqtyczhdygdxj','tr[29]/td[1]',cash_table)
+    # 筹资活动现金流入小计
+    createDataObj('basic_cash','czhdxjlrxj','tr[30]/td[1]',cash_table)
+    # 偿还债务支付的现金
+    createDataObj('basic_cash','chzwzfdxj','tr[31]/td[1]',cash_table)
+    # 分配股利、利润或偿付利息所支付的现金
+    createDataObj('basic_cash','fpgllrhcflxszfdxj','tr[32]/td[1]',cash_table)
+    # 支付其他与筹资活动有关的现金
+    createDataObj('basic_cash','zfqtyczhdygdxj','tr[33]/td[1]',cash_table)
+    # 筹资活动现金流出小计
+    createDataObj('basic_cash','czhdxjlcxj','tr[34]/td[1]',cash_table)
+    # 筹资活动产生的现金流量净额
+    createDataObj('basic_cash','czhdcsdxjllje','tr[35]/td[1]',cash_table)
+
+    # 四:汇率变动对现金及现金等价物的影响
+    createDataObj('basic_cash','hlbddxjdjwdyx','tr[36]/td[1]',cash_table)
+
+    # 五:现金及现金等价物净增加额
+    createDataObj('basic_cash','xjjxjdjwjzje','tr[37]/td[1]',cash_table)
+    # 期初现金及现金等价物余额
+    createDataObj('basic_cash','qcxjjxjdjwye','tr[38]/td[1]',cash_table)
+
+    # 六:期末现金及现金等价物余额
+    createDataObj('basic_cash','qmxjjxjdjwye','tr[39]/td[1]',cash_table)
+
+
+
+    # 获得损益表
+    benefit_table = getSheet('inst','000034',current_year)
+    # 一:营业收入
+    createDataObj('basic_benefit','yysr','tr[2]/td[1]',benefit_table)
+    # 减:营业成本
+    createDataObj('basic_benefit','yycb','tr[3]/td[1]',benefit_table)
+    #    营业税金及附加 
+    createDataObj('basic_benefit','yysjjfj','tr[4]/td[1]',benefit_table)
+    #    销售费用
+    createDataObj('basic_benefit','xsfy','tr[5]/td[1]',benefit_table)
+    #    管理费用
+    createDataObj('basic_benefit','glfy','tr[6]/td[1]',benefit_table)
+    #    财务费用
+    createDataObj('basic_benefit','cwfy','tr[7]/td[1]',benefit_table)
+    #    资产减值损失
+    createDataObj('basic_benefit','zcjzss','tr[8]/td[1]',benefit_table)
+    # 加:公允价值变动收益
+    createDataObj('basic_benefit','gyjzbdsy','tr[9]/td[1]',benefit_table)
+    #    投资收益
+    createDataObj('basic_benefit','tzsy','tr[10]/td[1]',benefit_table)
+    #    其中:对联营企业和合营企业的投资收益
+    createDataObj('basic_benefit','dlyqyhhyqydtzsy','tr[11]/td[1]',benefit_table)
+
+    # 二:营业利润
+    createDataObj('basic_benefit','yylr','tr[12]/td[1]',benefit_table)
+    # 加:营业外收入
+    createDataObj('basic_benefit','yywsr','tr[13]/td[1]',benefit_table)
+    # 减:营业外支出
+    createDataObj('basic_benefit','yywzc','tr[14]/td[1]',benefit_table)
+    # 非流动资产处置损失
+    createDataObj('basic_benefit','fldzcczss','tr[15]/td[1]',benefit_table)
+
+    # 三:利润总额
+    createDataObj('basic_benefit','lrze','tr[16]/td[1]',benefit_table)
+    # 减:所得税费用
+    createDataObj('basic_benefit','sdsfy','tr[17]/td[1]',benefit_table)
+
+    # 四:净利润
+    createDataObj('basic_benefit','jlr','tr[18]/td[1]',benefit_table)
+    # 归属于母公司所有者的净利润
+    createDataObj('basic_benefit','gsmgssyzdjlr','tr[19]/td[1]',benefit_table)
+    # 少数股东损益
+    createDataObj('basic_benefit','ssgdsy','tr[20]/td[1]',benefit_table)
+
+    # 五:每股收益
+    # 基本每股收益
+    createDataObj('basic_benefit','jbmgsy','tr[22]/td[1]',benefit_table)
+    # 稀释每股收益
+    createDataObj('basic_benefit','xsmgsy','tr[23]/td[1]',benefit_table)
+
+
+
+
+
+
+print data_obj
