@@ -71,10 +71,18 @@ def openList():
 
 # 获取对应的表
 def getSheet(table_name,code,current_year):
-    # 获得年表模板
-    url_template = "http://stock.finance.qq.com/corp1/{table_name}.php?zqdm={code}&type={current_year}"
+    # 获得年表分析表模板
+    url_template = "http://stock.finance.qq.com/corp1/cwfx.html?{table_name}-{exchange}{code}-{current_year}"
+
+    # 判断深交还是上交
+    if code[0]=='6':
+        exchange = 'sh'
+    else:
+        exchange = 'sz'
+
     # 结果
-    current_url = url_template.format(table_name=table_name,code=code ,current_year=str(current_year))
+    current_url = url_template.format(table_name=table_name,code=code,exchange=exchange,current_year=str(current_year))
+    print current_url
     # 爬取结果
     response = requests.request("GET", current_url, headers=headers)
     # 获得字符串
@@ -82,7 +90,15 @@ def getSheet(table_name,code,current_year):
     # 分析 dom 的 xpath 结构
     selector = etree.HTML(html)
     # 锁定指定的表
-    data_table = selector.xpath('//table[3]')
+    data_table = selector.xpath('//*[@id="data_div"]/table')
+    print data_table
+
+    print data_table[0].text
+    # obj = data_table[0].xpath('tr[2]/td[1]')
+    # print obj
+    # print obj[0].text
+
+
     return data_table
 
 
@@ -138,7 +154,7 @@ def downLoadCompanyData(code,latest,success_list,err_list):
             data_obj['data_'+ str(current_year)]={'basic_debt':{},'basic_cash':{},'basic_benefit':{}}
 
             # 获得该负债表
-            debt_table = getSheet('cbsheet',code,current_year)
+            debt_table = getSheet('ylnl',code,current_year)
 
             # 如果没有拿到表说明没有当年数据,直接跳过
             if debt_table ==[]:
@@ -442,7 +458,7 @@ def downLoadCompanyData(code,latest,success_list,err_list):
         with open('../tmp/tencent/'+code+'_basic.json','w') as wf:
             wf.write(content_data)
         # 写入成功后的 code
-        with open('../tmp/success/download_basic_success.json','w') as wf:
+        with open('../tmp/success/download_success.json','w') as wf:
             wf.write(json.dumps(success_obj))
         print code + ' download success!'
 
@@ -450,7 +466,7 @@ def downLoadCompanyData(code,latest,success_list,err_list):
     except Exception as e:
         err_list.append(code)
         err_obj = {"download_error":err_list}
-        with open('../tmp/error/download_basic_failed.json','w') as wf:
+        with open('../tmp/error/download_failed.json','w') as wf:
             wf.write(json.dumps(err_obj))
         print code + ' download failed!'
 

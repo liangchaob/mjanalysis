@@ -1,3 +1,4 @@
+mkdir ../tmp
 mkdir ../tmp/error
 mkdir ../tmp/qqdata
 mkdir ../tmp/qqdatabs
