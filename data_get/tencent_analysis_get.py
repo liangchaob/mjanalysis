@@ -145,27 +145,27 @@ def downLoadCompanyData(code,latest,success_list,err_list):
             mgzb_obj = getSheet('mgzb',code,current_year)
             data_obj['data_'+ str(current_year)]['anlysis_mgzb']=fetchPureData('mgzb',mgzb_obj)
             # print data_obj
-            # print '--1---'
+            print '--1---'
             # 盈利能力
             ylnl_obj = getSheet('ylnl',code,current_year)
             data_obj['data_'+ str(current_year)]['anlysis_ylnl']=fetchPureData('ylnl',ylnl_obj)
-            # print '--2---'
+            print '--2---'
             # 营运能力
             yynl_obj = getSheet('yynl',code,current_year)
             data_obj['data_'+ str(current_year)]['anlysis_yynl']=fetchPureData('yynl',yynl_obj)
-            # print '--3---'
+            print '--3---'
             # 成长能力
             cznl_obj = getSheet('cznl',code,current_year)
             data_obj['data_'+ str(current_year)]['anlysis_cznl']=fetchPureData('cznl',cznl_obj)
-            # print '--4---'
+            print '--4---'
             # 单季财务
             djcw_obj = getSheet('djcw',code,current_year)
             data_obj['data_'+ str(current_year)]['anlysis_djcw']=fetchPureData('djcw',djcw_obj)
-            # print '--5---'
+            print '--5---'
             # 偿债及资本结构
             czzb_obj = getSheet('czzb',code,current_year)
             data_obj['data_'+ str(current_year)]['anlysis_czzb']=fetchPureData('czzb',czzb_obj)
-            # print '--6---'
+            print '--6---'
 
             # 如果当年数据是空的就删掉那年的数据
             if data_obj['data_'+ str(current_year)]=={'anlysis_mgzb':{},'anlysis_ylnl':{},'anlysis_yynl':{},'anlysis_cznl':{},'anlysis_djcw':{},'anlysis_czzb':{}}:
@@ -208,8 +208,13 @@ def main():
     err_list =[]
     latest = 5
     # 循环下载公司列表
+    i = 0
     for c in code_list:
         downLoadCompanyData(c,latest,success_list,err_list)
+        # 写入进度
+        i = i+1
+        with open('../tmp/log.text','w') as wf:
+            wf.write(str(i)+'/'+str(len(code_list)))
 
 
 if __name__ == '__main__':
