@@ -16,17 +16,9 @@ import os
 
 from pymongo import *
 client = MongoClient(setting.env('db_host'), setting.env('db_port'))
-db = client.qq_db
+db = client.companyinfo_db
 
-
-file_list = os.listdir('../tmp/qqdata')
-
-for f_name in file_list:
-    f = open('../tmp/qqdata/'+f_name)
-    data_obj = json.loads(f.read())
-    code = f_name[5:-5]
-    data_obj["code"] = code
-    db['content'].insert(data_obj)
-    f.close()
-    print f_name+' insert success!'
-
+f = open('../tmp/company_name.json')
+data_obj = json.loads(f.read())
+db['company_list'].insert(data_obj)
+f.close()
