@@ -31,6 +31,7 @@ db = client.f_db
 db2 = client.qq_db
 db3 = client.qq_xjl_db
 db4 = client.qq_bs_db
+db5 = client.companyinfo_db
 YEARS = 2015
 LATEST = 3
 
@@ -324,12 +325,22 @@ class companyCodebyQQxjlbl(restful.Resource):
         return result,200,{'Access-Control-Allow-Origin': '*'} 
 
 
+# 公司名单
+class companyNameList(restful.Resource):
+    """docstring for ClassName"""
+    def get(self):
+        result = db5['company_list'].find({},{"_id":0})
+        result = result[0]
+        return result,200,{'Access-Control-Allow-Origin': '*'} 
+        
+
 
 
 
 api.add_resource(HelloWorld, '/')
 api.add_resource(allCompany, '/companycode/')
 api.add_resource(companyCode, '/companydata/<string:company_code>')
+api.add_resource(companyNameList, '/companynamelist/')
 
 
 
