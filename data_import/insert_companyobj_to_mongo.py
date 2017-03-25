@@ -18,7 +18,7 @@ from pymongo import *
 client = MongoClient(setting.env('db_host'), setting.env('db_port'))
 db = client.companyinfo_db
 
-f = open('../tmp/company_code.json')
+f = open('company_code.json')
 data_obj = json.loads(f.read())
 db['company_code'].insert(data_obj)
 f.close()
