@@ -53,6 +53,14 @@ class companyData(restful.Resource):
         return result,200,{'Access-Control-Allow-Origin': '*'} 
 
 
+class companyDataByMj(restful.Resource):
+    def get(self,company_code):
+        result = db6['c_data_by_mj'].find({"code":company_code},{"_id":0})
+        result = result[0]
+        return result,200,{'Access-Control-Allow-Origin': '*'} 
+
+
+
 class company(restful.Resource):
     def get(self,company_code):
         result = db6['c_info'].find({"code":company_code},{"_id":0})
@@ -68,6 +76,7 @@ api.add_resource(companyNameList, '/companynamelist/')
 
 api.add_resource(companyData, '/companydata/<string:company_code>')
 
+api.add_resource(companyDataByMj, '/companydatabymj/<string:company_code>')
 
 
 if __name__ == '__main__':
