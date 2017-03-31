@@ -105,10 +105,12 @@
 
 
       <div class="col-md-12">
-
         <h1>
-          {{ content.name }}
-          <kbd style="font-size: 0.5em">股票代码:{{ content.code }}</kbd>
+        {{ content1.name }}
+        <br>
+
+          <kbd style="font-size: 0.5em">股票代码:{{ content1.code }}</kbd>
+          <kbd style="font-size: 0.5em">行业:{{ content1.c_name }}</kbd>
         </h1>
 
       </div>
@@ -131,71 +133,49 @@
                 <thead>
                   <tr>
                     <th>货币现金</th>
-                    <th>2013</th>
-                    <th>2014</th>
-                    <th>2015</th>
+                    <th v-for="year in years"> {{ year.slice(5) }}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>现金与约当现金(占总资产%)</td>
-                    <td>{{ content3.data_2013.bstable.hbxj_rate }}</td>
-                    <td>{{ content3.data_2014.bstable.hbxj_rate }}</td>
-                    <td>{{ content3.data_2015.bstable.hbxj_rate }}</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
                   </tr>
                   <tr>
                     <td>应收账款(占总资产%)</td>
-                    <td>{{ content3.data_2013.bstable.yszk_rate }}</td>
-                    <td>{{ content3.data_2014.bstable.yszk_rate }}</td>
-                    <td>{{ content3.data_2015.bstable.yszk_rate }}</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.yszk==null)?'--':content[year].zcfzbl.yszk }}</td>
                   </tr>
                   <tr>
                     <td>存货(占总资产%)</td>
-                    <td>{{ content3.data_2013.bstable.ch_rate }}</td>
-                    <td>{{ content3.data_2014.bstable.ch_rate }}</td>
-                    <td>{{ content3.data_2015.bstable.ch_rate }}</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.ch==null)?'--':content[year].zcfzbl.ch }}</td>
                   </tr>
                   <tr>
                     <td>流动资产(占总资产%)</td>
-                    <td>{{ content3.data_2013.bstable.ldzc_rate }}</td>
-                    <td>{{ content3.data_2014.bstable.ldzc_rate }}</td>
-                    <td>{{ content3.data_2015.bstable.ldzc_rate }}</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.ldzchj==null)?'--':content[year].zcfzbl.ldzchj }}</td>
                   </tr>
                   <tr>
                     <td>总资产(占总资产%)</td>
-                    <td>{{ content3.data_2013.bstable.zzc_rate }}</td>
-                    <td>{{ content3.data_2014.bstable.zzc_rate }}</td>
-                    <td>{{ content3.data_2015.bstable.zzc_rate }}</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.zczj==null)?'--':content[year].zcfzbl.zczj }}</td>
                   </tr>
                   <tr>
                     <td>应付账款(占总资产%)</td>
-                    <td>{{ content3.data_2013.bstable.yszk_rate }}</td>
-                    <td>{{ content3.data_2014.bstable.yszk_rate }}</td>
-                    <td>{{ content3.data_2015.bstable.yszk_rate }}</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.yfzk==null)?'--':content[year].zcfzbl.yfzk }}</td>
                   </tr>
                   <tr>
                     <td>流动负债(占总资产%)</td>
-                    <td>{{ content3.data_2013.bstable.ldfz_rate }}</td>
-                    <td>{{ content3.data_2014.bstable.ldfz_rate }}</td>
-                    <td>{{ content3.data_2015.bstable.ldfz_rate }}</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.ldfz==null)?'--':content[year].zcfzbl.ldfz }}</td>
                   </tr>
                   <tr>
                     <td>长期负债(占总资产%)</td>
-                    <td>{{ content3.data_2013.bstable.cqfz_rate }}</td>
-                    <td>{{ content3.data_2014.bstable.cqfz_rate }}</td>
-                    <td>{{ content3.data_2015.bstable.cqfz_rate }}</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.cqfz==null)?'--':content[year].zcfzbl.cqfz }}</td>
                   </tr>
                   <tr>
                     <td>股东权益(占总资产%)</td>
-                    <td>{{ content3.data_2013.bstable.gdqy_rate }}</td>
-                    <td>{{ content3.data_2014.bstable.gdqy_rate }}</td>
-                    <td>{{ content3.data_2015.bstable.gdqy_rate }}</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.gdqy==null)?'--':content[year].zcfzbl.gdqy }}</td>
                   </tr>
                   <tr>
                     <td>总负债+股东权益(占总资产%)</td>
-                    <td>{{ content3.data_2013.bstable.zzc_rate }}</td>
-                    <td>{{ content3.data_2014.bstable.zzc_rate }}</td>
-                    <td>{{ content3.data_2015.bstable.zzc_rate }}</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.zfzjgdqy==null)?'--':content[year].zcfzbl.zfzjgdqy }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -235,10 +215,12 @@
         <!-- 右边 -->
         <div class="col-md-6">
           <div class="row">
+
+
             <div class="col-md-12">
             <div class="panel panel-danger">
               <div class ="panel-heading" ><h2>五大财务比率</h2></div>
-<!--  -->
+
 
 
 <!-- 使用了腾讯财经数据的分析表 -->
@@ -249,9 +231,7 @@
           <tr>
             <th>类别</th>
             <th>财务比率</th>
-            <th>2013</th>
-            <th>2014</th>
-            <th>2015</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
         </thead>
         <tbody>
@@ -260,16 +240,12 @@
           </tr>
           <tr>
             <td>负债占资产比率(%) = 资产负债率(%)</td>
-            <td>{{ content.data_2013.czzb.zcfzl }}</td>
-            <td>{{ content.data_2014.czzb.zcfzl }}</td>
-            <td>{{ content.data_2015.czzb.zcfzl }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.zcfzl==null)?'--':content[year].cwbl.zcfzl }}</td>
           </tr>
 
-          <tr class="unfinish">
+          <tr>
             <td>长期资金占不动产/厂房及设备比率(%)</td>
-            <td>--</td>
-            <td>--</td>
-            <td>--</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.xjztzbl==null)?'--':content[year].cwbl.xjztzbl }}</td>
           </tr>
 
 
@@ -281,15 +257,11 @@
 
           <tr>
             <td>流动比率(%)</td>
-            <td>{{ content.data_2013.czzb.ldbl }}</td>
-            <td>{{ content.data_2014.czzb.ldbl }}</td>
-            <td>{{ content.data_2015.czzb.ldbl }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.ldbl==null)?'--':content[year].cwbl.ldbl }}</td>
           </tr>
           <tr>
             <td>速动比率(%)</td>
-            <td>{{ content.data_2013.czzb.sdbl }}</td>
-            <td>{{ content.data_2014.czzb.sdbl }}</td>
-            <td>{{ content.data_2015.czzb.sdbl }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.sdbl==null)?'--':content[year].cwbl.sdbl }}</td>
           </tr>
 
 
@@ -298,37 +270,25 @@
           </tr>
           <tr>
             <td>应收账款周转率(次/年)</td>
-            <td>{{ content.data_2013.yynl.yszkzzl }}</td>
-            <td>{{ content.data_2014.yynl.yszkzzl }}</td>
-            <td>{{ content.data_2015.yynl.yszkzzl }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzl==null)?'--':content[year].cwbl.yszkzzl }}</td>
           </tr>
           <tr>
             <td>应收账款周转天数(天)</td>
-            <td>{{ content.data_2013.yynl.yszkzzts }}</td>
-            <td>{{ content.data_2014.yynl.yszkzzts }}</td>
-            <td>{{ content.data_2015.yynl.yszkzzts }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
           </tr>
           <tr>
             <td>存货周转率(次/年)</td>
-            <td>{{ content.data_2013.yynl.chzzl }}</td>
-            <td>{{ content.data_2014.yynl.chzzl }}</td>
-            <td>{{ content.data_2015.yynl.chzzl }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.chzzl==null)?'--':content[year].cwbl.chzzl }}</td>
           </tr>
           <tr>
             <td>存货周转天数(天)</td>
-            <td>{{ content.data_2013.yynl.chzzts }}</td>
-            <td>{{ content.data_2014.yynl.chzzts }}</td>
-            <td>{{ content.data_2015.yynl.chzzts }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.chzzts==null)?'--':content[year].cwbl.chzzts }}</td>
           </tr>
             <td>固定资产周转率(次/年)</td>
-            <td>{{ content.data_2013.yynl.gdzczzl }}</td>
-            <td>{{ content.data_2014.yynl.gdzczzl }}</td>
-            <td>{{ content.data_2015.yynl.gdzczzl }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.gdzczzl==null)?'--':content[year].cwbl.gdzczzl }}</td>
           </tr>
             <td>总资产周转率(次/年)</td>
-            <td>{{ content.data_2013.yynl.zzczzl }}</td>
-            <td>{{ content.data_2014.yynl.zzczzl }}</td>
-            <td>{{ content.data_2015.yynl.zzczzl }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.zzczzl==null)?'--':content[year].cwbl.zzczzl }}</td>
           </tr>
 
 
@@ -339,46 +299,31 @@
           </tr>
           <tr>
             <td>总资产利润率(%)ROA=总资产收益率(%)</td>
-            <td>{{ content.data_2013.ylnl.zzclrl }}</td>
-            <td>{{ content.data_2014.ylnl.zzclrl }}</td>
-            <td>{{ content.data_2015.ylnl.zzclrl }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.zzclrl==null)?'--':content[year].cwbl.zzclrl }}</td>
           </tr>
 
           <tr>
             <td>净资产收益率(%)ROE</td>
-            <td>{{ content.data_2013.ylnl.jzcsyljq }}</td>
-            <td>{{ content.data_2014.ylnl.jzcsyljq }}</td>
-            <td>{{ content.data_2015.ylnl.jzcsyljq }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.jzcsyl==null)?'--':content[year].cwbl.jzcsyl }}</td>
           </tr>
-          <tr class="unfinish">
-            <td>税前纯益占实收资本比率(%)(待获取)</td>
-            <td>--</td>
-            <td>--</td>
-            <td>--</td>
+          <tr>
+            <td>税前纯益占实收资本比率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.sqlrzsszbbl==null)?'--':content[year].cwbl.sqlrzsszbbl }}</td>
           </tr>
           <tr>
             <td>毛利率(%)</td>
-            <td>{{ content.data_2013.ylnl.xsmll }}</td>
-            <td>{{ content.data_2014.ylnl.xsmll }}</td>
-            <td>{{ content.data_2015.ylnl.xsmll }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.mll==null)?'--':content[year].cwbl.mll }}</td>
           </tr>
-            <td>利润率(%)</td>
-            <td>{{ content.data_2013.ylnl.yylrl }}</td>
-            <td>{{ content.data_2014.ylnl.yylrl }}</td>
-            <td>{{ content.data_2015.ylnl.yylrl }}</td>
+            <td>营业利润率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yylrl==null)?'--':content[year].cwbl.yylrl }}</td>
           <tr>
             <td>净利率(%)</td>
-            <td>{{ content.data_2013.ylnl.xsjll }}</td>
-            <td>{{ content.data_2014.ylnl.xsjll }}</td>
-            <td>{{ content.data_2015.ylnl.xsjll }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.jll==null)?'--':content[year].cwbl.jll }}</td>
           </tr>
           <tr>
             <td>基本每股收益(每股盈余EPS)</td>
-            <td>{{ content.data_2013.mgzb.jbmgsy }}</td>
-            <td>{{ content.data_2014.mgzb.jbmgsy }}</td>
-            <td>{{ content.data_2015.mgzb.jbmgsy }}</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.jbmgsy==null)?'--':content[year].cwbl.jbmgsy }} </td>
           </tr>
-
 
 
           <tr>
@@ -386,21 +331,19 @@
           </tr>
           <tr>
             <td>现金流量比率</td>
-            <td>{{ content4.data_2013.xjlbl.xjllbl }}</td>
-            <td>{{ content4.data_2014.xjlbl.xjllbl }}</td>
-            <td>{{ content4.data_2015.xjlbl.xjllbl }}</td>
+            <td v-for="year in years">   {{ (content[year].cwbl.xjllbl==null)?'--':content[year].cwbl.xjllbl }}</td>
           </tr>
           <tr class="unfinish">
-            <td>现金流量充当比率(待获取)</td>
+            <td>现金流量充当比率</td>
+            <td>--</td>
+            <td>--</td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
           </tr>
-          <tr class="unfinish">
-            <td>现金再投资比率(待获取)</td>
-            <td>--</td>
-            <td>--</td>
-            <td>--</td>
+          <tr>
+            <td>现金再投资比率</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.xjztzbl==null)?'--':content[year].cwbl.xjztzbl }}</td>
           </tr>
 
 
@@ -428,29 +371,28 @@
                 <thead>
                   <tr>
                     <th>单位:万人民币</th>
-                    <th>2013</th>
-                    <th>2014</th>
-                    <th>2015</th>
+                    <th v-for="year in years"> {{ year.slice(5) }}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td>营业活动现金流量(from 损益表)</td>
-                    <td>{{ content2.data_2013.xjllzk.jyxjl }}</td>
-                    <td>{{ content2.data_2014.xjllzk.jyxjl }}</td>
-                    <td>{{ content2.data_2015.xjllzk.jyxjl }}</td>
+                    <td v-for="year in years"> {{ (content[year].xjllzk.yyhdxjll==null)?'':content[year].xjllzk.yyhdxjll }}</td>
+                    
                   </tr>
                   <tr>
                     <td>投资活动现金流量(from 资产负债表左边%)</td>
-                    <td>{{ content2.data_2013.xjllzk.tzxjl }}</td>
-                    <td>{{ content2.data_2014.xjllzk.tzxjl }}</td>
-                    <td>{{ content2.data_2015.xjllzk.tzxjl }}</td>
+                    <td v-for="year in years"> {{ (content[year].xjllzk.tzhdxjll==null)?'--':content[year].xjllzk.tzhdxjll }}</td>
+                    <!-- <td>{{ content.data_2013.cwbl.chzzl }}</td> -->
+<!--                     <td>{{ content.data_2014.xjllzk.tzxjl }}</td>
+                    <td>{{ content.data_2015.xjllzk.tzxjl }}</td> -->
                   </tr>
                   <tr>
                     <td>理财活动现金流量(from 资产负债表右边)</td>
-                    <td>{{ content2.data_2013.xjllzk.czxjl }}</td>
-                    <td>{{ content2.data_2014.xjllzk.czxjl }}</td>
-                    <td>{{ content2.data_2015.xjllzk.czxjl }}</td>
+                    <td v-for="year in years"> {{ (content[year].xjllzk.lchdxjll==null)?'--':content[year].xjllzk.lchdxjll }}</td>
+<!--                     <td>{{ content.data_2013.xjllzk.czxjl }}</td>
+                    <td>{{ content.data_2014.xjllzk.czxjl }}</td>
+                    <td>{{ content.data_2015.xjllzk.czxjl }}</td> -->
                   </tr>
                 </tbody>
               </table>
@@ -611,32 +553,38 @@ function searchSource() {
 
 
 <script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 设置信息源 url
-//var SOURCE_URL='http://115.28.49.33:8088/companydata/';
+var SOURCE_URL='http://0.0.0.0:8088/companydatabymj/';
+var SOURCE_URL1='http://0.0.0.0:8088/company/';
+// 排序 date 列表
+function order_data(obj) {
+  li_i=[];
+  for (i in obj) {
+    if (i!='code') {
+    i_t= parseInt(i.slice(5));
+    li_i.push(i_t);
+    }
 
-// var SOURCE_URL1='http://115.28.49.33:8088/companydataqq/';
-// var SOURCE_URL2='http://115.28.49.33:8088/companydataqqcwbb/';
-// var SOURCE_URL3='http://115.28.49.33:8088/companydataqqbs/';
-// var SOURCE_URL4='http://115.28.49.33:8088/companydataqqxjlbl/';
+  }
+  // 先排序
+  li_i.sort();
+  // 构建字符串列表
+  li_a = [];
+  for (s in li_i) {
+    g = 'data_'+String(li_i[s]);
+    li_a.push(g)
+  }
+  return li_a;
+}
 
-var SOURCE_URL1='http://0.0.0.0:8088/companydataqq/';
-var SOURCE_URL2='http://0.0.0.0:8088/companydataqqcwbb/';
-var SOURCE_URL3='http://0.0.0.0:8088/companydataqqbs/';
-var SOURCE_URL4='http://0.0.0.0:8088/companydataqqxjlbl/';
+
+// 修正值为 null 的表现方式
+// function fixNullValue(data) {
+//   (data==null)?value ='--':value=data;
+//   return value;
+// };
+
+
 
 
 
@@ -644,9 +592,8 @@ var vm = new Vue({
   el: '#app',
   data: {
     content: '',
-    content2: '',
-    content3: '',
-    content4: ''
+    content1: '',
+    years:[],
   },
   methods: {
     updateTable: function () {
@@ -662,6 +609,31 @@ var vm = new Vue({
         // 如果截取到的结果是数字
       } else {
         $.ajax({
+          url: SOURCE_URL+company_code,
+          type:'get',
+          dataType:'json',
+          // 加入动画
+          beforeSend:function(){
+            $("#loader").remove();
+            $("#app-loading").append('<div id="loader" class="loader"><span class="loader-inner">Loading...</span></div>');
+          },
+
+          complete: function() {$("#loader").remove();},
+          //
+          success: function(data_obj) {
+            // 年表
+            vm.years = order_data(data_obj);
+            console.log(vm.years);
+            // 渲染数据
+            vm.content = data_obj;
+          },
+          error : function() {
+            // view("异常！");
+            vm.content = 'failed'
+          }
+        });
+
+        $.ajax({
           url: SOURCE_URL1+company_code,
           type:'get',
           dataType:'json',
@@ -674,93 +646,19 @@ var vm = new Vue({
           complete: function() {$("#loader").remove();},
           //
           success: function(data_obj) {
+            // 年表
+            // vm.years = order_data(data_obj);
+            // console.log(vm.years);
             // 渲染数据
-            vm.content = data_obj;
-            // fix 源数据的速动比率
-            vm.content.data_2013.czzb.ldbl=String(parseInt(parseFloat(vm.content.data_2013.czzb.ldbl)*100));
-            vm.content.data_2014.czzb.ldbl=String(parseInt(parseFloat(vm.content.data_2014.czzb.ldbl)*100));
-            vm.content.data_2015.czzb.ldbl=String(parseInt(parseFloat(vm.content.data_2015.czzb.ldbl)*100));
-            vm.content.data_2013.czzb.sdbl=String(parseInt(parseFloat(vm.content.data_2013.czzb.sdbl)*100));
-            vm.content.data_2014.czzb.sdbl=String(parseInt(parseFloat(vm.content.data_2014.czzb.sdbl)*100));
-            vm.content.data_2015.czzb.sdbl=String(parseInt(parseFloat(vm.content.data_2015.czzb.sdbl)*100));
+            vm.content1 = data_obj;
           },
           error : function() {
             // view("异常！");
-            vm.content = 'failed'
-          }
-        });
-        //
-        // 获取线现金流报表
-        $.ajax({
-          url: SOURCE_URL2+company_code,
-          type:'get',
-          dataType:'json',
-          // 加入动画
-          beforeSend:function(){
-            $("#loader").remove();
-            $("#app-loading").append('<div id="loader" class="loader"><span class="loader-inner">Loading...</span></div>');
-          },
-
-          complete: function() {$("#loader").remove();},
-          //
-          success: function(data_obj) {
-            // 渲染数据
-            vm.content2 = data_obj
-          },
-          error : function() {
-            // view("异常！");
-            vm.content2 = 'failed'
-          }
-        });
-        //
-        // 获取资产负债比率
-        $.ajax({
-          url: SOURCE_URL3+company_code,
-          type:'get',
-          dataType:'json',
-          // 加入动画
-          beforeSend:function(){
-            $("#loader").remove();
-            $("#app-loading").append('<div id="loader" class="loader"><span class="loader-inner">Loading...</span></div>');
-          },
-
-          complete: function() {$("#loader").remove();},
-          //
-          success: function(data_obj) {
-            // 渲染数据
-            vm.content3 = data_obj
-          },
-          error : function() {
-            // view("异常！");
-            vm.content3 = 'failed'
+            vm.content1 = 'failed'
           }
         });
 
-        // 获取流量比率
-        $.ajax({
-          url: SOURCE_URL4+company_code,
-          type:'get',
-          dataType:'json',
-          // 加入动画
-          beforeSend:function(){
-            $("#loader").remove();
-            $("#app-loading").append('<div id="loader" class="loader"><span class="loader-inner">Loading...</span></div>');
-          },
-
-          complete: function() {$("#loader").remove();},
-          //
-          success: function(data_obj) {
-            // 渲染数据
-            vm.content4 = data_obj
-          },
-          error : function() {
-            // view("异常！");
-            vm.content4 = 'failed'
-          }
-        });
       }
-
-
     }
   }
 })
@@ -776,7 +674,8 @@ function updataInputAndClick(code_name) {
   $('#input_search').click();
   // 移除搜索结果
   $('#searchResult *').remove();
-}
+};
+
 
 
 
