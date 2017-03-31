@@ -233,9 +233,16 @@
           <tr>
             <th colspan='7'>
               <h3><kbd>A - 比气长,越长越好</kbd></h3> 
-              <p style='font-size: 0.5em'>现金越多,公司底气越足,气就越长,存活能力越好!这三个数值大于 <mark>100/100/10</mark> 比较好!</p>
+              <p style='font-size: 0.5em'>现金越多,公司底气越足,气就越长,存活能力越好! 重要性排序: <kbd>A2</kbd> > <kbd>A3</kbd> > <kbd>A1</kbd></p>
             </th>
           </tr>
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.5em'> <kbd>A1</kbd> - 大于<mark>100/100/10</mark>,数字越大越好,符合给20分.</p>
+            </th>
+          </tr>         
+
           <tr>
             <th>类别</th>
             <th>财务比率</th>
@@ -245,11 +252,11 @@
             <th rowspan="4">现金流量<br>(计算得到)</th>
           </tr>
           <tr>
-            <td>现金流量比率 <kbd>>100</kbd></td>
+            <td>现金流量比率</td>
             <td v-for="year in years">   {{ (content[year].cwbl.xjllbl==null)?'--':content[year].cwbl.xjllbl }}</td>
           </tr>
           <tr class="unfinish">
-            <td>现金流量充当比率(待获取) <kbd>>100</kbd></td>
+            <td>现金流量充当比率(待获取)</td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
@@ -257,11 +264,51 @@
             <td>--</td>
           </tr>
           <tr>
-            <td>现金再投资比率 <kbd>>10</kbd></td>
+            <td>现金再投资比率</td>
             <td v-for="year in years"> {{ (content[year].cwbl.xjztzbl==null)?'--':content[year].cwbl.xjztzbl }}</td>
           </tr>
 
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.5em'> <kbd>A2</kbd> - 现金占资产最好<mark>10~25%</mark>,如果资本密集型,应该比<mark>25%</mark>更高,符合给70分.</p>
+            </th>
+          </tr>   
+
+          <tr>
+            <th>类别</th>
+            <th>会计科目</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr>
+            <th>资产负债表</th>
+            <td>现金与约当现金(占总资产%)</td>
+            <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
+          </tr>
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.5em'> <kbd>A3</kbd> - 平均收现日数如果<mark>< 15</mark>,则代表天天收现金就更棒了,符合加10分.</p>
+            </th>
+          </tr> 
+
+
+          <tr>
+            <th>类别</th>
+            <th>财务比率</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+
+          <tr>
+            <th>营运能力</th>
+            <td>应收账款周转天数(天)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
+          </tr>
         <!-- A -->
+
+
+
+
+
 
 
         <!-- B -->
@@ -269,45 +316,119 @@
           <tr>
             <th colspan='7'>
               <h3><kbd>B - 翻桌率,越高越好</kbd></h3> 
-              <p style='font-size: 0.5em'>表示这些资产在这一年,为这家公司做了多少次生意!</p>
+              <p style='font-size: 0.5em'>表示这些资产在这一年,为这家公司做了多少次生意!重要性排序: <kbd>B1</kbd> > <kbd>B2</kbd> = <kbd>B3</kbd></p>
             </th>
           </tr>
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.5em'> <kbd>B1</kbd> - 企业总资产周转率最好<mark>> 1</mark>,如果<mark>< 1</mark>则属于资本密集型,要查看<kbd>B1-1</kbd> , <kbd>B1-2</kbd>,最多给50分</p>
+            </th>
+          </tr> 
+
+          <tr>
+            <th>类别</th>
+            <th>财务比率</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+
+          </tr>
+            <th>营运能力</th>
+            <td>总资产周转率(次/年)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.zzczzl==null)?'--':content[year].cwbl.zzczzl }}</td>
+          </tr>
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.3em'> <kbd>B1-1</kbd> - 总资产周转率<mark>< 1</mark>,那现金占资产应高于<mark>25%</mark>,否则要看是否天天收现金<kbd>B1-2</kbd></p>
+            </th>
+          </tr> 
+
+
+          <tr>
+            <th>类别</th>
+            <th>会计科目</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr>
+            <td>资产负债表</td>
+            <td>现金与约当现金(占总资产%)</td>
+            <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
+          </tr>
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.3em'> <kbd>B1-2</kbd> - 如果平均收现日数<mark>< 15</mark>则说明是收现金的公司,前面指标低一些是可接受的,但是容易发生财务危机</p>
+            </th>
+          </tr> 
+
+
           <tr>
             <th>类别</th>
             <th>财务比率</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr>
-            <th rowspan="7">营运能力</th>
-          </tr>
-          </tr>
-            <td>总资产周转率(次/年) <kbd>>1</kbd></td>
-            <td v-for="year in years"> {{ (content[year].cwbl.zzczzl==null)?'--':content[year].cwbl.zzczzl }}</td>
-          </tr>
-          <tr>
-            <td>存货周转天数(天)</td>
-            <td v-for="year in years"> {{ (content[year].cwbl.chzzts==null)?'--':content[year].cwbl.chzzts }}</td>
-          </tr>
-          <tr>
-            <td>应收账款周转天数(天)<kbd><15</kbd></td>
+            <th>营运能力</th>
+            <td>应收账款周转天数(天)</td>
             <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
           </tr>
 
 
-          <tr>
-            <td>存货周转率(次/年)</td>
-            <td v-for="year in years"> {{ (content[year].cwbl.chzzl==null)?'--':content[year].cwbl.chzzl }}</td>
-          </tr>
+
+
+
+
 
           <tr>
-            <td>应收账款周转率(次/年)</td>
-            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzl==null)?'--':content[year].cwbl.yszkzzl }}</td>
-          </tr>
-
-          <tr>
-            <td>固定资产周转率(次/年)</td>
-            <td v-for="year in years"> {{ (content[year].cwbl.gdzczzl==null)?'--':content[year].cwbl.gdzczzl }}</td>            
+            <th colspan='7'>
+              <p> <kbd>B2</kbd> - 平均在库天数越短越好,最多给25分<br></p>
+              <p style='font-size: 0.5em'><mark><30</mark>梦幻,<mark>30~50</mark>优秀,<mark>50~80</mark>不错,<mark>80~100</mark>B2B,<mark>100~150</mark>工业类,<mark>>150</mark>能力差或特殊行业</p>
+            </th>
           </tr> 
+
+          <tr>
+            <th>类别</th>
+            <th>财务比率</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+
+          <tr>
+            <th>营运能力</th>
+            <td>存货周转天数(天)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.chzzts==null)?'--':content[year].cwbl.chzzts }}</td>
+          </tr>
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>B3</kbd> - 平均收现日数,越短越好<br></p>
+            </th>
+          </tr> 
+
+          <tr>
+            <th>类别</th>
+            <th>财务比率</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+
+          <tr>
+            <th>营运能力</th>
+            <td>应收账款周转天数(天)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
+          </tr>
+
+
+
+
+
           <!-- B -->
 
           <!-- C -->
@@ -317,40 +438,126 @@
               <p style='font-size: 0.5em'>毛利率高意味着这是一门好生意;反之则代表这生意很艰难,投资获利机会渺茫!</p>
             </th>
           </tr>
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>C1</kbd> - 一门生意本身的好坏,越高越是好生意<br></p>
+            </th>
+          </tr>
           <tr>
             <th>类别</th>
             <th>财务比率</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr>
-            <th rowspan="8">盈利能力</th>
-          </tr>
-          <tr>
+            <th>盈利能力</th>
             <td>毛利率(%)</td>
             <td v-for="year in years"> {{ (content[year].cwbl.mll==null)?'--':content[year].cwbl.mll }}</td>
           </tr>
-            <td>营业利润率(%)</td>
-            <td v-for="year in years"> {{ (content[year].cwbl.yylrl==null)?'--':content[year].cwbl.yylrl }}</td>
+
+
+
+
           <tr>
+            <th colspan='7'>
+              <p> <kbd>C2</kbd> - 一家公司赚钱的真本事,越高越好<br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>类别</th>
+            <th>财务比率</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr>
+            <th>盈利能力</th>
+            <td>营业利益率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yylrl==null)?'--':content[year].cwbl.yylrl }}</td>
+          </tr>
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>C3</kbd> - 对抗市场不景气的能力<br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>类别</th>
+            <th>财务比率</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="unfinish">
+            <th>盈利能力</th>
+            <td>经营安全边际率(%)</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>C4</kbd> - 一家公司税后是否赚钱,至少<mark>>2%</mark><br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>类别</th>
+            <th>财务比率</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr>
+            <th>盈利能力</th>
             <td>净利率(%)</td>
             <td v-for="year in years"> {{ (content[year].cwbl.jll==null)?'--':content[year].cwbl.jll }}</td>
           </tr>
+
+
           <tr>
+            <th colspan='7'>
+              <p> <kbd>C5</kbd> - 股东可以赚多少,每股赚的钱(元)<br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>类别</th>
+            <th>财务比率</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr>
+            <th>盈利能力</th>
             <td>基本每股收益(每股盈余EPS)</td>
             <td v-for="year in years"> {{ (content[year].cwbl.jbmgsy==null)?'--':content[year].cwbl.jbmgsy }} </td>
           </tr>
+
+
+
           <tr>
+            <th colspan='7'>
+              <p> <kbd>C6</kbd> - 投资可以获得多少回报, <mark>>20</mark>非常好的公司, <mark><7</mark>可能不值得投资<br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>类别</th>
+            <th>财务比率</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr>
+            <th>盈利能力</th>
             <td>净资产收益率(%)ROE</td>
             <td v-for="year in years"> {{ (content[year].cwbl.jzcsyl==null)?'--':content[year].cwbl.jzcsyl }}</td>
           </tr>
-          <tr>
-            <td>总资产利润率(%)ROA=总资产收益率(%)</td>
-            <td v-for="year in years"> {{ (content[year].cwbl.zzclrl==null)?'--':content[year].cwbl.zzclrl }}</td>
-          </tr>
-          <tr>
-            <td>税前纯益占实收资本比率(%)</td>
-            <td v-for="year in years"> {{ (content[year].cwbl.sqlrzsszbbl==null)?'--':content[year].cwbl.sqlrzsszbbl }}</td>
-          </tr>
+
+
+
+
+
           <!-- C -->
 
 
@@ -401,11 +608,11 @@
 
 
           <tr>
-            <td>流动比率(%) <kbd>>100</kbd> </td>
+            <td>流动比率(%) <kbd>>300</kbd> </td>
             <td v-for="year in years"> {{ (content[year].cwbl.ldbl==null)?'--':content[year].cwbl.ldbl }}</td>
           </tr>
           <tr>
-            <td>速动比率(%) <kbd>>100</kbd> </td>
+            <td>速动比率(%) <kbd>>150</kbd> </td>
             <td v-for="year in years"> {{ (content[year].cwbl.sdbl==null)?'--':content[year].cwbl.sdbl }}</td>
           </tr>
 
