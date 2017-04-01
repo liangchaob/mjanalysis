@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <title>查财报(测试版α)</title>
+    <link href="http://odor1hjie.bkt.clouddn.com/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://odor1hjie.bkt.clouddn.com/jquery-ui.css">
+
+    <script src="http://odor1hjie.bkt.clouddn.com/jquery.js"></script>
+    <!-- <script src="http://odor1hjie.bkt.clouddn.com/jquery.autocomplete.js"></script> -->
+    <script src="http://odor1hjie.bkt.clouddn.com/jquery-ui.js"></script>
+    <script src="http://odor1hjie.bkt.clouddn.com/bootstrap.js"></script>
+    <script src="http://odor1hjie.bkt.clouddn.com/vue.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+  </head>
+
+  <body>
+
+
+<div class="container-fluid" id="app">
+
+  <div class="row">
+    <h1 class="text-center">超级数字力-学员专属福利</h1>
+    <hr>
+  </div>
+
+
+
+  <!-- 首部搜索栏 -->
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+      <div class="row">
+        <div class="col-md-6 col-sm-12 col-xs-12">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="输入沪深上市公司名称或股票代码..." v-on:keyup.enter="updateTable" id="tags_input">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button"  v-on:click="updateTable" id="input_search">查询</button>
+            </span>
+          </div>
+          <div id="app-loading"></div>
+        </div>
+
+
+
+        <!-- 右上角自适应链接 -->
+        <div class="col-md-6 col-sm-12 col-xs-12">
+          <div class="row">
+            <div class="col-md-6 col-md-offset-6 col-sm-12 col-xs-12">
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <p style="float: right">资料来源:</p>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <div class="row">
+                    <div class="col-md-12 col-sm-6 col-xs-6"> <a href="http://listxbrl.sse.com.cn/" target="_blank">XBRL上交所</a> </div>
+                    <div class="col-md-12 col-sm-6 col-xs-6"> <a href="http://xbrl.cninfo.com.cn/" target="_blank">XBRL深交所</a> </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<!-- <button id="bn-t">点击</button> -->
+
+<div id="searchResult" class="col-md-10 col-md-offset-1"></div>
+
+
+
+
+  <!-- 下方显示栏 -->
+  <div v-if=" content=='' ">
+  </div>
+
+  <div v-else-if=" content=='failed' ">
+    <div class="col-md-10 col-md-offset-1">
+    <p>未查到!</p>
+    </div>
+  </div>
+
+
+
+
+  <div class="row" v-else>
+    <div class="col-md-10 col-md-offset-1" id="content_body">
+      <div class="row">
+
+
+      <div class="col-md-12">
+        <h1>
+        {{ content1.name }}
+        <br>
+
+          <kbd style="font-size: 0.5em">股票代码:{{ content1.code }}</kbd>
+          <kbd style="font-size: 0.5em">行业:{{ content1.c_name }}</kbd>
+        </h1>
+
+      </div>
+
+
+
+      <!-- 标签页栏目 -->
+      <div class="col-md-12">
+        <ul id="myTab" class="nav nav-tabs">
+          <li class="active"><a href="#origin_data" data-toggle="tab">基础财务数据</a></li>
+          <li><a href="#mj_anlysis" data-toggle="tab">独孤九剑分析</a></li>
+        </ul>
+        <br>   
+      </div>
+
+
+
+
+
+      <!-- 显示区域 -->
+      <div  class="tab-content">
+
+
+
+        <!-- 标签1 的内容 -->
+
+          <div class="tab-pane fade in active" id="origin_data">
+
+
+        <!-- 左边 -->
+        <div class="col-md-6">
+          <div class="row">
+
+            <div class="col-md-12">
+              <div class="panel panel-primary">
+              <div class ="panel-heading" ><h2>资产负债比率(计算得到)</h2></div>
+              <table class="table table-hover table-bordered panel-body" id="assets_ratio_table">
+                <thead>
+                  <tr>
+                    <th>货币现金</th>
+                    <th v-for="year in years"> {{ year.slice(5) }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>现金与约当现金(占总资产%)</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
+                  </tr>
+                  <tr>
+                    <td>应收账款(占总资产%)</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.yszk==null)?'--':content[year].zcfzbl.yszk }}</td>
+                  </tr>
+                  <tr>
+                    <td>存货(占总资产%)</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.ch==null)?'--':content[year].zcfzbl.ch }}</td>
+                  </tr>
+                  <tr>
+                    <td>流动资产(占总资产%)</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.ldzchj==null)?'--':content[year].zcfzbl.ldzchj }}</td>
+                  </tr>
+                  <tr>
+                    <td>总资产(占总资产%)</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.zczj==null)?'--':content[year].zcfzbl.zczj }}</td>
+                  </tr>
+                  <tr>
+                    <td>应付账款(占总资产%)</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.yfzk==null)?'--':content[year].zcfzbl.yfzk }}</td>
+                  </tr>
+                  <tr>
+                    <td>流动负债(占总资产%)</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.ldfz==null)?'--':content[year].zcfzbl.ldfz }}</td>
+                  </tr>
+                  <tr>
+                    <td>长期负债(占总资产%)</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.cqfz==null)?'--':content[year].zcfzbl.cqfz }}</td>
+                  </tr>
+                  <tr>
+                    <td>股东权益(占总资产%)</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.gdqy==null)?'--':content[year].zcfzbl.gdqy }}</td>
+                  </tr>
+                  <tr>
+                    <td>总负债+股东权益(占总资产%)</td>
+                    <td v-for="year in years"> {{ (content[year].zcfzbl.zfzjgdqy==null)?'--':content[year].zcfzbl.zfzjgdqy }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-12 hidden-sm hidden-xs">
+              <div class="panel panel-default">
+                <div class="panel-heading">功能描述</div>
+                <div class="panel-body">
+                  <h5>当前版本功能</h5>
+                  <ul>
+                    <li>可以通过电脑或手机浏览器进行访问</li>
+                    <li>通过上市公司代码或名称可以查到大多数数据</li>
+                    <li>可以通过输入公司名称得到股票代码</li>
+                  </ul>
+                  <h5>下一版本功能预览</h5>
+                  <ul>
+                    <li>将财务数据从近3年换成近5年</li>
+                    <li>使用独孤九剑对数据进行标注</li>
+                    <li>寻找接口或计算得到当前未知的数据</li>
+                  </ul>
+                  <p>请有劳诸位小伙伴填写↓下方↓的用户反馈,我们将针对问题持续改进产品,如果对下一版本的功能提供帮助与建议的小伙伴欢迎联系!</p>
+                </div>
+                <div class="panel-footer">
+                  <a href="https://jinshuju.net/f/BK0XTt">用户反馈</a> | <a href="mailto:liangchaob@163.com?subject=<查财报>使用反馈">联系邮箱</a>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+        <!-- 右边 -->
+        <div class="col-md-6">
+          <div class="row">
+
+
+            <div class="col-md-12">
+            <div class="panel panel-danger">
+              <div class ="panel-heading" ><h2>五大财务比率</h2></div>
+
+
+
+<!-- 使用了腾讯财经数据的分析表 -->
+      <table class="table table-hover table-bordered" id="rate_table">
+
+
+        <thead>
+          <tr>
+            <th>类别</th>
+            <th>财务比率</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th rowspan="3">财务结构</th>
+          </tr>
+          <tr>
+            <td>负债占资产比率(%) = 资产负债率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.zcfzl==null)?'--':content[year].cwbl.zcfzl }}</td>
+          </tr>
+
+          <tr>
+            <td>长期资金占不动产/厂房及设备比率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.xjztzbl==null)?'--':content[year].cwbl.xjztzbl }}</td>
+          </tr>
+
+
+
+          <tr>
+            <th rowspan="3">偿债能力</th>
+          </tr>
+
+
+          <tr>
+            <td>流动比率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.ldbl==null)?'--':content[year].cwbl.ldbl }}</td>
+          </tr>
+          <tr>
+            <td>速动比率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.sdbl==null)?'--':content[year].cwbl.sdbl }}</td>
+          </tr>
+
+
+          <tr>
+            <th rowspan="7">营运能力</th>
+          </tr>
+          <tr>
+            <td>应收账款周转率(次/年)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzl==null)?'--':content[year].cwbl.yszkzzl }}</td>
+          </tr>
+          <tr>
+            <td>应收账款周转天数(天)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
+          </tr>
+          <tr>
+            <td>存货周转率(次/年)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.chzzl==null)?'--':content[year].cwbl.chzzl }}</td>
+          </tr>
+          <tr>
+            <td>存货周转天数(天)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.chzzts==null)?'--':content[year].cwbl.chzzts }}</td>
+          </tr>
+            <td>固定资产周转率(次/年)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.gdzczzl==null)?'--':content[year].cwbl.gdzczzl }}</td>
+          </tr>
+            <td>总资产周转率(次/年)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.zzczzl==null)?'--':content[year].cwbl.zzczzl }}</td>
+          </tr>
+
+
+
+
+          <tr>
+            <th rowspan="8">盈利能力</th>
+          </tr>
+          <tr>
+            <td>总资产利润率(%)ROA=总资产收益率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.zzclrl==null)?'--':content[year].cwbl.zzclrl }}</td>
+          </tr>
+
+          <tr>
+            <td>净资产收益率(%)ROE</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.jzcsyl==null)?'--':content[year].cwbl.jzcsyl }}</td>
+          </tr>
+          <tr>
+            <td>税前纯益占实收资本比率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.sqlrzsszbbl==null)?'--':content[year].cwbl.sqlrzsszbbl }}</td>
+          </tr>
+          <tr>
+            <td>毛利率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.mll==null)?'--':content[year].cwbl.mll }}</td>
+          </tr>
+            <td>营业利润率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yylrl==null)?'--':content[year].cwbl.yylrl }}</td>
+          <tr>
+            <td>净利率(%)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.jll==null)?'--':content[year].cwbl.jll }}</td>
+          </tr>
+          <tr>
+            <td>基本每股收益(每股盈余EPS)</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.jbmgsy==null)?'--':content[year].cwbl.jbmgsy }} </td>
+          </tr>
+
+
+          <tr>
+            <th rowspan="4">现金流量<br>(计算得到)</th>
+          </tr>
+          <tr>
+            <td>现金流量比率</td>
+            <td v-for="year in years">   {{ (content[year].cwbl.xjllbl==null)?'--':content[year].cwbl.xjllbl }}</td>
+          </tr>
+          <tr class="unfinish">
+            <td>现金流量充当比率</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr>
+            <td>现金再投资比率</td>
+            <td v-for="year in years"> {{ (content[year].cwbl.xjztzbl==null)?'--':content[year].cwbl.xjztzbl }}</td>
+          </tr>
+
+
+
+
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+<!-- 使用了腾讯财经的分析表 -->
+
+
+<!--以下是現金流量狀況表  -->
+
+
+
+            <div class="col-md-12">
+
+            <div class="panel panel-warning">
+              <div class ="panel-heading" ><h2>现金流量状况</h2></div>
+
+
+              <table class="table table-hover table-bordered" id="cash_flow_table">
+                <thead>
+                  <tr>
+                    <th>单位:万人民币</th>
+                    <th v-for="year in years"> {{ year.slice(5) }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>营业活动现金流量(from 损益表)</td>
+                    <td v-for="year in years"> {{ (content[year].xjllzk.yyhdxjll==null)?'':content[year].xjllzk.yyhdxjll }}</td>
+                    
+                  </tr>
+                  <tr>
+                    <td>投资活动现金流量(from 资产负债表左边%)</td>
+                    <td v-for="year in years"> {{ (content[year].xjllzk.tzhdxjll==null)?'--':content[year].xjllzk.tzhdxjll }}</td>
+                    <!-- <td>{{ content.data_2013.cwbl.chzzl }}</td> -->
+<!--                     <td>{{ content.data_2014.xjllzk.tzxjl }}</td>
+                    <td>{{ content.data_2015.xjllzk.tzxjl }}</td> -->
+                  </tr>
+                  <tr>
+                    <td>理财活动现金流量(from 资产负债表右边)</td>
+                    <td v-for="year in years"> {{ (content[year].xjllzk.lchdxjll==null)?'--':content[year].xjllzk.lchdxjll }}</td>
+<!--                     <td>{{ content.data_2013.xjllzk.czxjl }}</td>
+                    <td>{{ content.data_2014.xjllzk.czxjl }}</td>
+                    <td>{{ content.data_2015.xjllzk.czxjl }}</td> -->
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+            </div>
+<!--以上是現金流量狀況表  -->
+
+
+
+          </div>
+        </div>
+
+<!-- 右侧 -->
+
+<!-- 标签1结束 -->
+  </div>
+
+
+
+
+
+<!-- 标签2的内容开始 -->
+<div class="tab-pane fade" id="mj_anlysis">
+
+
+
+
+
+
+
+
+        <div class="col-md-12">
+          <div class="row">
+
+
+            <div class="col-md-12">
+            <div class="panel panel-danger">
+              <!-- <div class ="panel-heading" ><h2>五大财务比率</h2></div> -->
+
+
+
+<!-- 使用了腾讯财经数据的分析表 -->
+      <table class="table table-hover table-bordered" id="rate_table">
+
+
+
+        <tbody>
+        <!-- A -->
+          <tr>
+            <th colspan='7'>
+              <h3><kbd>A - 比气长,越长越好</kbd></h3> 
+              <p style='font-size: 0.5em'>现金越多,公司底气越足,气就越长,存活能力越好! 重要性排序: <kbd>A2</kbd> > <kbd>A3</kbd> > <kbd>A1</kbd></p>
+            </th>
+          </tr>
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.5em'> <kbd>A1</kbd> - 大于<mark>100/100/10</mark>,数字越大越好.</p>
+            </th>
+          </tr>         
+
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>现金流量比率</td>
+            <td><kbd>100</kbd></td>
+            <td v-for="year in years">   {{ (content[year].cwbl.xjllbl==null)?'--':content[year].cwbl.xjllbl }}</td>
+          </tr>
+          <tr class="unfinish">
+            <td>现金流量充当比率(待获取)</td>
+            <td><kbd>100</kbd></td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+          <tr class="warning">
+            <td>现金再投资比率</td>
+            <td><kbd>10</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.xjztzbl==null)?'--':content[year].cwbl.xjztzbl }}</td>
+          </tr>
+
+
+
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.5em'> <kbd>A2</kbd> - 现金占资产最好<mark>10~25%</mark>,如果资本密集型,应该比<mark>25%</mark>更高.</p>
+            </th>
+          </tr>   
+
+          <tr>
+            <th>会计科目</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>现金与约当现金(占总资产%)</td>
+            <td><kbd>>10</kbd></td>
+            <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
+          </tr>
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.5em'> <kbd>A3</kbd> - 平均收现日数如果<mark>< 15</mark>,则代表天天收现金就更棒了.</p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+
+          <tr class="warning">
+            <td>应收账款周转天数(天)</td>
+            <td><kbd>--</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
+          </tr>
+        <!-- A -->
+
+
+
+
+
+
+
+        <!-- B -->
+
+          <tr>
+            <th colspan='7'>
+              <h3><kbd>B - 翻桌率,越高越好</kbd></h3> 
+              <p style='font-size: 0.5em'>表示这些资产在这一年,为这家公司做了多少次生意!重要性排序: <kbd>B1</kbd> > <kbd>B2</kbd> = <kbd>B3</kbd></p>
+            </th>
+          </tr>
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.5em'> <kbd>B1</kbd> - 企业总资产周转率最好<mark>> 1</mark>,如果<mark>< 1</mark>则属于资本密集型,要查看<kbd>B1-1</kbd> <kbd>B1-2</kbd></p>
+            </th>
+          </tr> 
+
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+
+          <tr class="warning">
+            <td>总资产周转率(次/年)</td>
+            <td><kbd>>1</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.zzczzl==null)?'--':content[year].cwbl.zzczzl }}</td>
+          </tr>
+
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>B1-1</kbd> - 总资产周转率<mark>< 1</mark>,那现金占资产应高于<mark>25%</mark>,否则要看是否天天收现金<kbd>B1-2</kbd></p>
+            </th>
+          </tr> 
+          <tr>
+            <th>会计科目</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="active">
+            <td>现金与约当现金(占总资产%)</td>
+            <td><kbd>>25</kbd></td>
+            <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
+          </tr>
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>B1-2</kbd> - 如果平均收现日数<mark>< 15</mark>则说明是收现金的公司,前面指标低一些是可接受的,但是容易发生财务危机</p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="active">
+            <td>应收账款周转天数(天)</td>
+            <td><kbd><15</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
+          </tr>
+
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>B2</kbd> - 平均在库天数越短越好,最多给25分<br></p>
+              <p style='font-size: 0.5em'><mark><30</mark>梦幻,<mark>30~50</mark>优秀,<mark>50~80</mark>不错,<mark>80~100</mark>B2B,<mark>100~150</mark>工业类,<mark>>150</mark>能力差或特殊行业</p>
+            </th>
+          </tr> 
+
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+
+          <tr class="warning">
+            <td>存货周转天数(天)</td>
+            <td><kbd>--</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.chzzts==null)?'--':content[year].cwbl.chzzts }}</td>
+          </tr>
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>B3</kbd> - 平均收现日数,越短越好<br></p>
+            </th>
+          </tr> 
+
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+
+          <tr class="warning">
+            <td>应收账款周转天数(天)</td>
+            <td><kbd><15</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
+          </tr>
+
+
+
+
+
+          <!-- B -->
+
+          <!-- C -->
+          <tr>
+            <th colspan='7'>
+              <h3><kbd>C - 这是不是一门好生意?越高越好</kbd></h3> 
+              <p style='font-size: 0.5em'>毛利率高意味着这是一门好生意;反之则代表这生意很艰难,投资获利机会渺茫!</p>
+            </th>
+          </tr>
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>C1</kbd> - 一门生意本身的好坏,越高越是好生意<br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>毛利率(%)</td>
+            <td><kbd>--</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.mll==null)?'--':content[year].cwbl.mll }}</td>
+          </tr>
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>C2</kbd> - 一家公司赚钱的真本事,越高越好<br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>营业利益率(%)</td>
+            <td><kbd>--</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yylrl==null)?'--':content[year].cwbl.yylrl }}</td>
+          </tr>
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>C3</kbd> - 对抗市场不景气的能力<br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="unfinish">
+            <td>经营安全边际率(%)</td>
+            <td><kbd>--</kbd></td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>C4</kbd> - 一家公司税后是否赚钱,至少<mark>>2%</mark><br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>净利率(%)</td>
+            <td><kbd>>2</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.jll==null)?'--':content[year].cwbl.jll }}</td>
+          </tr>
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>C5</kbd> - 股东可以赚多少,每股赚的钱(元)<br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>基本每股收益(每股盈余EPS)</td>
+            <td><kbd>--</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.jbmgsy==null)?'--':content[year].cwbl.jbmgsy }} </td>
+          </tr>
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>C6</kbd> - 投资可以获得多少回报, <mark>>20</mark>非常好的公司, <mark><7</mark>可能不值得投资<br></p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>净资产收益率(%)ROE</td>
+            <td><kbd>>7</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.jzcsyl==null)?'--':content[year].cwbl.jzcsyl }}</td>
+          </tr>
+
+
+
+
+
+          <!-- C -->
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <h3><kbd>D - 那根棒子,位置越高越好</kbd></h3> 
+              <p style='font-size: 0.5em'>公司的财务结构好不好,对外负债是否太高,有没发生致命的以短支长?</p>
+            </th>
+          </tr>
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>D1</kbd> - <mark><40%</mark>表示股东对公司很有信心,<mark>40~60%</mark>比较稳健,<mark>≥80</mark>基本就快出事了(银行除外)</p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>负债占资产比率(%) = 资产负债率(%)</td>
+            <td><kbd>40~60</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.zcfzl==null)?'--':content[year].cwbl.zcfzl }}</td>
+          </tr>
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>D1-1</kbd> - 这还是一门好生意吗?</p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="active">
+            <td>毛利率(%)</td>
+            <td><kbd>--</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.mll==null)?'--':content[year].cwbl.mll }}</td>
+          </tr>
+
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>D1-2</kbd> - 公司还有赚钱的真本事吗?</p>
+            </th>
+          </tr> 
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="active">
+            <td>营业利益率(%)</td>
+            <td><kbd>--</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yylrl==null)?'--':content[year].cwbl.yylrl }}</td>
+          </tr>
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>D1-3</kbd> - 手上的现金多不对,还能撑多久?</p>
+            </th>
+          </tr> 
+          <tr>
+            <th>会计科目</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="active">
+            <td>现金与约当现金(占总资产%)</td>
+            <td><kbd>>10%</kbd></td>
+            <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
+          </tr>
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p> <kbd>D2</kbd> - 以长支长,越长越好,应该 <mark>>100%</mark></p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>长期资金占不动产/厂房及设备比率(%)</td>
+            <td><kbd>>100</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.xjztzbl==null)?'--':content[year].cwbl.xjztzbl }}</td>
+          </tr>
+
+
+
+
+
+
+
+        <!-- D -->
+        <!-- E -->
+
+          <tr>
+            <th colspan='7'>
+              <h3><kbd>E - 你欠我的,能还吗,还越多越好</kbd></h3> 
+              <p style='font-size: 0.5em'>当公司面临债务风险时候,要看公司是否具备适当的还钱能力!</p>
+            </th>
+          </tr>
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p><kbd>E1</kbd> - 应当<mark>>300%</mark>,否则要看 <mark>E1-1</mark> <mark>E1-2</mark> <mark>E1-3</mark></p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>流动比率(%)</td>
+            <td><kbd>>300</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.ldbl==null)?'--':content[year].cwbl.ldbl }}</td>
+          </tr>
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>E1-1</kbd> - 如果流动比率低于<mark>300%</mark>,要看手里现金多不多?</p>
+            </th>
+          </tr> 
+          <tr>
+            <th>会计科目</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="active">
+            <td>现金与约当现金(占总资产%)</td>
+            <td><kbd>>10</kbd></td>
+            <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
+          </tr>
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>E1-2</kbd> - 如果流动性不好,是否收款速度超过业界均值<br></p>
+            </th>
+          </tr> 
+
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+
+          <tr class="active">
+            <td>应收账款周转天数(天)</td>
+            <td><kbd>--</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
+          </tr>
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>E1-3</kbd> - 如果流动性不好,要看货好不好卖<br></p>
+              <p style='font-size: 0.2em'><mark><30</mark>梦幻,<mark>30~50</mark>优秀,<mark>50~80</mark>不错,<mark>80~100</mark>B2B,<mark>100~150</mark>工业类,<mark>>150</mark>能力差或特殊行业</p>
+            </th>
+          </tr> 
+
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+
+          <tr class="active">
+            <td>存货周转天数(天)</td>
+            <td><kbd>--</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.chzzts==null)?'--':content[year].cwbl.chzzts }}</td>
+          </tr>
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p><kbd>E2</kbd> - 你欠我的能尽快还吗,最近三年比率应该 <mark>>150%</mark>,如果不理想,要看<mark>E2-1</mark> <mark>E2-2</mark> <mark>E2-3</mark></p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="warning">
+            <td>流动比率(%)</td>
+            <td><kbd>>150</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.ldbl==null)?'--':content[year].cwbl.ldbl }}</td>
+          </tr>
+
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>E2-1</kbd> - 如果流动比率低于<mark>300%</mark>,要看手里现金多不多?</p>
+            </th>
+          </tr> 
+          <tr>
+            <th>会计科目</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="active">
+            <td>现金与约当现金(占总资产%)</td>
+            <td><kbd>>10</kbd></td>
+            <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
+          </tr>
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>E2-2</kbd> - 如果速动性不好,是否收款是否 <mark><15天</mark>,具备立即还款能力</p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          <tr class="active">
+            <td>应收账款周转天数(天)</td>
+            <td><kbd><15</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
+          </tr>
+
+
+
+
+
+
+          <tr>
+            <th colspan='7'>
+              <p style='font-size: 0.2em'> <kbd>E2-3</kbd> - 如果前面指标都不符合,则资产周转率必须 <mark>>1</mark></p>
+            </th>
+          </tr>
+          <tr>
+            <th>财务比率</th>
+            <th>参考值</th>
+            <th v-for="year in years"> {{ year.slice(5) }}</th>
+          </tr>
+          </tr class="active">
+            <td>总资产周转率(次/年)</td>
+            <td><kbd>>1</kbd></td>
+            <td v-for="year in years"> {{ (content[year].cwbl.zzczzl==null)?'--':content[year].cwbl.zzczzl }}</td>
+          </tr>
+
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+</div>
+<!-- 标签2的内容结束 -->
+
+
+
+
+</div>
+<!-- 显示区域结束 -->
+
+
+
+      </div>
+    </div>
+  </div>
+<!--  -->
+</div>
+
+
+
+<script>
+// var SOURCE_URL5='http://115.28.49.33:8088/companynamelist/';
+var SOURCE_URL5='http://0.0.0.0:8088/companynamelist/';
+
+var li_source = []
+// 开机运行
+$(function() {
+    $.ajax({
+      url: SOURCE_URL5,
+      type:'get',
+      dataType:'json',
+      success: function(data_obj) {
+        // 渲染数据
+        li_source = data_obj['company_name']
+        // 自动补齐方式
+        $( "#tags_input" ).autocomplete({
+          source: li_source,
+          minLength: 4,
+          max:10,
+          scrollHeight: 10,
+          autoFocus: true,
+          delay: 400,
+          autoFocus: true,
+          cacheLength: 10,
+        });      
+      }});
+});
+
+
+
+
+
+// 追加链接
+function appendLinks(cache_list) {
+  for (lis in cache_list) {
+    for (item in cache_list[lis]) {
+      // 截取股票信息
+      value = cache_list[lis][item];
+      // 截取出 code
+      value_code = value.slice(-6);
+      $('#searchResult').append('<button type="button" class="btn btn-default btn_result" onclick="updataInputAndClick(\''+value+'\')" id="'+value_code+'">'+value+'</button> ');
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+  // 筛除缓存与数据重复的部分
+  function cacheCheck(higher_cache,lower_cache) {
+      // 筛掉低端缓存的内容
+      for (cache in higher_cache) {
+        // 找到元素所在位置
+        num = $.inArray(higher_cache[cache], lower_cache);
+        // console.log(typeof(num));
+        if (num >= 0){
+          lower_cache.splice(num,1);
+        }
+      }
+      return lower_cache;
+  }
+
+
+
+// 搜索框
+function searchSource() {
+
+    // 可能性高的数据
+    li_cache = [];
+
+    cache_l2=[];
+    cache_l3=[];
+
+    // 有可能性数据
+    li_select = [];
+
+
+      var tags_input = $("#tags_input").val();
+
+      // 拆分字符分别匹配
+      for (n in tags_input) {
+        // 循环字符匹配
+        strs = tags_input[n];
+
+        // 一旦回车就查询单个字符是否列表中有项目匹配
+        for (i in li_source) {
+          var result = li_source[i].indexOf(strs)
+          // 匹配上的话
+          if (result>=0) {
+
+            // 匹配到后 查询li_select数组是否已经有了
+            if ($.inArray(li_source[i], li_select) >=0){
+              // 如果 li_cache 也没有
+              if ($.inArray(li_source[i], li_cache) <0) {
+                li_cache.unshift(li_source[i]);
+                // 如果缓存也有了查2级缓存
+              }else if($.inArray(li_source[i], cache_l2) <0){
+                  cache_l2.unshift(li_source[i]);
+                  // 如果2级缓存也有了就2级缓存
+                }else if($.inArray(li_source[i], cache_l3) <0){
+                  cache_l3.unshift(li_source[i]);
+              }
+              // 如果 li_select 没有
+            }else{
+                li_select.unshift(li_source[i]);
+            }
+
+          }
+        }
+
+      }
+
+    // 缓存数据
+    cache_l2 = cacheCheck(cache_l3,cache_l2);
+    li_cache = cacheCheck(cache_l2,li_cache);
+
+    // 有可能性数据
+    li_select = cacheCheck(li_cache,li_select);
+    cache_list = [cache_l3,cache_l2,li_cache];
+
+    // 追加链接
+    appendLinks(cache_list);
+
+
+
+};
+
+
+
+
+
+
+
+</script>
+
+
+
+
+<script>
+// 设置信息源 url
+var SOURCE_URL='http://0.0.0.0:8088/companydatabymj/';
+var SOURCE_URL1='http://0.0.0.0:8088/company/';
+// 排序 date 列表
+function order_data(obj) {
+  li_i=[];
+  for (i in obj) {
+    if (i!='code') {
+    i_t= parseInt(i.slice(5));
+    li_i.push(i_t);
+    }
+
+  }
+  // 先排序
+  li_i.sort();
+  // 构建字符串列表
+  li_a = [];
+  for (s in li_i) {
+    g = 'data_'+String(li_i[s]);
+    li_a.push(g)
+  }
+  return li_a;
+}
+
+
+// 修正值为 null 的表现方式
+// function fixNullValue(data) {
+//   (data==null)?value ='--':value=data;
+//   return value;
+// };
+
+
+
+
+
+var vm = new Vue({
+  el: '#app',
+  data: {
+    content: '',
+    content1: '',
+    years:[],
+  },
+  methods: {
+    updateTable: function () {
+      // 检测被点击的这个东西是不是 result类的按钮,是的话就获取它的属性值
+      company_val = $('input').val();
+      company_code = company_val.slice(-6);
+      // 如果 截取到的结果不是数字
+      if (isNaN(company_code)) {
+        // $('#content_body').remove();
+        $('#searchResult *').remove();
+        searchSource();
+        vm.content ='';
+        // 如果截取到的结果是数字
+      } else {
+        $.ajax({
+          url: SOURCE_URL+company_code,
+          type:'get',
+          dataType:'json',
+          // 加入动画
+          beforeSend:function(){
+            $("#loader").remove();
+            $("#app-loading").append('<div id="loader" class="loader"><span class="loader-inner">Loading...</span></div>');
+          },
+
+          complete: function() {$("#loader").remove();},
+          //
+          success: function(data_obj) {
+            // 年表
+            vm.years = order_data(data_obj);
+            console.log(vm.years);
+            // 渲染数据
+            vm.content = data_obj;
+          },
+          error : function() {
+            // view("异常！");
+            vm.content = 'failed'
+          }
+        });
+
+        $.ajax({
+          url: SOURCE_URL1+company_code,
+          type:'get',
+          dataType:'json',
+          // 加入动画
+          beforeSend:function(){
+            $("#loader").remove();
+            $("#app-loading").append('<div id="loader" class="loader"><span class="loader-inner">Loading...</span></div>');
+          },
+
+          complete: function() {$("#loader").remove();},
+          //
+          success: function(data_obj) {
+            // 年表
+            // vm.years = order_data(data_obj);
+            // console.log(vm.years);
+            // 渲染数据
+            vm.content1 = data_obj;
+          },
+          error : function() {
+            // view("异常！");
+            vm.content1 = 'failed'
+          }
+        });
+
+      }
+    }
+  }
+})
+
+
+
+
+
+function updataInputAndClick(code_name) {
+  // 填入数值
+  $('#tags_input').val(code_name);
+  // 点击查询
+  $('#input_search').click();
+  // 移除搜索结果
+  $('#searchResult *').remove();
+};
+
+
+
+
+
+</script>
+
+</body>
+
+
+
+</html>
