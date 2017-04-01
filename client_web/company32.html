@@ -473,19 +473,18 @@
           </tr>         
 
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
-          </tr>
-          <tr>
-            <th rowspan="4">现金流量<br>(计算得到)</th>
           </tr>
           <tr class="warning">
             <td>现金流量比率</td>
+            <td><kbd>100</kbd></td>
             <td v-for="year in years">   {{ (content[year].cwbl.xjllbl==null)?'--':content[year].cwbl.xjllbl }}</td>
           </tr>
           <tr class="unfinish">
             <td>现金流量充当比率(待获取)</td>
+            <td><kbd>100</kbd></td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
@@ -494,6 +493,7 @@
           </tr>
           <tr class="warning">
             <td>现金再投资比率</td>
+            <td><kbd>10</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.xjztzbl==null)?'--':content[year].cwbl.xjztzbl }}</td>
           </tr>
 
@@ -512,13 +512,13 @@
           </tr>   
 
           <tr>
-            <th>类别</th>
             <th>会计科目</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="warning">
-            <th>资产负债表</th>
             <td>现金与约当现金(占总资产%)</td>
+            <td><kbd>>10</kbd></td>
             <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
           </tr>
 
@@ -532,14 +532,14 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
 
           <tr class="warning">
-            <th>营运能力</th>
             <td>应收账款周转天数(天)</td>
+            <td><kbd>--</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
           </tr>
         <!-- A -->
@@ -567,14 +567,14 @@
           </tr> 
 
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
 
           <tr class="warning">
-            <th>营运能力</th>
             <td>总资产周转率(次/年)</td>
+            <td><kbd>>1</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.zzczzl==null)?'--':content[year].cwbl.zzczzl }}</td>
           </tr>
 
@@ -590,13 +590,13 @@
             </th>
           </tr> 
           <tr>
-            <th>类别</th>
             <th>会计科目</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="active">
-            <td>资产负债表</td>
             <td>现金与约当现金(占总资产%)</td>
+            <td><kbd>>25</kbd></td>
             <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
           </tr>
 
@@ -608,13 +608,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="active">
-            <th>营运能力</th>
             <td>应收账款周转天数(天)</td>
+            <td><kbd><15</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
           </tr>
 
@@ -632,14 +632,14 @@
           </tr> 
 
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
 
           <tr class="warning">
-            <th>营运能力</th>
             <td>存货周转天数(天)</td>
+            <td><kbd>--</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.chzzts==null)?'--':content[year].cwbl.chzzts }}</td>
           </tr>
 
@@ -654,14 +654,14 @@
           </tr> 
 
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
 
           <tr class="warning">
-            <th>营运能力</th>
             <td>应收账款周转天数(天)</td>
+            <td><kbd><15</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
           </tr>
 
@@ -684,13 +684,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="warning">
-            <th>盈利能力</th>
             <td>毛利率(%)</td>
+            <td><kbd>--</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.mll==null)?'--':content[year].cwbl.mll }}</td>
           </tr>
 
@@ -703,13 +703,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="warning">
-            <th>盈利能力</th>
             <td>营业利益率(%)</td>
+            <td><kbd>--</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.yylrl==null)?'--':content[year].cwbl.yylrl }}</td>
           </tr>
 
@@ -724,13 +724,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="unfinish">
-            <th>盈利能力</th>
             <td>经营安全边际率(%)</td>
+            <td><kbd>--</kbd></td>
             <td>--</td>
             <td>--</td>
             <td>--</td>
@@ -746,13 +746,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="warning">
-            <th>盈利能力</th>
             <td>净利率(%)</td>
+            <td><kbd>>2</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.jll==null)?'--':content[year].cwbl.jll }}</td>
           </tr>
 
@@ -767,13 +767,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="warning">
-            <th>盈利能力</th>
             <td>基本每股收益(每股盈余EPS)</td>
+            <td><kbd>--</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.jbmgsy==null)?'--':content[year].cwbl.jbmgsy }} </td>
           </tr>
 
@@ -788,13 +788,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="warning">
-            <th>盈利能力</th>
             <td>净资产收益率(%)ROE</td>
+            <td><kbd>>7</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.jzcsyl==null)?'--':content[year].cwbl.jzcsyl }}</td>
           </tr>
 
@@ -823,13 +823,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="warning">
-            <th>财务结构</th>
             <td>负债占资产比率(%) = 资产负债率(%)</td>
+            <td><kbd>40~60</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.zcfzl==null)?'--':content[year].cwbl.zcfzl }}</td>
           </tr>
 
@@ -843,13 +843,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="active">
-            <th>盈利能力</th>
             <td>毛利率(%)</td>
+            <td><kbd>--</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.mll==null)?'--':content[year].cwbl.mll }}</td>
           </tr>
 
@@ -865,13 +865,13 @@
             </th>
           </tr> 
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="active">
-            <th>盈利能力</th>
             <td>营业利益率(%)</td>
+            <td><kbd>--</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.yylrl==null)?'--':content[year].cwbl.yylrl }}</td>
           </tr>
 
@@ -884,13 +884,13 @@
             </th>
           </tr> 
           <tr>
-            <th>类别</th>
             <th>会计科目</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="active">
-            <td>资产负债表</td>
             <td>现金与约当现金(占总资产%)</td>
+            <td><kbd>>10%</kbd></td>
             <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
           </tr>
 
@@ -905,13 +905,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="warning">
-            <th>财务结构</th>
             <td>长期资金占不动产/厂房及设备比率(%)</td>
+            <td><kbd>>100</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.xjztzbl==null)?'--':content[year].cwbl.xjztzbl }}</td>
           </tr>
 
@@ -940,13 +940,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="warning">
-            <th>偿债能力</th>
             <td>流动比率(%)</td>
+            <td><kbd>>300</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.ldbl==null)?'--':content[year].cwbl.ldbl }}</td>
           </tr>
 
@@ -960,13 +960,13 @@
             </th>
           </tr> 
           <tr>
-            <th>类别</th>
             <th>会计科目</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="active">
-            <td>资产负债表</td>
             <td>现金与约当现金(占总资产%)</td>
+            <td><kbd>>10</kbd></td>
             <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
           </tr>
 
@@ -982,14 +982,14 @@
           </tr> 
 
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
 
           <tr class="active">
-            <th>营运能力</th>
             <td>应收账款周转天数(天)</td>
+            <td><kbd>--</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
           </tr>
 
@@ -1006,14 +1006,14 @@
           </tr> 
 
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
 
           <tr class="active">
-            <th>营运能力</th>
             <td>存货周转天数(天)</td>
+            <td><kbd>--</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.chzzts==null)?'--':content[year].cwbl.chzzts }}</td>
           </tr>
 
@@ -1027,13 +1027,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="warning">
-            <th>偿债能力</th>
             <td>流动比率(%)</td>
+            <td><kbd>>150</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.ldbl==null)?'--':content[year].cwbl.ldbl }}</td>
           </tr>
 
@@ -1049,13 +1049,13 @@
             </th>
           </tr> 
           <tr>
-            <th>类别</th>
             <th>会计科目</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="active">
-            <td>资产负债表</td>
             <td>现金与约当现金(占总资产%)</td>
+            <td><kbd>>10</kbd></td>
             <td v-for="year in years"> {{ (content[year].zcfzbl.xjydxj==null)?'--':content[year].zcfzbl.xjydxj }}</td>
           </tr>
 
@@ -1070,13 +1070,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           <tr class="active">
-            <th>营运能力</th>
             <td>应收账款周转天数(天)</td>
+            <td><kbd><15</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.yszkzzts==null)?'--':content[year].cwbl.yszkzzts }}</td>
           </tr>
 
@@ -1091,13 +1091,13 @@
             </th>
           </tr>
           <tr>
-            <th>类别</th>
             <th>财务比率</th>
+            <th>参考值</th>
             <th v-for="year in years"> {{ year.slice(5) }}</th>
           </tr>
           </tr class="active">
-            <th>营运能力</th>
             <td>总资产周转率(次/年)</td>
+            <td><kbd>>1</kbd></td>
             <td v-for="year in years"> {{ (content[year].cwbl.zzczzl==null)?'--':content[year].cwbl.zzczzl }}</td>
           </tr>
 
