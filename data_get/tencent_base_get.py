@@ -469,9 +469,13 @@ def main():
     err_list =[]
     latest = 5
     # 循环下载公司列表
+    i = 0
     for c in code_list:
         downLoadCompanyData(c,latest,success_list,err_list)
-
+        # 写入进度
+        i = i+1
+        with open('../tmp/tencent_basic_download_current_log.txt','w') as wf:
+            wf.write(str(i)+'/'+str(len(code_list)))
 
 if __name__ == '__main__':
     main()

@@ -55,6 +55,9 @@
 
 
 更新全部公司基本数据(需要4天时间左右)
+```
+➜ mjanalysis/data_get f2269-reditDir ✗ python tencent_base_get.py
+```
 
 
 
