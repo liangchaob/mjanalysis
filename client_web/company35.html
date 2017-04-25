@@ -97,7 +97,7 @@
                         <table class="table table-hover table-bordered panel-body" id="assets_ratio_table">
                           <thead>
                             <tr>
-                              <th>货币现金</th>
+                              <th style="text-align: right;">年份-></th>
                               <th v-for="year in years">{{ year.slice(5) }}</th></tr>
                           </thead>
                           <tbody>
@@ -186,7 +186,7 @@
                               <td v-for="year in years">{{ (content[year].cwbl.zcfzl==null)?'--':content[year].cwbl.zcfzl }}</td></tr>
                             <tr>
                               <td>长期资金占不动产/厂房及设备比率(%)</td>
-                              <td v-for="year in years">{{ (content[year].cwbl.xjztzbl==null)?'--':content[year].cwbl.xjztzbl }}</td></tr>
+                              <td v-for="year in years">{{ (content[year].cwbl.cqzjzbdccfsbbl==null)?'--':(content[year].cwbl.cqzjzbdccfsbbl/100).toFixed(2) }}</td></tr>
                             <tr>
                               <th rowspan="3">偿债能力</th></tr>
                             <tr>
@@ -278,7 +278,7 @@
                               <td>营业活动现金流量(from 损益表)</td>
                               <td v-for="year in years">{{ (content[year].xjllzk.yyhdxjll==null)?'':content[year].xjllzk.yyhdxjll }}</td></tr>
                             <tr>
-                              <td>投资活动现金流量(from 资产负债表左边%)</td>
+                              <td>投资活动现金流量(from 资产负债表左边)</td>
                               <td v-for="year in years">{{ (content[year].xjllzk.tzhdxjll==null)?'--':content[year].xjllzk.tzhdxjll }}</td>
                               <!-- <td>{{ content.data_2013.cwbl.chzzl }}</td> -->
                               <!-- <td>{{ content.data_2014.xjllzk.tzxjl }}</td>
@@ -293,7 +293,39 @@
                         </table>
                       </div>
                     </div>
-                    <!--以上是現金流量狀況表 --></div>
+                    <!--以上是現金流量狀況表 -->
+
+                    <!-- 反馈表 -->
+                    <div class="col-md-12 hidden-md hidden-lg">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">功能描述</div>
+                        <div class="panel-body">
+                          <h5>当前版本功能</h5>
+                          <ul>
+                            <li>将财务数据从近3年换成近5年</li>
+                            <li>使用独孤九剑对数据进行标注</li>
+                            <li>寻找接口或计算得到当前未知的数据</li>
+                            <li>建立行业分类</li>
+                            <li>显著提高查询成功率</li>
+                          </ul>
+                          <h5>下一版本功能预览</h5>
+                          <ul>
+                            <li>算出"现金流量充当比率"</li>
+                            <li>显示出更细节的原始数据</li>
+                            <li>扩充股票范围从2800条至最近股票数量,并保持更新</li>
+                            <li>建立分享与打印功能</li>
+                          </ul>
+                          <p>请有劳诸位小伙伴填写↓下方↓的用户反馈,我们将针对问题持续改进产品,如果对下一版本的功能提供帮助与建议的小伙伴欢迎联系!</p>
+                        </div>
+                        <div class="panel-footer">
+                          <a href="https://jinshuju.net/f/BK0XTt">用户反馈</a>|
+                          <a href="mailto:liangchaob@163.com?subject=<查财报>使用反馈">联系邮箱</a></div>
+                      </div>
+                    </div>
+                    <!-- 反馈表 -->
+
+
+                  </div>
                 </div>
                 <!-- 右侧 -->
                 <!-- 标签1结束 --></div>
@@ -777,15 +809,15 @@
                               <th>参考值</th>
                               <th v-for="year in years">{{ year.slice(5) }}</th></tr>
                             <tr class="warning">
-                              <td>流动比率(%)</td>
+                              <td>速动比率(%)</td>
                               <td>
                                 <kbd>>150</kbd></td>
                               <td v-for="year in years">{{ (content[year].cwbl.ldbl==null)?'--':content[year].cwbl.ldbl }}</td></tr>
                             <tr>
                               <th colspan='7'>
                                 <p style='font-size: 0.2em'>
-                                  <kbd>E2-1</kbd> - 如果流动比率低于
-                                  <mark>300%</mark>,要看手里现金多不多?</p></th>
+                                  <kbd>E2-1</kbd> - 如果速动比率低于
+                                  <mark>150%</mark>,要看手里现金多不多?</p></th>
                             </tr>
                             <tr>
                               <th>会计科目</th>

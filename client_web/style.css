@@ -6,6 +6,11 @@
 
 
 
+    tbody > tr > td{
+        text-align: right;
+    }
+
+
 
 
 /*使用加载动画样式*/

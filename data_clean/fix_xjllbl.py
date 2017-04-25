@@ -20,9 +20,6 @@ def cg2rate(x,y):
         return None
     elif y == None:
         return None
-    # 解决除数不能为0
-    elif y == 0:
-        return None
     else:
         return round(x/y*100,2)
 
@@ -94,16 +91,10 @@ for f_name in file_list:
             result_obj[item]["cwbl"]["jbmgsy"]=content_obj[item]["cwfx_mgzb"]["jbmgsy"]
 
 
-            print content_obj[item]["cwbb_xjllb"]["jyhdcsdxjllje"]
-            print content_obj[item]["cwbb_zcfzb"]["ldfzhj"]
-
-            # 现金流量比率计算
-            xjllbl = cg2rate(content_obj[item]["cwbb_xjllb"]["jyhdcsdxjllje"],content_obj[item]["cwbb_zcfzb"]["ldfzhj"])
-            # xjllbl = 0
 
 
             # 现金流量-现金流量比率
-            result_obj[item]["cwbl"]["xjllbl"] = xjllbl
+            result_obj[item]["cwbl"]["xjllbl"]=content_obj[item]["cwfx_czzb"]["xjbl"]
             # 现金流量-现金流量充当比率
             # 现金流量-现金在投资比率
             # yyhdjxjll=
@@ -112,7 +103,6 @@ for f_name in file_list:
             # cqtz=
             # qtfldzc=
             # yyzj=
-
 
 
 
