@@ -3,6 +3,8 @@
 '''
 * liangchaob@163.com 
 * 2017.3
+
+* 用于从腾讯财经上爬取数据
 '''
 #设置中文字符
 import sys
@@ -55,7 +57,7 @@ def getLastYear(code):
 
 # 获取股票列表
 def openList():
-    f = open('../tmp/data_clean_tushare_companylist.json')
+    f = open('company_code.json')
     data_obj = list(eval(f.read()))
     f.close()
     return data_obj
