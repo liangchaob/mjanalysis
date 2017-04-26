@@ -55,7 +55,7 @@ def getLastYear(code):
 
 # 获取股票列表
 def openList():
-    f = open('company_code.json')
+    f = open('../tmp/data_clean_tushare_companylist.json')
     data_obj = list(eval(f.read()))
     f.close()
     return data_obj
