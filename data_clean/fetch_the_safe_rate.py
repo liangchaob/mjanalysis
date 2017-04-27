@@ -36,11 +36,11 @@ def null2zero(x):
 
 
 # 遍历文件夹
-file_list = os.listdir('../tmp/tencent_total')
+file_list = os.listdir('../tmp/tencent')
 
 error_list = []
 for f_name in file_list:
-    f = open('../tmp/tencent_total/'+f_name)
+    f = open('../tmp/tencent/'+f_name)
     content = f.read()
     f.close()
 
@@ -48,7 +48,7 @@ for f_name in file_list:
     # 遍历一下金融数据,摘出其中有用的
     content_obj=json.loads(content)
 
-    code = content_obj['code']
+    code = f_name[:6]
 
     result_obj = {}
     
@@ -206,7 +206,7 @@ for f_name in file_list:
 
     result_obj['code']=code
     # print result_obj
-    with open('../tmp/result_data/'+f_name,'w') as wf:
+    with open('../tmp/mj_data/'+f_name,'w') as wf:
         wf.write(str(json.dumps(result_obj)))
         print f_name+' complete!!'
 

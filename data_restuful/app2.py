@@ -48,14 +48,14 @@ class companyNameList(restful.Resource):
 
 class companyData(restful.Resource):
     def get(self,company_code):
-        result = db6['c_data_by_tencent'].find({"code":company_code},{"_id":0})
+        result = db6['data_by_tencent'].find({"code":company_code},{"_id":0})
         result = result[0]
         return result,200,{'Access-Control-Allow-Origin': '*'} 
 
 
 class companyDataByMj(restful.Resource):
     def get(self,company_code):
-        result = db6['c_data_by_mj'].find({"code":company_code},{"_id":0})
+        result = db6['data_by_mj'].find({"code":company_code},{"_id":0})
         result = result[0]
         return result,200,{'Access-Control-Allow-Origin': '*'} 
 

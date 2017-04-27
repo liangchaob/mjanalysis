@@ -213,7 +213,7 @@ def main():
         downLoadCompanyData(c,latest,success_list,err_list)
         # 写入进度
         i = i+1
-        with open('../tmp/tencent_basic_download_current_log.txt','w') as wf:
+        with open('../tmp/tencent_anlysis_download_current_log.txt','w') as wf:
             wf.write(str(i)+'/'+str(len(code_list)))
 
 

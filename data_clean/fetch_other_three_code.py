@@ -48,7 +48,7 @@ for f_name in file_list:
     # 遍历一下金融数据,摘出其中有用的
     content_obj=json.loads(content)
 
-    code = content_obj['code']
+    code = f_name[:6]
 
     result_obj = {}
     
@@ -70,7 +70,7 @@ for f_name in file_list:
             # 工程物资
             gcwz = null2zero(content_obj[item]["cwbb_zcfzb"]["gcwz"])
             # 长期资金占不动产/厂房及设备比率 = (所有着权益合计+非流动负债合计)/(固定资产+在建工程+工程物资)
-            result_obj[item]["cwbl"]["cqzjzbdccfsbbl"]=cg2rate((syzqyhj+fldfzhj),(gdzc+zjgc+gcwz))
+            result_obj[item]["cwbl"]["cqzjzbdccfsbbl"]=cg2rate((syzqyhj+fldfzhj),(gdzc+zjgc+gcwz)*100)
 
 
 
@@ -126,7 +126,9 @@ for f_name in file_list:
 
 
             # 现金流量-现金流量比率
-            result_obj[item]["cwbl"]["xjllbl"]=content_obj[item]["cwfx_czzb"]["xjbl"]
+            result_obj[item]["cwbl"]["xjllbl"] =cg2rate(content_obj[item]["cwbb_xjllb"]["jyhdcsdxjllje"],content_obj[item]["cwbb_zcfzb"]["ldfzhj"])
+            
+
             # 现金流量-现金流量充当比率
 
 
