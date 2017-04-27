@@ -24,7 +24,7 @@ file_list = os.listdir('../tmp/result_data')
 for f_name in file_list:
     f = open('../tmp/result_data/'+f_name)
     data_obj = json.loads(f.read())
-    db['c_data_by_mj'].insert(data_obj)
+    db['data_by_mj'].insert(data_obj)
     f.close()
     print f_name+' insert success!'
 

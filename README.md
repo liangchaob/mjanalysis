@@ -54,12 +54,34 @@
 ```
 
 
-更新全部公司基本数据(需要4天时间左右)
+更新全部公司基本数据(需要1天时间左右)
 ```
 ➜ mjanalysis/data_get f2269-reditDir ✗ python tencent_base_get.py
 ```
 
 
+
+更新全部公司分析数据(需要2天时间左右)
+```
+➜ mjanalysis/data_get f2269-reditDir ✗ python tencent_anlysis_get.py
+```
+
+
+合并数据
+```
+➜ mjanalysis/data_clean f2269-reditDir-fixAnlysisDownload ✗ python combineobj.py
+```
+
+分数据成为mj三张表
+```
+➜ mjanalysis/data_clean f2269-reditDir-fixAnlysisDownload ✗ fetch_other_three_code.py
+```
+
+
+插入数据
+```
+➜ mjanalysis/data_import f2269-reditDir-fixAnlysisDownload ✗ python insert_data_by_mj.py
+```
 
 
 
