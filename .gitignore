@@ -1,0 +1,10 @@
+tmp/*
+
+tmp.bak/*
+
+*.pyc
+
+test/*
+
+.DS_Store/
+
