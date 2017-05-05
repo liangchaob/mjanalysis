@@ -1,9 +1,5 @@
 # mjanalysis
-
-当前版本是α测试版本,当前可用 client是 company19.html
-
-
-当前版本是α测试版本,当前可用 client是 company35.html
+当前版本是α测试版本,当前可用 client是 index02.html
 
 
 ### 当前版本功能
@@ -32,6 +28,14 @@
 - tmp/data_collected_* - 收集到的数据
 - tmp/data_cleaned_* - 清洗过的数据
 
+- script_collect - 收集数据
+- script_clean - 清洗数据
+- script_import - 导入数据库的数据
+- tmp - 入库前的临时文件
+
+
+
+
 数据库
 - mjschool_db - nosql库名
 - mjschool_db/data_by_tushare_companylist - 来自tushare的公司列表 
@@ -42,45 +46,58 @@
 
 
 ###常用操作
-更新公司列表
+从tushare获取公司列表
 ```
 从 tushare 获取最新版公司基本数据
-➜ mjanalysis/data_get f2269-reditDir ✗ python getdata_from_tushare.py
+➜ mjanalysis/data_collect f2269-reditDir ✗ python get_tushare_companybasic.py
 
 重新整理公司数据成为列表状态
-➜ mjanalysis/data_clean f2269-reditDir ✗ python updata_tushare_companybasic.py                                                                  1:17:43
+➜ mjanalysis/data_edit f2269-reditDir ✗ python fetch_tushare_companybasic_list.py
+
+* 将公司列表合并成为基本带繁体列表
+➜ mjanalysis/data_edit f2271-delUselessDir ✗ python combine_tushare_companybasic_list_zh_tw.py
+
 提取列表成为可用 dict
-➜ mjanalysis/data_clean f2269-reditDir ✗ python fetch_tushare_companylist.py
+➜ mjanalysis/data_edit f2269-reditDir ✗ python fetch_tushare_companybasic_list_simple.py
+
+* 将公司列表合并成为简单繁体显示列表
+➜ mjanalysis/data_edit f2271-delUselessDir ✗ python combine_tushare_companybasic_list_simple_zh_tw.py
+
 ```
 
 
-更新全部公司基本数据(需要1天时间左右)
+按照公司列表从腾讯证券获取数据
 ```
-➜ mjanalysis/data_get f2269-reditDir ✗ python tencent_base_get.py
+更新腾讯基本数据(需要1天时间左右)
+➜ mjanalysis/data_collect f2269-reditDir ✗ python get_tencent_basic.py
+
+更新腾讯分析数据(需要2天时间左右)
+➜ mjanalysis/data_collect f2269-reditDir ✗ python get_tencent_analysis.py
 ```
 
 
 
-更新全部公司分析数据(需要2天时间左右)
+
+处理数据
 ```
-➜ mjanalysis/data_get f2269-reditDir ✗ python tencent_anlysis_get.py
+合并腾讯基本数据与分析数据
+➜ mjanalysis/data_edit f2269-reditDir-fixAnlysisDownload ✗ python combine_tencent_basicanalysis.py
+
+提取mj关键指标
+➜ mjanalysis/data_edit f2269-reditDir-fixAnlysisDownload ✗ fetch_tencent_mj_data.py
 ```
 
 
-合并数据
+插入数据库
 ```
-➜ mjanalysis/data_clean f2269-reditDir-fixAnlysisDownload ✗ python combineobj.py
-```
+插入合并后的 tencent 数据
+➜ mjanalysis/data_insert f2269-reditDir-fixAnlysisDownload ✗ python insert_tencent_combine_data.py
 
-分数据成为mj三张表
-```
-➜ mjanalysis/data_clean f2269-reditDir-fixAnlysisDownload ✗ fetch_other_three_code.py
-```
+插入提取过的mj数据
+➜ mjanalysis/data_insert f2269-reditDir-fixAnlysisDownload ✗ python insert_tencent_mj_data.py
 
-
-插入数据
-```
-➜ mjanalysis/data_import f2269-reditDir-fixAnlysisDownload ✗ python insert_data_by_mj.py
+插入公司的基本信息
+➜ mjanalysis/data_insert f2269-reditDir-fixAnlysisDownload ✗ python insert_tushare_companybasic_list_zh_tw.py
 ```
 
 
