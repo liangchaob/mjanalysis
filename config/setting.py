@@ -23,7 +23,13 @@ def env(arg):
     # 如果名字中包含 aliyun
     if 'aliyun' in hostname:
         print 'Loading PRODUCTION config...'
-        return s['production'][arg]
+        return s['production_aliyun'][arg]
+
+    # 如果名字中包含 huawei
+    if 'huawei' in hostname:
+        print 'Loading PRODUCTION config...'
+        return s['production_huawei'][arg]
+
     # 否则是本地环境
     else:
         print 'Loading DEVELOPMENT config...'

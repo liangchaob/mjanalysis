@@ -1,9 +1,17 @@
-production:
-  web_host: 115.28.49.33
+production_aliyun:
+  web_host: 121.42.165.13
   web_port: 8088
   db_host: 0.0.0.0
   db_port: 27018
   debug: False
+
+production_huawei:
+  web_host: 192.168.1.5
+  web_port: 8088
+  db_host: 0.0.0.0
+  db_port: 27018
+  debug: False
+
 
 development:
   web_host: 0.0.0.0
