@@ -76,13 +76,21 @@
           <!-- 内边距内 -->
           <div class="row">
 
-            <div class="col-md-12">
+
+            <div class="col-md-6">
               <h1>{{ content1.name }} </h1>
                 <kbd style="font-size: 1em">股票代码:{{ content1.code }}</kbd>
                 <kbd style="font-size: 1em">行业:{{ content1.industry }}</kbd>
                 <br>
-
             </div>
+
+            <div class="col-md-6">
+              <div style="float: right">
+                <h1>¥ <span id="code_price"></span></h1>
+                <p style="font-size: 0.2em" id="code_price_last_update"></p>
+              </div>
+            </div>
+
             <!-- 标签页栏目 -->
             <div class="col-md-12">
               <ul id="myTab" class="nav nav-tabs">
@@ -890,15 +898,19 @@
         <!-- 内边距内部结束 --></div>
     </div>
 
+
+
+
+        <!-- 打印报告 -->
         <hr>
         <div class="row">
           <div class="col-md-3" style="float: right;height: 40px;">
             <a href="#" onclick="jsPrintAction()">打印该公司报告</a>
-<!--             <input type="button" onclick="jsPrintAction()" value="打印该公司报告" style="display: inline-block;" />
-            <br> -->
           </div>
 
         </div>
+
+
 
 
     <!-- 最外围显示结束 -->
@@ -1163,6 +1175,35 @@ $(function() {
                 }
               });
 
+
+              // 从新浪获取价格
+              // 如果第一位是6,则为沪市
+              if (company_code.slice(0, 1)[0]=='6') {
+                  fullcode ='sh'+company_code;
+              } else {
+                  fullcode ='sz'+company_code;
+              };
+              // 获取新浪实时数据
+              $.ajax({
+                
+                url: "http://hq.sinajs.cn/list="+fullcode,
+                dataType: "script",
+                cache: true ,
+                success: function() {
+
+                  eval('response = hq_str_'+fullcode);
+                  response_list = response.split(',');
+                  current_price = response_list[3];
+                  current_time = response_list[30]+' '+response_list[31];
+                  console.log(current_price);
+                  console.log(current_time);
+                  $('#code_price').text(current_price);
+                  $('#code_price_last_update').text(current_time);
+                }  
+              });
+
+
+
             }
           }
         }
@@ -1184,6 +1225,25 @@ function jsPrintAction(){
   $("#jsprint-area").jqprint();
   $(".version-info").show();
 }
+</script>
+
+
+<script>
+
+
+
+// $.ajax({
+//   url: "http://hq.sinajs.cn/list=sh601006",
+//   dataType: "script",
+//   success: function(data) {
+//     console.log(data);
+//   }
+
+  
+// });
+
+
+// console.log(hq_str_sh601006);
 </script>
 
   </body>
