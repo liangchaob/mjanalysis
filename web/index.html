@@ -1163,6 +1163,37 @@ $(function() {
 
                 complete: function() {
                   $("#loader").remove();
+
+
+                  // 如果能成功加载信息再显示新浪
+                  // 从新浪获取价格
+                  // 如果第一位是6,则为沪市
+                  if (company_code.slice(0, 1)[0]=='6') {
+                      fullcode ='sh'+company_code;
+                  } else {
+                      fullcode ='sz'+company_code;
+                  };
+                  // 获取新浪实时数据
+                  $.ajax({
+                    
+                    url: "http://hq.sinajs.cn/list="+fullcode,
+                    dataType: "script",
+                    cache: true ,
+                    success: function() {
+
+                      eval('response = hq_str_'+fullcode);
+                      response_list = response.split(',');
+                      current_price = response_list[3];
+                      current_time = response_list[30]+' '+response_list[31];
+                      console.log(current_price);
+                      console.log(current_time);
+                      $('#code_price').text(current_price);
+                      $('#code_price_last_update').text(current_time);
+                    }  
+                  });
+
+
+
                 },
                 //
                 success: function(data_obj) {
@@ -1177,34 +1208,6 @@ $(function() {
                   vm.content1 = 'failed'
                 }
               });
-
-
-              // 从新浪获取价格
-              // 如果第一位是6,则为沪市
-              if (company_code.slice(0, 1)[0]=='6') {
-                  fullcode ='sh'+company_code;
-              } else {
-                  fullcode ='sz'+company_code;
-              };
-              // 获取新浪实时数据
-              $.ajax({
-                
-                url: "http://hq.sinajs.cn/list="+fullcode,
-                dataType: "script",
-                cache: true ,
-                success: function() {
-
-                  eval('response = hq_str_'+fullcode);
-                  response_list = response.split(',');
-                  current_price = response_list[3];
-                  current_time = response_list[30]+' '+response_list[31];
-                  console.log(current_price);
-                  console.log(current_time);
-                  $('#code_price').text(current_price);
-                  $('#code_price_last_update').text(current_time);
-                }  
-              });
-
 
 
             }
