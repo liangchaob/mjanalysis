@@ -84,7 +84,7 @@
 ➜ mjanalysis/data_edit f2269-reditDir-fixAnlysisDownload ✗ python combine_tencent_basicanalysis.py
 
 提取mj关键指标
-➜ mjanalysis/data_edit f2269-reditDir-fixAnlysisDownload ✗ fetch_tencent_mj_data.py
+➜ mjanalysis/data_edit f2269-reditDir-fixAnlysisDownload ✗ python fetch_tencent_mj_data.py
 ```
 
 
@@ -97,7 +97,7 @@
 ➜ mjanalysis/data_insert f2269-reditDir-fixAnlysisDownload ✗ python insert_tencent_mj_data.py
 
 插入公司的基本信息
-➜ mjanalysis/data_insert f2269-reditDir-fixAnlysisDownload ✗ python insert_tushare_companybasic_list_zh_tw.py
+➜ mjanalysis/data_insert f2269-reditDir-fixAnlysisDownload ✗ python insert_tushare_basic.py
 ```
 
 

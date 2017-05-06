@@ -197,6 +197,6 @@ for f_name in file_list:
     # print result_obj
     with open('../tmp/tencent_mj_data/'+f_name,'w') as wf:
         wf.write(str(json.dumps(result_obj)))
-        print f_name+' complete!!'
+        print f_name+' fetch mj_data complete!!'
 
 
