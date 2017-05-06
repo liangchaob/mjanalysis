@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="http://odor1hjie.bkt.clouddn.com/jquery.js"></script>
+</head>
+<body>
+
+
+<h1>OK</h1>
+
+
+<div class="col-md-6">
+  <div style="float: right">
+    <h1>¥ <span id="code_price"></span></h1>
+    <p style="font-size: 0.2em" id="code_price_last_update"></p>
+  </div>
+
+</div>
+
+<script>
+
+
+
+
+
+
+code = '000555'
+
+
+// 如果第一位是6,则为沪市
+if (code.slice(0, 1)[0]=='6') {
+    fullcode ='sh'+code;
+} else {
+    fullcode ='sz'+code;
+};
+
+
+// 获取新浪实时数据
+$.ajax({
+  
+  url: "http://hq.sinajs.cn/list="+fullcode,
+  dataType: "script",
+  cache: true ,
+  success: function() {
+
+    eval('response = hq_str_'+fullcode);
+    response_list = response.split(',');
+    current_price = response_list[3];
+    current_time = response_list[30]+' '+response_list[31];
+    console.log(current_price);
+    console.log(current_time);
+    $('#code_price').text(current_price);
+    $('#code_price_last_update').text(current_time);
+  }  
+});
+
+
+// console.log(hq_str_sh601006);
+</script>
+
+</body>
+</html>

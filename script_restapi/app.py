@@ -52,7 +52,7 @@ LATEST = 3
 #         result = result[0]
 #         return result,200,{'Access-Control-Allow-Origin': '*'} 
 
-# 公司数据
+# 公司基本数据
 class companyDataByTencnet(restful.Resource):
     def get(self,company_code):
         result = db6['data_by_tencent'].find({"code":company_code},{"_id":0})
@@ -63,10 +63,10 @@ class companyDataByTencnet(restful.Resource):
 
 
 
-# 公司数据
+# 公司 mj数据
 class companyDataByMj(restful.Resource):
     def get(self,company_code):
-        result = db6['data_by_mj'].find({"code":company_code},{"_id":0})
+        result = db6['data_by_mj_tencent'].find({"code":company_code},{"_id":0})
         result = result[0]
         return result,200,{'Access-Control-Allow-Origin': '*'} 
 

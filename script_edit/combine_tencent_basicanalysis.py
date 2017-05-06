@@ -27,7 +27,7 @@ file_list = os.listdir('../tmp/tencent_analysis')
 error_list = []
 for f_name in file_list:
     # 如果读到后缀为 basic的
-    if f_name[-10:] == 'analysis.json':
+    if f_name[-13:] == 'analysis.json':
         code = f_name[:6]
         # 寻找该文件名后缀为 anlysis 的
         try:
@@ -91,11 +91,11 @@ for f_name in file_list:
             with open('../tmp/tencent_combine/'+code+'.json','w') as wf:
                 wf.write(json.dumps(data_obj))
 
-            print f_name+' insert success!'
+            print code+'.json'+' combine success!'
 
         except Exception as e:
             error_list.append(code)
-            print f_name+' insert failed!'
+            print code+'.json'+' combine failed!'
 
 
         with open('../tmp/error/combine_tencent_basic_analysis_errlist','w') as wf:
