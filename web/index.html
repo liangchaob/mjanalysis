@@ -974,7 +974,22 @@ $(function() {
             $('#searchResult').append('<button type="button" class="btn btn-default btn_result" onclick="updataInputAndClick(\'' + value + '\')" id="' + value_code + '">' + value + '</button> ');
           }
         }
-      }
+      };
+
+
+     // 点击链接的 js 操作
+     function updataInputAndClick(code_name) {
+        // 填入数值
+        $('#tags_input').val(code_name);
+        // 点击查询
+        $('#input_search').click();
+        // 移除搜索结果
+        $('#searchResult *').remove();
+      };
+
+
+
+
 
       // 筛除缓存与数据重复的部分
       function cacheCheck(higher_cache, lower_cache) {
@@ -988,7 +1003,7 @@ $(function() {
           }
         }
         return lower_cache;
-      }
+      };
 
       // 搜索框
       function searchSource() {
@@ -1104,10 +1119,6 @@ $(function() {
                 result = result.slice(0, -3)
                };
                return result;
-
-
-
-
             }
           }
         },
@@ -1188,7 +1199,7 @@ $(function() {
                       console.log(current_price);
                       console.log(current_time);
                       $('#code_price').text(current_price);
-                      $('#code_price_last_update').text(current_time);
+                      $('#code_price_last_update').text(current_time); 
                     }  
                   });
 
@@ -1213,16 +1224,15 @@ $(function() {
             }
           }
         }
-      })
+      });
 
-      function updataInputAndClick(code_name) {
-        // 填入数值
-        $('#tags_input').val(code_name);
-        // 点击查询
-        $('#input_search').click();
-        // 移除搜索结果
-        $('#searchResult *').remove();
-      };</script>
+
+
+
+
+
+
+</script>
 
 <script>
 
