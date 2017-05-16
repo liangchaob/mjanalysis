@@ -25,7 +25,7 @@ headers = {
 
 # 获取股票列表
 def openList():
-    f = open('../tmp/data_tushare_companybasic_list_simple.json')
+    f = open('../tmp/data_cfi_companyindex.json')
     data_obj = list(eval(f.read()))
     f.close()
     return data_obj

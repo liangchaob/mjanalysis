@@ -75,6 +75,12 @@
 ➜ mjanalysis/script_collect f2269-reditDir ✗ python get_tencent_analysis.py
 ```
 
+按照公司列表从中财获得数据
+```
+➜ mjanalysis/script_collect f2284-fetchCfiIndex ✗ python get_cfi_index.py
+```
+
+
 
 
 
