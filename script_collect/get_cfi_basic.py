@@ -107,7 +107,7 @@ def downLoadCompanyData(code_dic,download_years,season_list,success_list,err_lis
                     error_message =  code_dic.keys()[0] +' '+ y +' '+ month + ' '+t+' not exist!\n'
                     print error_message
                     with open('../tmp/error/cfi_basic_download_failed.txt','w') as wf:
-                        wf.write(errlist)
+                        wf.write(json.dumps(table_dict))
 
 
 
