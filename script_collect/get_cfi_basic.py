@@ -47,6 +47,7 @@ table_list = ['zcfzb_x','lrfpb_x','xjll']
 # 下载公司数据
 def downLoadCompanyData(code_dic,download_years,season_list,success_list,err_list):
 
+
     # 循环三张表
     for t in table_list:
         # 循环年
@@ -56,7 +57,7 @@ def downLoadCompanyData(code_dic,download_years,season_list,success_list,err_lis
 
             # 结果
             current_url = url_template.format(index=code_dic.values()[0],year=y,table=t)
-            print current_url
+            # print current_url
             # 爬取结果
             response = requests.request("GET", current_url, headers=headers)
             # 获得字符串
@@ -396,7 +397,7 @@ table_xjllb={
     'jyhdxjlrtzxm': 18,
     'jyhdxjlrxj': 19,
     'gmspjslwzfdxj': 20,
-    'zfgzgyjwzgzfdxj':21
+    'zfgzgyjwzgzfdxj':21,
     'zfdgxsf': 22,
     'khdkjdkjzje': 23,
     'cfzyyhhtekxjzje': 24,
