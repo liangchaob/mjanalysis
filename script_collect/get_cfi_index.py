@@ -71,7 +71,7 @@ def main():
 
         # 写入进度
         i = i+1
-        with open('../tmp/cfi_base_download_current_log.txt','w') as wf:
+        with open('../tmp/cfi_index_download_current_log.txt','w') as wf:
             wf.write(str(i)+'/'+str(len(code_list)))
 
 
