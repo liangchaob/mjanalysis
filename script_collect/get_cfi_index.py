@@ -59,7 +59,7 @@ def main():
             success_list.append({c:index_code})
             with open('../tmp/data_cfi_companyindex.json','w') as wf:
                 wf.write(json.dumps(success_list))
-            print c + ' download success!'
+            # print c + ' download success!'
 
         # 写入错误文件
         except Exception as e:
@@ -67,7 +67,7 @@ def main():
             err_obj = {"download_error":err_list}
             with open('../tmp/error/download_cfi_basic_failed.json','w') as wf:
                 wf.write(json.dumps(err_obj))
-            print c + ' download failed!'
+            # print c + ' download failed!'
 
         # 写入进度
         i = i+1
