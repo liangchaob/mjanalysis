@@ -10,3 +10,4 @@ mkdir ../tmp/tencent_analysis
 mkdir ../tmp/tencent_combine
 mkdir ../tmp/tencent_mj_data
 mkdir ../tmp/cfi_basic
+mkdir ../tmp/cfi_analysis

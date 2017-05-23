@@ -33,15 +33,6 @@ def openList():
 
 
 
-
-
-
-
-
-
-
-
-
 table_list = ['zcfzb_x','lrfpb_x','xjll']
 
 # 下载公司数据
@@ -77,7 +68,7 @@ def downLoadCompanyData(code_dic,download_years,success_list,err_list):
             for td in tds:
                 # 季度列表
                 season_list.append(td.text)
-                month = td.text
+                table_date = td.text
                 # 获取季节column 数目
                 # season_num = len(tds)
 
@@ -95,16 +86,17 @@ def downLoadCompanyData(code_dic,download_years,success_list,err_list):
                 table_dict['cfi_index']=code_dic.values()[0]
                 table_dict['code']=code_dic.keys()[0]
                 table_dict['year']=y
-                table_dict['month']=td.text
+                # 截取月
+                table_dict['month']=td.text[5:7]
                 content_data = json.dumps(table_dict)
                 try:
-                    with open('../tmp/cfi_basic/'+code_dic.keys()[0]+'-'+month+'-basic-'+t+'.json','w') as wf:
+                    with open('../tmp/cfi_basic/'+code_dic.keys()[0]+'-'+table_date+'-basic-'+table_dict['table_type']+'.json','w') as wf:
                         wf.write(content_data)
                     # print code_dic.keys()[0]+'-'+month+'-basic-'+t+' download success!' 
                 except Exception as e:
                     errlist = []
-                    errlist.append(code_dic.keys()[0]+'-'+ month + '-'+t)
-                    error_message = code_dic.keys()[0] +'-'+ month + '-'+t+' not exist!\n'
+                    errlist.append(code_dic.keys()[0]+'-'+ table_date + '-'+table_dict['table_type'])
+                    error_message = code_dic.keys()[0] +'-'+ table_date + '-'+table_dict['table_type']+' not exist!\n'
                     print error_message
 
                     with open('../tmp/error/cfi_basic_download_failed.txt','w') as wf:
@@ -119,13 +111,16 @@ def fetch_table_data(table_name,selector,cols_num):
     # 如果是资产负债表
     if table_name == "zcfzb_x":
         current_table = table_zcfzb
+        data_obj['table_type'] = 'zcfzb'
 
     # 如果是利润表
     elif table_name == "lrfpb_x":
         current_table = table_lrb
+        data_obj['table_type'] = 'lrb'
     # 如果是现金流量表
     elif table_name == "xjll":
         current_table = table_xjllb
+        data_obj['table_type'] = 'xjllb'
 
     else:
         print 'error'
@@ -141,6 +136,8 @@ def fetch_table_data(table_name,selector,cols_num):
         # 打印指定列的内容
         # print t +' : '+current_td.text
         data_obj[t]=current_td.text
+
+
 
 
     return data_obj
@@ -298,7 +295,7 @@ table_zcfzb={
 
 # 利润表
 table_lrb={
-    'yysr': 3,
+    # 'yysr': 3,
     'yyzsr': 4,
     'yysr': 5,
     'lxjsr': 6,
