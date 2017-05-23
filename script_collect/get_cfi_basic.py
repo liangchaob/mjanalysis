@@ -510,7 +510,7 @@ def main():
     code_list = openList()
     success_list = []
     err_list =[]
-    download_years = ['2016']
+    download_years = ['2017','2016','2015','2014','2013','2012']
     # season_list = ['12-31','09-30','06-30','03-31']
     # 循环下载公司列表
     i = 0
