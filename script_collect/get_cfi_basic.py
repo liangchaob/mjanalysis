@@ -45,7 +45,7 @@ def openList():
 table_list = ['zcfzb_x','lrfpb_x','xjll']
 
 # 下载公司数据
-def downLoadCompanyData(code_dic,download_years,season_list,success_list,err_list):
+def downLoadCompanyData(code_dic,download_years,success_list,err_list):
 
 
     # 循环三张表
@@ -68,46 +68,48 @@ def downLoadCompanyData(code_dic,download_years,season_list,success_list,err_lis
 
 
             # 识别总共当年有多少个季度
-            tds = selector.xpath("//table[@class='vertical_table']//tr[2]/td")
-            # 获取季节column 数目
-            season_num = len(tds)-1
+            tds = selector.xpath("//table[@class='vertical_table']//tr[2]/td/font")
 
 
+            season_list = []
+            cols_num = 0
+            # 改成了只获取 font 内内容
+            for td in tds:
+                # 季度列表
+                season_list.append(td.text)
+                month = td.text
+                # 获取季节column 数目
+                # season_num = len(tds)
+
+                # 建立一个字典下载单季度的财报
+                table_dict = fetch_table_data(t,selector,cols_num)
 
 
+                # cols_num 自加
+                cols_num = cols_num +1
 
 
-            # 循环季度
-            for month in season_list:
-                # 如果这个季度存在,就把这个季度数据下载下来
-                if season_exist(season_num,month):
-                    # 获取对应的列
-                    cols_num = match_column(month)
+                # 保存每个季度的数据,格式为 code+season_num+table_name.json
 
-                    # 建立一个字典
-                    table_dict = fetch_table_data(t,selector,cols_num)
-
-                    # 补上公司代码,index,和日期
-                    table_dict['cfi_index']=code_dic.values()[0]
-                    table_dict['code']=code_dic.keys()[0]
-                    table_dict['year']=y
-                    table_dict['month']=month
-                    # 把字典转成字符串
-                    content_data = json.dumps(table_dict)
-
-                    # 检查必要的文件夹结构是否存在
-
-                    # 写入文件
-                    with open('../tmp/cfi_basic/'+code_dic.keys()[0]+'_'+y+'_'+month+'_basic_'+t+'.json','w') as wf:
+                # 补上公司代码,index,和日期
+                table_dict['cfi_index']=code_dic.values()[0]
+                table_dict['code']=code_dic.keys()[0]
+                table_dict['year']=y
+                table_dict['month']=td.text
+                content_data = json.dumps(table_dict)
+                try:
+                    with open('../tmp/cfi_basic/'+code_dic.keys()[0]+'-'+month+'-basic-'+t+'.json','w') as wf:
                         wf.write(content_data)
-
-                else:
+                    # print code_dic.keys()[0]+'-'+month+'-basic-'+t+' download success!' 
+                except Exception as e:
                     errlist = []
-                    errlist.append(code_dic.keys()[0]+'_'+ y +'_'+ month + '_'+t)
-                    error_message =  code_dic.keys()[0] +' '+ y +' '+ month + ' '+t+' not exist!\n'
+                    errlist.append(code_dic.keys()[0]+'-'+ month + '-'+t)
+                    error_message = code_dic.keys()[0] +'-'+ month + '-'+t+' not exist!\n'
                     print error_message
+
                     with open('../tmp/error/cfi_basic_download_failed.txt','w') as wf:
-                        wf.write(json.dumps(error_message))
+                        wf.write(json.dumps(errlist))
+
 
 
 
@@ -499,21 +501,7 @@ table_xjllb={
     'j_xjjeqhdbtzxm': 120
 }
 
-# 输入季度号和行数,如果目前给的行数大于对应的需求就认为这个季度的数据存在,返回 true
-def season_exist(season_num,month):
-    pass_dict = {'12':4,'9':3,'6':2,'3':1}
-    if season_num >= pass_dict[month]:
-        return True
-    else:
-        return False
-    
 
-
-# 建立一个季节数字和获取列的匹配关系,输入列表中的姐姐好,返回在第几列
-def match_column(month):
-    # 三月即最后一列,6月倒数第二列...(需要注意排除第一列)
-    column_dict ={'3':-1,'6':-2,'9':-3,'12':-4}
-    return column_dict[month]
 
 
 
@@ -526,13 +514,13 @@ def main():
     success_list = []
     err_list =[]
     download_years = ['2016']
-    season_list = ['12','9']
+    # season_list = ['12-31','09-30','06-30','03-31']
     # 循环下载公司列表
     i = 0
     # 先指定公司
     for c in code_list:
 
-        downLoadCompanyData(c,download_years,season_list,success_list,err_list)
+        downLoadCompanyData(c,download_years,success_list,err_list)
         # 写入进度
         i = i+1
         with open('../tmp/cfi_basic_download_current_log.txt','w') as wf:
