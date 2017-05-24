@@ -92,15 +92,14 @@ def downLoadCompanyData(code_dic,download_years,success_list,err_list):
                 try:
                     with open('../tmp/cfi_analysis/'+code_dic.keys()[0]+'-'+table_date+'-analysis-'+table_dict['table_type']+'.json','w') as wf:
                         wf.write(content_data)
-                    print code_dic.keys()[0]+'-'+table_date+'-analysis-'+t+' download success!' 
+                    # print code_dic.keys()[0]+'-'+table_date+'-analysis-'+t+' download success!' 
                 except Exception as e:
-                    errlist = []
-                    errlist.append(code_dic.keys()[0]+'-'+ table_date + '-'+table_dict['table_type'])
+                    err_list.append(code_dic.keys()[0]+'-'+ table_date + '-'+table_dict['table_type'])
                     error_message = code_dic.keys()[0] +'-'+ table_date + '-'+table_dict['table_type']+' not exist!\n'
                     print error_message
 
                     with open('../tmp/error/cfi_analysis_download_failed.txt','w') as wf:
-                        wf.write(json.dumps(errlist))
+                        wf.write(json.dumps(err_list))
 
 
 
@@ -869,11 +868,23 @@ def main():
     # 先指定公司
     for c in code_list:
 
-        downLoadCompanyData(c,download_years,success_list,err_list)
-        # 写入进度
-        i = i+1
-        with open('../tmp/cfi_analysis_download_current_log.txt','w') as wf:
-            wf.write(str(i)+'/'+str(len(code_list)))
+        try:
+            downLoadCompanyData(c,download_years,success_list,err_list)
+            # 写入进度
+            i = i+1
+            with open('../tmp/cfi_analysis_download_current_log.txt','w') as wf:
+                wf.write(str(i)+'/'+str(len(code_list)))
+
+
+        except Exception as e:
+            # print error_message
+            err_list.append(c)
+            with open('../tmp/error/cfi_analysis_download_failed.txt','w') as wf:
+                wf.write(json.dumps(err_list))
+                
+            with open('../tmp/error/cfi_analysis_download_failed_reason.txt','w') as wf:
+                wf.write(str(e))
+
 
 if __name__ == '__main__':
     main()
