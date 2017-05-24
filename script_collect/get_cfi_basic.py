@@ -66,6 +66,7 @@ def downLoadCompanyData(code_dic,download_years,success_list,err_list):
             cols_num = 0
             # 改成了只获取 font 内内容
             for td in tds:
+
                 # 季度列表
                 season_list.append(td.text)
                 table_date = td.text
@@ -94,13 +95,12 @@ def downLoadCompanyData(code_dic,download_years,success_list,err_list):
                         wf.write(content_data)
                     # print code_dic.keys()[0]+'-'+month+'-basic-'+t+' download success!' 
                 except Exception as e:
-                    errlist = []
-                    errlist.append(code_dic.keys()[0]+'-'+ table_date + '-'+table_dict['table_type'])
+                    err_list.append(code_dic.keys()[0]+'-'+ table_date + '-'+table_dict['table_type'])
                     error_message = code_dic.keys()[0] +'-'+ table_date + '-'+table_dict['table_type']+' not exist!\n'
                     print error_message
 
                     with open('../tmp/error/cfi_basic_download_failed.txt','w') as wf:
-                        wf.write(json.dumps(errlist))
+                        wf.write(json.dumps(err_list))
 
 
 
@@ -516,12 +516,25 @@ def main():
     i = 0
     # 先指定公司
     for c in code_list:
+        try:
+            downLoadCompanyData(c,download_years,success_list,err_list)
+            # 写入进度
+            i = i+1
+            with open('../tmp/cfi_basic_download_current_log.txt','w') as wf:
+                wf.write(str(i)+'/'+str(len(code_list)))
 
-        downLoadCompanyData(c,download_years,success_list,err_list)
-        # 写入进度
-        i = i+1
-        with open('../tmp/cfi_basic_download_current_log.txt','w') as wf:
-            wf.write(str(i)+'/'+str(len(code_list)))
+        # 添加错误处理
+        except Exception as e:
+            # print error_message
+            err_list.append(c)
+            with open('../tmp/error/cfi_basic_download_failed.txt','w') as wf:
+                wf.write(json.dumps(err_list))
+                
+            with open('../tmp/error/cfi_basic_download_failed_reason.txt','w') as wf:
+                wf.write(str(e))
+
+
+
 
 if __name__ == '__main__':
     main()
