@@ -25,7 +25,7 @@ headers = {
 
 # 获取股票列表
 def openList():
-    f = open('../tmp/data_cfi_companyindex.json')
+    f = open('../tmp/data_cfi_companyindex_error.json')
     data_obj = list(eval(f.read()))
     f.close()
     return data_obj
@@ -528,7 +528,7 @@ def main():
             downLoadCompanyData(c,download_years,success_list,err_list)
             # 写入进度
             i = i+1
-            with open('../tmp/cfi_basic_download_current_log.txt','w') as wf:
+            with open('../tmp/cfi_basic_download_current_log_error.txt','w') as wf:
                 wf.write(str(i)+'/'+str(len(code_list)))
 
         # 添加错误处理
