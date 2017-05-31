@@ -30,7 +30,7 @@ def openList():
 
 def fetchCompanyIndex(code):
     # print code
-    current_url = "http://gg.cfi.cn/" + code + ".html"
+    current_url = "http://quote.cfi.cn/" + code + ".html"
 
     # 爬取结果
     response = requests.request("GET", current_url, headers=headers)

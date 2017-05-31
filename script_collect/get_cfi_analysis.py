@@ -27,6 +27,7 @@ headers = {
 def openList():
     f = open('../tmp/data_cfi_companyindex.json')
     data_obj = list(eval(f.read()))
+    print data_obj
     f.close()
     return data_obj
 
@@ -44,7 +45,8 @@ def downLoadCompanyData(code_dic,download_years,success_list,err_list):
         # 循环年
         for y in download_years:
             # 获得资产负债表模板
-            url_template = "http://gg.cfi.cn/quote.aspx?contenttype={table}&stockid={index}&jzrq={year}"
+            url_template = "http://quote.cfi.cn/quote.aspx?contenttype={table}&stockid={index}&jzrq={year}"
+
 
             # 结果
             current_url = url_template.format(index=code_dic.values()[0],year=y,table=t)
@@ -61,7 +63,7 @@ def downLoadCompanyData(code_dic,download_years,success_list,err_list):
             # 识别总共当年有多少个季度
             tds = selector.xpath("//table[@class='vertical_table']//tr[2]/td/font")
 
-
+            # print tds
             season_list = []
             cols_num = 0
             # 改成了只获取 font 内内容
@@ -90,10 +92,13 @@ def downLoadCompanyData(code_dic,download_years,success_list,err_list):
                 table_dict['month']=td.text[5:7]
                 content_data = json.dumps(table_dict)
                 try:
+                    # print 'start writing'
                     with open('../tmp/cfi_analysis/'+code_dic.keys()[0]+'-'+table_date+'-analysis-'+table_dict['table_type']+'.json','w') as wf:
                         wf.write(content_data)
+
                     # print code_dic.keys()[0]+'-'+table_date+'-analysis-'+t+' download success!' 
                 except Exception as e:
+
                     err_list.append(code_dic.keys()[0]+'-'+ table_date + '-'+table_dict['table_type'])
                     error_message = code_dic.keys()[0] +'-'+ table_date + '-'+table_dict['table_type']+' not exist!\n'
                     print error_message
