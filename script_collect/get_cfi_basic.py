@@ -49,7 +49,7 @@ def downLoadCompanyData(code_dic,download_years,success_list,err_list):
             # 尝试下载y年的数据
             try:
                 # 获得资产负债表模板
-                url_template = "http://gg.cfi.cn/quote.aspx?contenttype={table}&stockid={index}&jzrq={year}"
+                url_template = "http://quote.cfi.cn/quote.aspx?contenttype={table}&stockid={index}&jzrq={year}"
 
                 # 结果
                 current_url = url_template.format(index=code_dic.values()[0],year=y,table=t)

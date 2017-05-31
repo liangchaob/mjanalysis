@@ -75,6 +75,23 @@
 ➜ mjanalysis/script_collect f2269-reditDir ✗ python get_tencent_analysis.py
 ```
 
+
+按照公司列表从cfi获取数据
+```
+更新cfi的索引数据(需要1天时间左右)
+➜ mjanalysis/script_collect f2269-reditDir ✗ python get_cfi_index.py
+
+更新cfi基本数据(需要1天时间左右)
+➜ mjanalysis/script_collect f2269-reditDir ✗ python get_cfi_basic.py
+
+更新cfi分析数据(需要2天时间左右)
+➜ mjanalysis/script_collect f2269-reditDir ✗ python get_cfi_analysis.py
+```
+
+
+
+
+
 按照公司列表从中财获得数据
 ```
 ➜ mjanalysis/script_collect f2284-fetchCfiIndex ✗ python get_cfi_index.py
@@ -84,7 +101,7 @@
 
 
 
-处理数据
+清洗腾讯数据
 ```
 合并腾讯基本数据与分析数据
 ➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python combine_tencent_basicanalysis.py
@@ -92,6 +109,25 @@
 提取mj关键指标
 ➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python fetch_tencent_mj_data.py
 ```
+
+清洗 cfi数据
+```
+转换基础数据成为 float 型
+➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python clean_cfi_basic_to_float.py
+
+转换分析数据成为 float 型
+➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python clean_cfi_analysis_to_float.py
+
+合并基础数据
+➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python combine_cfi_basic_data.py
+
+合并分析数据
+➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python combine_cfi_analysis_data.py
+
+```
+
+
+
 
 
 插入数据库
