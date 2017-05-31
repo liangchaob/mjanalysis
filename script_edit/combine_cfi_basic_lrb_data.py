@@ -41,6 +41,7 @@ ct = 0
 for file_name in file_list:
     ct = ct+1
     if ct%500 == 0:
+        print ct
         print '500 file passed!'
     else:
         pass
