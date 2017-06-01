@@ -147,9 +147,6 @@ def fetch_table_data(table_name,selector,cols_num):
         # print t +' : '+current_td.text
         data_obj[t]=current_td.text
 
-
-
-
     return data_obj
 
 
@@ -157,354 +154,673 @@ def fetch_table_data(table_name,selector,cols_num):
 
 # 资产负债表
 table_zcfzb={
+    # 货币资金
     'hbzj': 4,
+    # 其中:客户资金存款
     'qz_khzjck': 5,
+    # 交易性金融资产
     'jyxjrzc': 6,
+    # 应收票据
     'yspj': 7,
+    # 应收股利
     'ysgl': 8,
+    # 应收利息
     'yslx': 9,
+    # 应收账款
     'yszk': 10,
+    # 其他应收款
     'qtysk': 11,
+    # 预付款项
     'ykfx': 12,
+    # 存货
     'ch': 13,
+    # 其中:消耗性生物资产
     'qz_xhxswzc': 14,
+    # 待摊费用
     'dtfy': 15,
+    # 一年内到期的非流动资产
     'ynndqdfldzc': 16,
+    # 其他流动资产
     'qtldzc': 17,
+    # 流动资产特殊项
     'ldzctsxm': 18,
+    # 流动资产调整项目
     'ldzctzxm': 19,
+    # 流动资产合计
     'ldzchj': 10,
+    # 非流动资产
     'fldzc': 21,
+    # 可供出售金融资产
     'kgcsjrzc': 22,
+    # 持有至到期投资
     'cyzdqtz': 23,
+    # 投资性房地产
     'tzxfdc': 24,
+    # 长期股权投资
     'cqgqtz': 25,
+    # 长期应收款
     'cqysk': 26,
+    # 固定资产
     'gdzc': 27,
+    # 工程物资
     'gcwz': 28,
+    # 在建工程
     'zjgc': 29,
+    # 固定资产清理
     'gdzcql': 30,
+    # 生产性生物资产
     'scxswzc': 31,
+    # 油气资产
     'yqzc': 32,
+    # 无形资产
     'wxzc': 33,
+    # 其中:交易席位费
     'qz_jyxwf': 34,
+    # 开发支出
     'kfzc': 35,
+    # 商誉
     'sy': 36,
+    # 长期待摊费用
     'cqdtfy': 37,
+    # 递延所得税资产
     'dysdszc': 38,
+    # 其他非流动资产
     'qtfldzc': 39,
+    # 非流动资产特殊项目
     'fldzctsxm': 40,
+    # 非流动资产调整项目
     'fldzctzxm': 41,
+    # 非流动资产合计
     'fldzchj': 42,
+    # 金融类资产
     'jrlzc': 43,
+    # 投资-贷款及应收款项(应收款项类投资)
     'tzdkjyskx': 44,
+    # 结算备付金
     'jsbfj': 45,
+    # 其中:客户备付金
     'qz_khbfj': 46,
+    # 存放同业款项
     'cftykx': 47,
+    # 贵金属
     'gjs': 48,
+    # 拆出资金
     'cczj': 49,
+    # 衍生金融资产
     'ysjrzc': 50,
+    # 买入返售金融资产
     'mrfsjrzc': 51,
+    # 发放贷款和垫款
     'ffdkhdk': 52,
+    # 应收保费
     'ysbf': 53,
+    # 应收代位追偿款
     'ysdwzck': 54,
+    # 应收分保账款
     'ysfbzk': 55,
+    # 应收分保未到期责任准备金
     'ysfbwdqzrzbj': 56,
+    # 应收分保未决赔款准备金
     'ysfbwjbkzbj': 57,
+    # 应收分保寿险责任准备金
     'ysfbsxzrzbj': 58,
+    # 应收分保长期健康险责任准备金
     'ysfbcqjkxzrzbj': 59,
+    # 保户质押贷款
     'bhzydk': 60,
+    # 定期存款
     'dqck': 61,
+    # 存出保证金
     'ccbzj': 62,
+    # 存出资本保证金
     'cczbbzj': 63,
+    # 独立账户资产
     'dlzhzc': 64,
+    # 其他资产
     'qtzc': 65,
-    # 'zczj': 66,
+    # 资产特殊项目
     'zctsxm': 67,
+    # 资产调整项目
     'zctzxm': 68,
+    # 资产总计
     'zczj': 69,
+    # 流动负债
     'ldfz': 70,
+    # 短期借款
     'dqjk': 71,
+    # 其中:质押借款
     'qz_zyjk': 72,
+    # 交易性金融负债
     'jyxjrfz': 73,
+    # 应付票据
     'yfpj': 74,
+    # 应付账款
     'yfzk': 75,
+    # 应付短期债券
     'yfdqzq': 76,
+    # 预收款项
     'yskx': 77,
+    # 应付职工薪酬
     'yfzgxc': 78,
+    # 应付股利
     'yfgl': 79,
+    # 应交税费
     'yjsf': 80,
+    # 应付利息
     'yflx': 81,
+    # 其他应付款
     'qtyfk': 82,
+    # 预提费用
     'ytfy': 83,
+    # 递延收益
     'dysy': 84,
+    # 一年内到期的非流动负债
     'ynndqdfldfz': 85,
+    # 其他流动负债
     'qtldfz': 86,
+    # 流动负债特殊项目
     'ldfztsxm': 87,
+    # 流动负债调整项目
     'ldfztzxm': 88,
+    # 流动负债合计
     'ldfzhj': 89,
+    # 非流动负债
     'fldfz': 90,
+    # 长期借款
     'cqjk': 91,
+    # 应付债券
     'yfzq': 92,
+    # 长期应付款
     'cqyfk': 93,
+    # 专项应付款
     'yjfz': 94,
+    # 预计负债
     'zxyfk': 95,
+    # 递延所得税负债
     'dysdsfz': 96,
+    # 其他非流动负债
     'qtfldfz': 97,
+    # 非流动负债特殊项目
     'fldfztsxm': 98,
+    # 非流动负债调整项目
     'fldfztzxm': 99,
+    # 非流动负债合计
     'fldfzhj': 100,
+    # 金融类负债
     'jrlfz': 101,
+    # 向中央银行借款
     'xzyyhjk': 102,
+    # 同业及其他金融机构存放款项
     'tyjqtjrjgcfkx': 103,
+    # 拆入资金
     'crzj': 104,
+    # 衍生金融负债
     'ysjrfz': 105,
+    # 卖出回购金融资产款
     'mchgjrzck': 106,
+    # 吸收存款
     'ysck': 107,
+    # 代理买卖证券款
     'dlmmzqk': 108,
+    # 代理承销证券款
     'dlcxzqk': 109,
+    # 存入保证金
     'crbzj': 100,
+    # 预收保费
     'ysbf': 111,
+    # 应付手续费及佣金
     'yfsxfjyj': 112,
+    # 应付分保账款
     'yffbzk': 113,
+    # 应付赔付款
     'yfpfk': 114,
+    # 应付保单红利
     'yfbdhl': 115,
+    # 保户储金及投资款
     'bhcjjtzk': 116,
+    # 未到期责任准备金
     'wdqzrbzj': 117,
+    # 未决赔款准备金
     'wjpkzbj': 118,
+    # 寿险责任准备金
     'sxzrzbj': 119,
+    # 长期健康险责任准备金
     'cqjkxzrzbj': 120,
+    # 独立账户负债
     'dlzhfz': 121,
+    # 其他负债
     'qtfz': 122,
-    # 'fzhj': 123,
+    # 负债特殊项目
     'fztsxm': 124,
+    # 负债调整项目
     'fztzxm': 125,
+    # 负债合计
     'fzhj': 126,
+    # 所有者权益(或股东权益)
     'syzqy': 127,
+    # 实收资本(或股本)
     'sszbhgb': 128,
+    # 资本公积
     'zbgj': 129,
+    # 盈余公积
     'yygj': 130,
+    # 未分配利润
     'wfplr': 131,
+    # 减:库存
     'j_kcg': 132,
+    # 一般风险准备
     'ybfxzb': 133,
+    # 外币报表折算差额
     'wbbbzsce': 134,
+    # 未确认投资损失
     'wqrtzss': 135,
+    # 其他储备(公允价值变动储备)
     'qtcb': 136,
+    # 专项储备
     'zxcb': 137,
+    # 归属母公司所有者权益特殊项目
     'gsmgssyzqytsxm': 138,
+    # 归属母公司所有者权益调整项目
     'gsmgssyzqytzxm': 139,
+    # 归属母公司股东权益合计
     'gsmgsgdqyhj': 140,
+    # 少数股东权益
     'ssgdqy': 141,
+    # 所有者权益调整项目
     'syzqytzxm': 142,
+    # 所有者权益(或股东权益)合计
     'syzqyhj':143,
-    # 'fzhsyzzj': 144,
+    # 负债和权益特殊项目
     'fzhqytsxm': 145,
+    # 负债和权益调整项目
     'fzhqytzxm': 146,
+    # 负债和所有者权益(或股东权益)总计
     'fzhsyzqyzj': 147
 }
 
 # 利润表
 table_lrb={
-    # 'yysr': 3,
+    # 营业总收入
     'yyzsr': 4,
+    # 营业收入
     'yysr': 5,
+    # 利息净收入
     'lxjsr': 6,
+    # 其中:利息收入 
     'qz_lisr': 7,
+    # 其中:利息支出 
     'qz_lxzc': 8,
+    # 手续费及佣金净收入
     'sxfjyjjsr': 9,
+    # 其中:手续费及佣金收入
     'qz_sxfjyjsr': 10,
+    # 其中:手续费及佣金支出
     'qz_sxfjyjzc': 11,
+    # 其中:代理买卖证券业务净收入
     'qz_dlmmzqywjsr': 12,
+    # 其中:证券承销业务净收入
     'qz_zqcxywjsr': 13,
+    # 其中:受托客户资产管理业务净收入
     'qz_stkhzcgljsr': 14,
+    # 已赚保费
     'yzbf': 15,
+    # 保险业务收入
     'bxywsr': 16,
+    # 其中:分保费收入
     'qz_fbfsr': 17,
+    # 减:分出保费
     'j_fcbf': 18,
+    # 提取未到期责任准备金
     'tqwdqzrzbj': 19,
+    # 其他营业收入
     'qtyysr': 20,
+    #营业收入特殊项目
     'yysrtsxm': 21,
+    #营业收入调整项目 
     'yysrtzxm': 22,
-    # 'yyzc': 23,
+    # 二、营业总成本
     'yyzcb': 24,
+    # 营业支出
     'yyzc': 25,
+    # 退保金
     'tbj': 26,
+    # 赔付支出
     'pfzc': 27,
+    # 减:摊回赔付支出
     'j_thpfzc': 28,
+    # 提取保险责任准备金
     'tqbxzrzbj': 29,
+    # 减:摊回保险责任准备金
     'j_thbxzrzbj': 30,
+    # 保单红利支出
     'bdhlzc': 31,
+    # 分保费用
     'fbfy': 32,
+    # 业务及管理费
     'ywjglf': 33,
+    # 减:摊回分保费用
     'j_thfbfy': 34,
+    # 保险手续费及佣金支出
     'bxsxfjyjzc': 35,
+    # 其他营业成本
     'qtyycb': 36,
+    # 营业成本
     'yycb': 37,
+    # 营业税金及附加
     'yysjjfj': 38,
+    # 销售费用
     'xsfy': 39,
+    # 管理费用
     'glfy': 40,
+    # 财务费用
     'cwfy': 41,
+    # 资产减值损失
     'zcjzss': 42,
+    # 营业总成本特殊项目
     'yyzcbtsxm': 43,
+    # 营业总成本调整项目
     'yyzcbtzxm': 44,
+    # 特别收益/收入
     'tbsysr': 45,
+    # 非经营性净收益
     'fjyxjsy': 46,
+    # 公允价值变动净收益
     'gyjzbdjsy': 47,
+    # 投资净收益
     'tzjsy': 48,
+    # 其中:对联营合营企业的投资收益
     'qz_dlyhyqydtzsy': 49,
+    # 汇兑收益
     'hdsy': 50,
+    # 非经营性净收益特殊项目
     'fjyxjsytsxm': 51,
+    # 非经营性净收益调整项目
     'fjyxjsytzxm': 52,
-    # 'yylr': 53,
+    # 营业利润
     'yylr': 54,
+    # 加:营业外收入
     'j_yywsr': 55,
+    # 减:营业外支出
     'j_yywzc': 56,
+    # 其中:非流动资产处置净损失
     'qz_fldzcczjss': 57,
+    # 加:##影响利润总额的其他科目
     'j_yxlrzedqtkm': 58,
+    # 加:##影响利润总额的调整项目
     'j_yxlrzedtzxm': 59,
-    # 'lrze': 60,
+    # 利润总额
     'lrze': 61,
+    # 减:所得税费用
     'j_sdsfy': 62,
+    # 加:未确认的投资损失
     'j_wqrdtzss': 63,
+    # 加:##影响净利润的其他科目
     'j_yxjlrdqtkm': 64,
+    # 加:##影响净利润的调整项目
     'j_yxjlrdtzkm': 65,
-    # 'jlr': 66,
+    # 净利润
     'jlr': 67,
+    # 归属于母公司所有者的净利润
     'gsymgssyzdjlr': 68,
+    # 少数股东损益
     'ssgdsy': 69,
+    # 加:影响母公司净利润的特殊项目
     'j_yxmgsjlrdtsxm': 70,
+    # 加:影响母公司净利润的调整项目
     'j_yxmgsjlrdtzxm': 71,
-    # 'tqzhsy': 72,
+    # 其他综合收益
     'tqzhsy': 73,
+    # 加:##影响综合收益总额的调整项目
     'j_yxzhsyzedtzxm': 74,
+    # 综合收益总额
     'zhsyze': 75,
+    # 归属于母公司所有者的综合收益总额
     'gsymgssyzdzhsyze': 76,
+    # 归属于少数股东的综合收益总额
     'gsyssgddzhsyze': 77,
+    # 加:##影响母公司综合收益总额的调整项目
     'j_yxmgszhsyzedtzxm': 78,
+    # 每股收益
     'mgsy': 79,
+    # 基本每股收益
     'jbmgsy': 80,
+    # 稀释每股收益
     'xsmgsy': 81
 }
 
 # 现金流量表
 table_xjllb={
+    # 经营活动产生的现金流量
     'jyhdcsdxjll': 3,
+    # 销售商品、提供劳务收到的现金
     'xssptglwsddxj': 4,
+    # 收到的税费返还
     'sddsffh': 5,
+    # 客户存款和同业存放款项净增加额
     'khckhtycfkxjzje': 6,
+    # 向中央银行借款净增加额
     'xzyyhjkjzje': 7,
+    # 向其他金融机构拆入资金净增加额
     'xqtjrjgcrzjjzej': 8,
+    # 收回已核销贷款
     'shyhxdk': 9,
+    # 收取利息、手续费及佣金的现金
     'sqlxsxfjyjdxj': 10,
+    # 处置交易性金融资产净增加额
     'czjyxjrzcjzje': 11,
+    # 回购业务资金净增加额
     'hgywzjjzje': 12,
+    # 收到原保险合同保费取得的现金
     'sdybxhtbfqddxj': 13,
+    # 收到再保业务现金净额
     'sdzbywxjje': 14,
+    # 保户储金及投资款净增加额
     'bhcjjtzkjzje': 15,
+    # 收到其他与经营活动有关的现金
     'sdqtyjyhdygdxj': 16,
+    # 经营活动现金流入特殊项目
     'jyhdxjlrtsxm': 17,
+    # 经营活动现金流入调整项目
     'jyhdxjlrtzxm': 18,
+    # 经营活动现金流入小计
     'jyhdxjlrxj': 19,
+    # 购买商品、接受劳务支付的现金
     'gmspjslwzfdxj': 20,
+    # 支付给职工以及为职工支付的现金
     'zfgzgyjwzgzfdxj':21,
+    # 支付的各项税费
     'zfdgxsf': 22,
+    # 客户贷款及垫款净增加额
     'khdkjdkjzje': 23,
+    # 存放中央银行和同业款项净增加额
     'cfzyyhhtekxjzje': 24,
+    # 拆出资金净增加额
     'cczjjzje': 25,
+    # 支付手续费及佣金的现金
     'zfsxfjyjdxj': 26,
+    # 支付原保险合同赔付款项的现金
     'zfybxhtpfkxdxj': 27,
+    # 支付再保业务现金净额
     'zfzbywxjje': 28,
-    'zfbdhldxj': 29, 
+    # 支付保单红利的现金
+    'zfbdhldxj': 29,
+    # 支付其他与经营活动有关的现金
     'zfqtyjyhdygdxj': 30,
+    # 经营活动现金流出特殊项目
     'jyhdxjlctsxm': 31,
+    # 经营活动现金流出调整项目
     'jyhdxjlctzxm': 32,
+    # 经营活动现金流出小计
     'jyhdzjlcxj': 33,
+    # 经营活动现金流量净额调整项目
     'jyhdzjlljetzxm': 34,
+    # 经营活动产生的现金流量净额
     'jyhdcsdxjllje': 35,
+    # 投资活动产生的现金流量
     'tzhdcsdxjll': 36,
+    # 收回投资收到的现金
     'shtzsddxj': 37,
+    # 取得投资收益收到的现金
     'qdtzsysddxj': 38,
+    # 处置固定资产、无形资产和其他长期资产收回的现金净额
     'czgdzcwxzchqtcqzcshdxjje': 39,
+    # 处置子公司及其他营业单位收到的现金净额
     'czzgsjqtyydwsddxjje': 40,
+    # 收到其他与投资活动有关的现金
     'sdqtytzhdygdxj': 41,
+    # 投资活动现金流入特殊项目
     'tzhdxjlrtsxm': 42,
+    # 投资活动现金流入调整项目
     'tzhdxjlrtzxm': 43,
+    # 投资活动现金流入小计
     'tzhdxjlrxj': 44,
+    # 购建固定资产、无形资产和其他长期资产支付的现金
     'gjgdzcwxzchqtcqzczfdxj': 45,
+    # 投资支付的现金
     'tzzfdxj': 46,
+    # 取得子公司及其他营业单位支付的现金净额
     'qdzgsjqtyydwzfdxjje': 47,
+    # 质押贷款净增加额
     'zydkjzje': 48,
+    # 支付其他与投资活动有关的现金
     'zfqtytzhdygdxj': 49,
+    # 投资活动现金流出特殊项目
     'tzhdxjlctsxm': 50,
+    # 投资活动现金流出调整项目
     'tzhdxjlctzxm': 51,
+    # 投资活动现金流出小计
     'tzhdxjlcxj': 52,
+    # 投资活动现金流量净额调整项目
     'tzhdxjlljetzxm': 53,
+    # 投资活动产生的现金流量净额
     'tzhdcsdxjllje': 54,
+    # 三、筹资活动产生的现金流量
     'czhdcsdxjll': 55,
+    # 吸收投资收到的现金
     'xstzsddxj': 56,
+    # 其中:子公司吸收少数股东投资收到的现金
     'qz_zgsxsssgdtzsddxj': 57,
+    # 发行债券收到的现金
     'fxzqsddxj': 58,
+    # 取得借款收到的现金
     'qdjksddxj': 59,
+    # 收到其他与筹资活动有关的现金
     'sdqtyczhdygdxj': 60,
+    # 筹资活动现金流入特殊项目
     'czhdxjlrtsxm': 61,
+    # 筹资活动现金流入调整项目
     'czhdxjlrtzxm': 62,
+    # 筹资活动现金流入小计
     'czhdxjlrxj': 63,
+    # 偿还债务支付的现金
     'chzwzfdxj': 64,
+    # 分配股利、利润或偿付利息支付的现金
     'fpgllrhcflxzfdxj': 65,
+    # 其中:子公司支付给少数股东的股利、利润或偿付的利息
     'qz_zgszfgssgddgllrhcfdlx': 66,
+    # 支付其他与筹资活动有关的现金
     'zfqtyczhdygdxj': 67,
+    # 筹资活动现金流出特殊项目
     'czhdxjlctsxm': 68,
+    # 筹资活动现金流出调整项目
     'czhdxjlctzxm': 69,
+    # 筹资活动现金流出小计
     'czhdxjlcxj': 70,
+    # 筹资活动流量现金净额调整项目
     'czhdllxjjetzxm': 71,
+    # 筹资活动产生的现金流量净额
     'czhdcsdxjllje': 72,
+    # 现金及现金等价物
     'xjjxjdjw': 73,
+    # 汇率变动对现金及现金等价物的影响
     'hlbddxjjxjdjwdyx': 74,
+    # 影响现金及现金等价物的其他科目
     'yxxjjxjdjwdqtkm': 75,
+    # 影响现金及现金等价物的调整项目
     'yxxjjxjdjwdtzxm': 76,
-    # 'xjjxjdjwjzje': 77,
+    # 现金及现金等价物净增加额
     'xjjxjdjwjzje': 78,
+    # 加:期初现金及现金等价物余额
     'j_qcxjjxjdjwye': 79,
+    # 现金及现金等价物净增加额的特殊项目
     'xjjxjdjwjzjedtsxm': 80,
+    # 现金及现金等价物净增加额的调整项目
     'xjjxjdjwjzjedtzxm': 81,
+    # 期末现金及现金等价物余额
     'qmxjjxjdjwye': 82,
-    # 'jjlrtzwjyhddxjll': 83,
+    # 将净利润调节为经营活动的现金流量
     'jjlrtjwjyhdxjll': 84,
+    # 净利润
     'jlr': 85,
+    # 加:少数股东损益
     'j_ssgdsy': 86,
+    # 加:资产减值准备
     'j_zcjzzb': 87,
+    # 固定资产折旧
     'gdzczj': 88,
+    # 无形资产摊销
     'wxzctx': 89,
+    # 长期待摊费用摊销
     'cqdtfytx': 90,
+    # 待摊费用减少
     'dtfyjs': 91,
+    # 预提费用增加
     'ytfyzj': 92,
+    # 处置固定资产、无形资产和其他长期资产的损失
     'czgdzcwxzchqtcqzcdss': 93,
+    # 固定资产报废损失
     'gdzcbfss': 94,
+    # 公允价值变动损失
     'gyjzbdss': 95,
+    # 财务费用
     'cwfy': 96,
+    # 投资损失
     'tzss': 97,
+    # 递延所得税资产减少
     'dysdszcjs': 98,
+    # 递延所得税负债增加
     'dysdsfzzj': 99,
+    # 存货的减少
     'chdjs': 100,
+    # 经营性应收项目的减少
     'jyxysxmdjs': 101,
+    # 经营性应付项目的增加
     'jyxyfxmdzj': 102,
+    # 其他
     'qt': 103,
+    # (附注)经营活动现金流量净额特殊项目
     'fz_jyhdxjlljetsxm': 104,
+    # (附注)经营活动现金流量净额调整项目
     'fz_jyhdxjlljetzxm': 105,
+    # (附注)经营活动产生的现金流量净额
     'fz_jjhdcsdxjllje': 106,
+    # 加:经营流量净额前后对比调整项目
     'j_jylljeqhdbtzxm': 107,
+    # 不涉及现金收支的投资和筹资活动
     'bsjxjszdtzhczhd': 108,
-    'zwzwzb': 109, 
+    # 债务转为资本
+    'zwzwzb': 109,
+    # 一年内到期的可转换公司债券
     'ynndqdkzhgszq': 100,
+    # 融资租入固定资产
     'rzzrgdzc': 111,
+    # 现金及现金等价物净变动情况
     'xjjxjdjwjbdqk': 112,
+    # 现金的期末余额
     'xjdqmye': 113,
+    # 减:现金的期初余额
     'j_xjdqcye': 114,
+    # 加:现金等价物的期末余额
     'j_xjdjwdqmye': 115,
+    # 减:现金等价物的期初余额
     'j_xjdjwdqcye': 116,
+    # (附注)现金特殊项目
     'fz_xjtsxm': 117,
+    # (附注)现金调整项目
     'fz_xjtzxm': 118,
-    'fz_xjjxjdjwjzje': 119, 
+    # (附注)现金及现金等价物净增加额
+    'fz_xjjxjdjwjzje': 119,
+    # 加:现金净额前后对比调整项目
     'j_xjjeqhdbtzxm': 120
 }
 
