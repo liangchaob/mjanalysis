@@ -171,7 +171,7 @@ table_zcfzb={
     'qtldzc': 17,
     'ldzctsxm': 18,
     'ldzctzxm': 19,
-    'ldzchj': 10,
+    'ldzchj': 20,
     'fldzc': 21,
     'kgcsjrzc': 22,
     'cyzdqtz': 23,
