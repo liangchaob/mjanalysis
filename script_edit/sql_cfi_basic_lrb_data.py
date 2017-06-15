@@ -16,10 +16,25 @@ sys.path.append('..')
 # client = MongoClient('172.16.191.163', 27017)
 # db = client.mjschool_db
 
-
-
-
 import datetime
+
+
+
+
+# 源数据文件夹
+SOURCE_DIR = '../tmp/cfi_basic_cleaned'
+
+OUTPUT_DIR = '../tmp/sql_cfi_basic_lrb'
+
+# 结尾标识符
+END_TAG = 'c-lrb.json'
+
+SHEET_NAME = 'cfi_basic_lrb_sheets'
+
+SPARE_NUM = 2000
+
+
+
 
 now = datetime.datetime.now()
 
@@ -28,47 +43,19 @@ current_time = now.strftime('%Y-%m-%d %H:%M:%S')
 
 
 
+
+
 # 遍历文件夹
-file_list = os.listdir('../tmp/cfi_basic_cleaned')
+file_list = os.listdir(SOURCE_DIR)
 
 
+# 建立一个空列表
+temp_list = []
 
-# 利润表
-cfi_basic_lrb_list = []
 
 ct = 0
-# 循环数据
-for file_name in file_list:
-    ct = ct+1
-    if ct%2000 == 0:
-        print ct
-        print '2000/'+str(len(file_list))+' file passed!'
-    else:
-        pass
 
-    if file_name[-8:]=='lrb.json':
-        with open('../tmp/cfi_basic_cleaned/'+file_name,'r') as wf:
-            obj = json.loads(wf.read())
-            # 加入列表
-            cfi_basic_lrb_list.append(obj)
-
-    else:
-        pass
-
-
-
-
-    # with open('../tmp/cfi_basic_cleaned/'+file_name,'r') as wf:
-    #     obj = json.loads(wf.read())
-    #     # 加入列表
-    #     cfi_basic_list.append(obj)
-
-# 写入一个大文件
-# with open('../tmp/cfi_basic_all_data.json','w') as wf:
-#     wf.write(json.dumps(cfi_basic_list))
-
-
-
+flag = 0
 
 
 # 对象转成 sql 的 insert 语句
@@ -100,47 +87,44 @@ def getObjToSql(data_obj,table_name):
 
 
 
-def main():
-    # 遍历列表
-    i = 0
+
+
+# 循环数据
+for file_name in file_list:
+    ct = ct+1
+    if file_name[-10:]==END_TAG:
+        with open(SOURCE_DIR+'/'+file_name,'r') as wf:
+            obj = json.loads(wf.read())
+            # 加入列表
+            temp_list.append(obj)
+    else:
+        pass
+
+
+
     # 字符串初始化
     temp_string = ''
-    # 循环遍历列表
-    for data_obj in cfi_basic_lrb_list:
-        i = i+1
-        # 字符串累加
-        temp_string = temp_string + getObjToSql(data_obj,'cfi_basic_lrb_sheets')
-        # 这个列表每2000行,或者到了最后一行就截断成为一个文件
-        if i % 2000 == 0 or data_obj == cfi_basic_lrb_list[-1]:
-            # 加一个整除的 part flag
-            flag = i/2000
-            # 写入一个大文件
-            with open('../tmp/sql_cfi_basic_lrb/sql_part'+str(flag)+'.sql','w') as wf:
-                wf.write(temp_string)
-            print str(i)+'/'+str(len(cfi_basic_lrb_list))+' sql finish!'
-            # 清0字符串
-            temp_string = ''
-        else:
-            pass
+    
+    # 如果这个列表长度到了SPARE_NUM00就写入一个文件,或者file_name是最后一个文件
+    if len(temp_list)==SPARE_NUM or file_name == file_list[-1]:
+        # 遍历每一项
+        for data_obj in temp_list:
+            # 字符串累加
+            temp_string = temp_string + getObjToSql(data_obj,SHEET_NAME)
+
+        # 写入一个大文件
+        with open(OUTPUT_DIR+'/sql_part'+str(flag)+'.sql','w') as wf:
+            wf.write(temp_string)
+            print str(ct) + '/'+str(len(file_list))+' file  sql finish!'
+            flag = flag+1
+        # 清0字符串
+        temp_string = ''
+        # 清零列表
+        temp_list = []
+    else:
+        pass
 
 
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-    main()
 
 
 
