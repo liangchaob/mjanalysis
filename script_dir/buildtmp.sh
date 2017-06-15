@@ -15,3 +15,8 @@ mkdir ../tmp/cfi_analysis
 mkdir ../tmp/cfi_analysis_cleaned
 
 
+# 建立 sql 文件夹
+mkdir ../tmp/sql_cfi_analysis
+mkdir ../tmp/sql_cfi_basic_lrb
+mkdir ../tmp/sql_cfi_basic_xjllb
+mkdir ../tmp/sql_cfi_basic_zcfzb
