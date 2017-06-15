@@ -33,25 +33,24 @@ file_list = os.listdir('../tmp/cfi_basic_cleaned')
 
 
 
-# 现金流量表
-cfi_basic_xjllb_list = []
+# 利润表
+cfi_basic_lrb_list = []
 
-
-# 循环数据
 ct = 0
+# 循环数据
 for file_name in file_list:
     ct = ct+1
-    if ct%500 == 0:
+    if ct%2000 == 0:
         print ct
-        print '500 file passed!'
+        print '2000/'+str(len(file_list))+' file passed!'
     else:
         pass
-    
-    if file_name[-10:]=='xjllb.json':
+
+    if file_name[-8:]=='lrb.json':
         with open('../tmp/cfi_basic_cleaned/'+file_name,'r') as wf:
             obj = json.loads(wf.read())
             # 加入列表
-            cfi_basic_xjllb_list.append(obj)
+            cfi_basic_lrb_list.append(obj)
 
     else:
         pass
@@ -67,7 +66,6 @@ for file_name in file_list:
 # 写入一个大文件
 # with open('../tmp/cfi_basic_all_data.json','w') as wf:
 #     wf.write(json.dumps(cfi_basic_list))
-
 
 
 
@@ -108,17 +106,18 @@ def main():
     # 字符串初始化
     temp_string = ''
     # 循环遍历列表
-    for data_obj in cfi_basic_xjllb_list:
+    for data_obj in cfi_basic_lrb_list:
         i = i+1
         # 字符串累加
-        temp_string = temp_string + getObjToSql(data_obj,'cfi_basic_xjllb_sheets')
+        temp_string = temp_string + getObjToSql(data_obj,'cfi_basic_lrb_sheets')
         # 这个列表每2000行,或者到了最后一行就截断成为一个文件
-        if i % 2000 == 0 or data_obj == cfi_basic_xjllb_list[-1]:
+        if i % 2000 == 0 or data_obj == cfi_basic_lrb_list[-1]:
             # 加一个整除的 part flag
             flag = i/2000
             # 写入一个大文件
-            with open('../tmp/sql_cfi_basic_xjllb/sql_part'+str(flag)+'.sql','w') as wf:
+            with open('../tmp/sql_cfi_basic_lrb/sql_part'+str(flag)+'.sql','w') as wf:
                 wf.write(temp_string)
+            print str(i)+'/'+str(len(cfi_basic_lrb_list))+' sql finish!'
             # 清0字符串
             temp_string = ''
         else:
@@ -144,9 +143,6 @@ if __name__ == '__main__':
     main()
 
 
-    # 结果
-    
-    # print current_url
 
 
 

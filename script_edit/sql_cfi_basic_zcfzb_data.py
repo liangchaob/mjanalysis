@@ -40,9 +40,9 @@ cfi_basic_zcfzb_list = []
 ct = 0
 for file_name in file_list:
     ct = ct+1
-    if ct%500 == 0:
+    if ct%2000 == 0:
         print ct
-        print '500 file passed!'
+        print '2000/'+str(len(file_list))+' file passed!'
     else:
         pass
 
@@ -120,6 +120,7 @@ def main():
             # 写入一个大文件
             with open('../tmp/sql_cfi_basic_zcfzb/sql_part'+str(flag)+'.sql','w') as wf:
                 wf.write(temp_string)
+            print str(i)+'/'+str(len(cfi_basic_zcfzb_list))+' sql finish!'
             # 清0字符串
             temp_string = ''
         else:

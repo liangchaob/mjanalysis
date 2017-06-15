@@ -119,7 +119,10 @@
 ➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python clean_cfi_analysis_to_float.py
 
 合并基础数据
-➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python combine_cfi_basic_data.py
+➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python combine_cfi_basic_lrb_data.py
+➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python combine_cfi_basic_zcfzb_data.py
+➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python combine_cfi_basic_xjllb_data.py
+
 
 合并分析数据
 ➜ mjanalysis/script_edit f2269-reditDir-fixAnlysisDownload ✗ python combine_cfi_analysis_data.py
