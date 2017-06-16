@@ -114,7 +114,7 @@ for file_name in file_list:
 
     # 字符串初始化
     temp_string = ''
-    flag = ct/SPARE_NUM
+    
     # 如果这个列表长度到了SPARE_NUM00就写入一个文件,或者file_name是最后一个文件
     if len(temp_list)==SPARE_NUM or file_name == file_list[-1]:
         # 遍历每一项
