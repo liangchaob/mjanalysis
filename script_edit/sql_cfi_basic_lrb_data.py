@@ -31,7 +31,7 @@ END_TAG = 'c-lrb.json'
 
 SHEET_NAME = 'cfi_basic_lrb_sheets'
 
-SPARE_NUM = 2000
+SPARE_NUM = 4000
 
 
 
@@ -47,7 +47,8 @@ current_time = now.strftime('%Y-%m-%d %H:%M:%S')
 
 # 遍历文件夹
 file_list = os.listdir(SOURCE_DIR)
-
+# 排序
+file_list = sorted(file_list)
 
 # 建立一个空列表
 temp_list = []
@@ -75,7 +76,7 @@ def getObjToSql(data_obj,table_name):
     item_values = str(item_values_list)[1:-1]
 
     # 值替代 nul 值
-    item_values.replace('None','null').replace('u\'','\'')
+    item_values = item_values.replace('None','null').replace('u\'','\'')
 
     # 建立 sql 行
     sql_command = "INSERT INTO "+ table_name +" ("+item_keys+") VALUES (" +item_values+");\n"
