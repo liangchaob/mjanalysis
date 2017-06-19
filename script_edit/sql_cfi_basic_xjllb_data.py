@@ -31,7 +31,7 @@ END_TAG = 'xjllb.json'
 
 SHEET_NAME = 'cfi_basic_xjllb_sheets'
 
-SPARE_NUM = 20
+SPARE_NUM = 4000
 
 
 

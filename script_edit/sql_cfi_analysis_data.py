@@ -31,7 +31,7 @@ END_TAG = 'cwfxb.json'
 
 SHEET_NAME = 'cfi_analysis_sheets'
 
-SPARE_NUM = 20
+SPARE_NUM = 4000
 
 
 
