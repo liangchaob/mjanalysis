@@ -31,7 +31,7 @@ END_TAG = 'zcfzb.json'
 
 SHEET_NAME = 'cfi_basic_zcfzb_sheets'
 
-SPARE_NUM = 4000
+SPARE_NUM = 20
 
 
 
