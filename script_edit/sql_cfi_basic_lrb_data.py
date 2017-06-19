@@ -31,7 +31,7 @@ END_TAG = 'c-lrb.json'
 
 SHEET_NAME = 'cfi_basic_lrb_sheets'
 
-SPARE_NUM = 4000
+SPARE_NUM = 20
 
 
 
@@ -106,8 +106,28 @@ for file_name in file_list:
     # 字符串初始化
     temp_string = ''
     
-    # 如果这个列表长度到了SPARE_NUM00就写入一个文件,或者file_name是最后一个文件
-    if len(temp_list)==SPARE_NUM or file_name == file_list[-1]:
+    # 如果这个列表长度到了SPARE_NUM就写入一个文件
+    if len(temp_list)==SPARE_NUM :
+        # 遍历每一项
+        for data_obj in temp_list:
+            # 字符串累加
+            temp_string = temp_string + getObjToSql(data_obj,SHEET_NAME)
+
+        # 写入一个大文件
+        with open(OUTPUT_DIR+'/sql_part'+str(flag)+'.sql','w') as wf:
+            wf.write(temp_string)
+            print str(ct) + '/'+str(len(file_list))+' file  sql finish!'
+            flag = flag+1
+        # 清0字符串
+        temp_string = ''
+        # 清零列表
+        temp_list = []
+    else:
+        pass
+
+
+    # 如果file_name是最后一个文件
+    if file_name == file_list[-1]:
         # 遍历每一项
         for data_obj in temp_list:
             # 字符串累加
