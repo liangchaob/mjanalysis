@@ -31,7 +31,7 @@ END_TAG = 'c-lrb.json'
 
 SHEET_NAME = 'cfi_basic_lrb_sheets'
 
-SPARE_NUM = 20
+SPARE_NUM = 4000
 
 
 
